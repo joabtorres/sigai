@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 06-Ago-2020 às 19:00
+-- Tempo de geração: 14-Ago-2020 às 18:51
 -- Versão do servidor: 10.4.13-MariaDB
 -- versão do PHP: 7.4.7
 
@@ -43,7 +43,9 @@ CREATE TABLE `chamado` (
 --
 
 INSERT INTO `chamado` (`id`, `setor_id`, `usuario_id`, `status_id`, `assunto`, `data`, `descricao`, `anexo`) VALUES
-(2, 6, 1, 4, 'impressora não imprime ', '2020-08-06 13:12:00', 'a impressora não está imprimindo. ', '');
+(11, 7, 0, 1, 'asdas', '2020-08-07 13:30:00', '', ''),
+(19, 10, 1, 4, 'assadas', '2020-08-13 14:16:00', 'dasdasdsadas', ''),
+(20, 10, 1, 1, 'assadas', '2020-08-13 14:16:00', 'dasdasdsadas', '');
 
 -- --------------------------------------------------------
 
@@ -66,7 +68,7 @@ CREATE TABLE `chamado_historico` (
 --
 
 INSERT INTO `chamado_historico` (`id`, `chamado_id`, `status_id`, `usuario_id`, `data`, `descricao`, `anexo`) VALUES
-(8, 2, 4, 1, '2020-08-06 13:15:01', 'Após a assistência técnica aplicada, constatou-se que o equipamento estava desligado. ', '');
+(28, 19, 4, 1, '2020-08-13 14:16:57', 'aaaaaaaaaaaaaaaaaaaaa', '');
 
 -- --------------------------------------------------------
 
@@ -113,7 +115,7 @@ CREATE TABLE `empresa` (
 --
 
 INSERT INTO `empresa` (`id`, `nome`, `abreviacao`, `endereco`, `cep`, `cnpj`, `telefone`, `email`, `site`, `figura`) VALUES
-(1, 'Secretaria Municipal de Meio Ambiente', 'SEMMA', 'R. Quincas Nascimento - Saudade I, Castanhal - PA', ' 68741-040', '05.121.991/0001-84', '(91) 3711-5959', 'semma@castanhal.pa.gov.br', NULL, NULL);
+(1, 'Secretaria Municipal de Meio Ambiente - Castanhal/PA', 'SEMMA', 'R. Quincas Nascimento - Saudade I, Castanhal - PA', ' 68741-040', '05.121.991/0001-84', '(91) 3711-5959', 'semma@castanhal.pa.gov.br', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -132,16 +134,16 @@ CREATE TABLE `setor` (
 --
 
 INSERT INTO `setor` (`id`, `nome`, `abreviacao`) VALUES
-(1, 'Coordenação de Controle Ambiental', 'CCA'),
-(2, 'Coordenadoria de Conservação de Áreas Verdes', 'CCAV'),
-(3, 'Coordenadoria Administrativa e Financeira', 'COAF'),
-(4, 'Coordenadoria de Gestão de Agrossilvipastoris', 'CGA'),
-(5, 'Coordenadoria de Fiscalização Ambiental', 'COFISC'),
-(6, 'Assessoria Jurídica', 'ASJUR'),
-(7, 'Assessoria Técnica', 'ASTEC'),
-(8, 'Gabinete da Secretária', 'GAB-SEC'),
-(9, 'Arquivos da Secretária', 'AR-SEC'),
-(10, 'Protocolo da Secretária', 'PRO-SEC');
+(1, 'Coordenadoria de Conservação de Áreas Verdes', 'CCAV'),
+(2, 'Coordenadoria Administrativa e Financeira', 'COAF'),
+(3, 'Coordenadoria de Gestão de Agrossilvipastoris', 'CGA'),
+(4, 'Coordenadoria de Fiscalização Ambiental', 'COFISC'),
+(5, 'Assessoria Jurídica', 'ASJUR'),
+(6, 'Arquivos da Secretária', 'AR-SEC'),
+(7, 'Protocolo da Secretária', 'PRO-SEC'),
+(8, 'Assessoria Técnica', 'ASTEC'),
+(9, 'Gabinete da Secretária', 'GAB-SEC'),
+(10, 'Coordenação de Controle Ambiental', 'CCA');
 
 -- --------------------------------------------------------
 
@@ -152,7 +154,7 @@ INSERT INTO `setor` (`id`, `nome`, `abreviacao`) VALUES
 CREATE TABLE `usuario` (
   `id` int(10) UNSIGNED NOT NULL,
   `setor_id` int(10) UNSIGNED NOT NULL,
-  `matricula` varchar(45) DEFAULT NULL,
+  `portaria` varchar(45) DEFAULT NULL,
   `cargo` varchar(45) DEFAULT NULL,
   `nome` varchar(255) NOT NULL,
   `usuario` varchar(255) NOT NULL,
@@ -168,8 +170,9 @@ CREATE TABLE `usuario` (
 -- Extraindo dados da tabela `usuario`
 --
 
-INSERT INTO `usuario` (`id`, `setor_id`, `matricula`, `cargo`, `nome`, `usuario`, `email`, `senha`, `acesso`, `cadastro`, `imagem`, `status`) VALUES
-(1, 1, '1.137/20', 'Coordenador', 'Joab Torres Alencar', 'joab.alencar', 'joabtorres1508@gmail.com', '47cafbff7d1c4463bbe7ba972a2b56e3', 10, '2020-08-06', NULL, 1);
+INSERT INTO `usuario` (`id`, `setor_id`, `portaria`, `cargo`, `nome`, `usuario`, `email`, `senha`, `acesso`, `cadastro`, `imagem`, `status`) VALUES
+(1, 10, '1.137/20', 'Coordenador', 'Joab T. Alencar', 'joab.alencar', 'joabtorres1508@gmail.com', '47cafbff7d1c4463bbe7ba972a2b56e3', 10, '2020-08-06', 'uploads/usuarios/387eb1c83175517f64b6ccd6bc6a8567.jpg', 1),
+(5, 10, '001/20', 'Acesso de Protocolo', 'Jose Felicio Alencar', 'jose.alencar', 'jose.felicio@hotmail.com', '47cafbff7d1c4463bbe7ba972a2b56e3', 1, '2020-08-10', 'uploads/usuarios/335339072c739ff29a83fc011a8862aa.jpg', 1);
 
 --
 -- Índices para tabelas despejadas
@@ -221,13 +224,13 @@ ALTER TABLE `usuario`
 -- AUTO_INCREMENT de tabela `chamado`
 --
 ALTER TABLE `chamado`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT de tabela `chamado_historico`
 --
 ALTER TABLE `chamado_historico`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT de tabela `chamado_status`
@@ -245,13 +248,13 @@ ALTER TABLE `empresa`
 -- AUTO_INCREMENT de tabela `setor`
 --
 ALTER TABLE `setor`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=112;
 
 --
 -- AUTO_INCREMENT de tabela `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
