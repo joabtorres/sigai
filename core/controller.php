@@ -30,16 +30,35 @@ class controller {
         }
     }
 
-    /**
-     * Está função verifica se a $_SESSION['usuario'] está inicializada, caso esteja então verifica se o usuario tem permissao de acesso e sua conta esteja ativa.
-     * @return int 
-     * @access protected
-     * @author Joab Torres <joabtorres1508@gmail.com>
-     */
-    public function checkAcesso() {
+    protected function checkSetor() {
         if (isset($_SESSION['usuario']) && is_array($_SESSION['usuario']) && isset($_SESSION['usuario']['status'])) {
             if ($_SESSION['usuario']['status'] == 1) {
-                return $_SESSION['usuario']['acesso'];
+                return $_SESSION['usuario']['setor_id'];
+            }
+        } else {
+            $url = "location: " . BASE_URL . "login";
+            header($url);
+            return 0;
+        }
+    }
+
+    protected function setUser($user) {
+        $_SESSION['usuario'] = array();
+        //codigo
+        $_SESSION['usuario']['id'] = $user['id'];
+        $_SESSION['usuario']['setor_id'] = $user['setor_id'];
+        //nome
+        $_SESSION['usuario']['nome'] = $user['nome'];
+        //nivel
+        $_SESSION['usuario']['acesso'] = $user['acesso'];
+        //statu
+        $_SESSION['usuario']['status'] = $user['status'];
+    }
+
+    public function getIdUser() {
+        if (isset($_SESSION['usuario']) && is_array($_SESSION['usuario']) && isset($_SESSION['usuario']['status'])) {
+            if ($_SESSION['usuario']['status'] == 1) {
+                return $_SESSION['usuario']['id'];
             }
         }
     }

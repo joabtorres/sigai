@@ -38,26 +38,22 @@ class usuario extends model {
      * @author Joab Torres <joabtorres1508@gmail.com>
      */
     public function create($data) {
-        $sql = $this->db->prepare('INSERT INTO usuario (unidade_cod, nome, sobrenome, usuario, email, senha, cargo, genero, nivel_acesso, status, imagem, data) VALUES(:unidade_cod, :nome, :sobrenome, :usuario, :email, :senha, :cargo, :sexo, :nivel, :statu, :imagem, now())');
-        $sql->bindValue(':unidade_cod', $data['unidade_cod']);
+        $sql = $this->db->prepare('INSERT INTO usuario(setor_id, portaria, cargo, nome, usuario, email, senha, acesso, cadastro, imagem, status) VALUES (:setor_id, :portaria, :cargo, :nome, :usuario, :email, :senha, :acesso, :cadastro, :imagem, :status)');
+        $sql->bindValue(':setor_id', $data['setor_id']);
+        $sql->bindValue(':portaria', $data['portaria']);
+        $sql->bindValue(':cargo', $data['cargo']);
         $sql->bindValue(':nome', $data['nome']);
-        $sql->bindValue(':sobrenome', $data['sobrenome']);
         $sql->bindValue(':usuario', $data['usuario']);
         $sql->bindValue(':email', $data['email']);
         $sql->bindValue(':senha', md5(sha1($data['senha'])));
-        $sql->bindValue(':cargo', $data['cargo']);
-        $sql->bindValue(':sexo', $data['sexo']);
-        $sql->bindValue(':nivel', $data['nivel']);
-        $sql->bindValue(':statu', 1);
+        $sql->bindValue(':acesso', $data['acesso']);
+        $sql->bindValue(':cadastro', $data['cadastro']);
         if (!empty($data['imagem'])) {
             $sql->bindValue(':imagem', $this->save_image($data['imagem']));
         } else {
-            if ($data['sexo'] == 'M') {
-                $sql->bindValue(':imagem', 'uploads/usuarios/user_masculino.png');
-            } else {
-                $sql->bindValue(':imagem', 'uploads/usuarios/user_feminino.png');
-            }
+            $sql->bindValue(':imagem', 'uploads/usuarios/user.png');
         }
+        $sql->bindValue(':status', $data['status']);
         $sql->execute();
     }
 
@@ -128,22 +124,26 @@ class usuario extends model {
     public function update($data) {
         try {
             if (isset($data['senha']) && !empty($data['senha'])) {
-                $sql = "UPDATE usuario SET unidade_cod=:unidade_cod, nome=:nome, sobrenome=:sobrenome, usuario=:usuario, senha=:senha, cargo=:cargo, genero=:genero, nivel_acesso=:nivel_acesso, imagem=:imagem, status=:status WHERE cod=:cod";
+                $sql = "UPDATE usuario SET setor_id=:setor_id, portaria=:portaria, cargo=:cargo, nome=:nome, usuario=:usuario, email=:email, senha=:senha, acesso=:acesso, imagem=:imagem, status=:status WHERE id=:id";
             } else {
-                $sql = "UPDATE usuario SET unidade_cod=:unidade_cod, nome=:nome, sobrenome=:sobrenome, usuario=:usuario, cargo=:cargo, genero=:genero, nivel_acesso=:nivel_acesso, imagem=:imagem, status=:status WHERE cod=:cod";
+                $sql = "UPDATE usuario SET setor_id=:setor_id, portaria=:portaria, cargo=:cargo, nome=:nome, usuario=:usuario, email=:email, acesso=:acesso, imagem=:imagem, status=:status WHERE id=:id";
             }
             $sql = $this->db->prepare($sql);
-            $sql->bindValue(':unidade_cod', $data['unidade_cod']);
+            $sql->bindValue(':setor_id', $data['setor_id']);
+            $sql->bindValue(':portaria', $data['portaria']);
+            $sql->bindValue(':cargo', $data['cargo']);
             $sql->bindValue(':nome', $data['nome']);
-            $sql->bindValue(':sobrenome', $data['sobrenome']);
             $sql->bindValue(':usuario', $data['usuario']);
+            $sql->bindValue(':email', $data['email']);
+            if (isset($data['senha']) && !empty($data['senha'])) {
+                $sql->bindValue(':senha', md5(sha1($data['senha'])));
+            }
+
             //verifica se foi setado a nova senha
             if (isset($data['senha']) && !empty($data['senha'])) {
                 $sql->bindValue(':senha', md5(sha1($data['senha'])));
             }
-            $sql->bindValue(':cargo', $data['cargo']);
-            $sql->bindValue(':genero', $data['genero']);
-            $sql->bindValue(':nivel_acesso', $data['nivel_acesso']);
+            $sql->bindValue(':acesso', $data['acesso']);
 
             //selecionando imagem
             //se ela é um array $_FILE
@@ -156,17 +156,13 @@ class usuario extends model {
                 //se mudou para foto padrão
             } else if (isset($data['delete_img'])) {
                 $this->delete_image($data['imagem']);
-                if ($data['genero'] == 'M') {
-                    $sql->bindValue(':imagem', 'uploads/usuarios/user_masculino.png');
-                } else {
-                    $sql->bindValue(':imagem', 'uploads/usuarios/user_feminino.png');
-                }
+                $sql->bindValue(':imagem', 'uploads/usuarios/user.png');
             }
             $sql->bindValue(':status', $data['status']);
-            $sql->bindValue(':cod', $data['cod']);
+            $sql->bindValue(':id', $data['id']);
             $sql->execute();
 
-            return $this->read_specific("SELECT * FROM usuario WHERE cod=:cod", array('cod' => $data['cod']));
+            return $this->read_specific("SELECT * FROM usuario WHERE id=:id", array('id' => $data['id']));
         } catch (PDOException $ex) {
             echo $ex->getMessage();
             return null;
@@ -273,7 +269,7 @@ class usuario extends model {
      * @author Joab Torres <joabtorres1508@gmail.com>
      */
     private function delete_image($url_image) {
-        if (!($url_image == 'uploads/usuarios/user_masculino.png' || $url_image == "uploads/usuarios/user_feminino.png") && file_exists($url_image)) {
+        if (!($url_image == 'uploads/usuarios/user.png') && file_exists($url_image)) {
             unlink($url_image);
         }
     }

@@ -18,16 +18,9 @@ class loginController extends controller {
                 $dados['erro']['msg'] = '<i class="fa fa-info-circle" aria-hidden="true"></i> O Campo Usuário e/ou Senha não está preenchido!';
             }
             if (!isset($dados['erro']) && empty($dados['erro'])) {
-                //inicando sessao
-                $_SESSION['usuario'] = array();
-                //codigo
-                $_SESSION['usuario']['id'] = $resultado['id'];
-                //nome
-                $_SESSION['usuario']['nome'] = $resultado['nome'];
-                //nivel
-                $_SESSION['usuario']['acesso'] = $resultado['acesso'];
-                //statu
-                $_SESSION['usuario']['status'] = $resultado['status'];
+
+                $this->setUser($resultado);
+                
                 $url = "location: " . BASE_URL . "home";
                 header($url);
             }

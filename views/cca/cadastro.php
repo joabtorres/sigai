@@ -37,8 +37,11 @@
                         <div class="form-row">
                             <div class="col mb-3">
                                 <label for='iSetor'>Setor: * </label><br/>
-                                <select class="custom-select" name="nSetor" id="iSetor" required>
+                                <select class="custom-select" name="nSetor" id="iSetor" required onchange="selectSetor(this.value)">
                                     <?php
+                                    if (!isset($chamado['setor_id'])) {
+                                        echo '<option value="" selected = "selected" disabled="disabled">Selecione o setor </option>';
+                                    }
                                     foreach ($setores as $indice) {
                                         if (isset($chamado['setor_id']) && $indice['id'] == $chamado['setor_id']) {
                                             echo '<option value = "' . $indice['id'] . '" selected = "selected">' . $indice['nome'] . ' - ' . $indice['abreviacao'] . '</option>';
@@ -53,15 +56,7 @@
                             <div class="col mb-3">
                                 <label for='iUsuario'>Solícitante:* </label><br/>
                                 <select class="custom-select" name="nUsuario" id="iUsuario" required>
-                                    <?php
-                                    foreach ($usuarios as $indice) {
-                                        if (isset($chamado['usuario_id']) && $indice['id'] == $chamado['usuario_id']) {
-                                            echo '<option value = "' . $indice['id'] . '" selected = "selected">' . $indice['nome'] . '</option>';
-                                        } else {
-                                            echo '<option value = "' . $indice['id'] . '">' . $indice['nome'] . '</option>';
-                                        }
-                                    }
-                                    ?>
+                                    <option value="" selected = "selected" disabled="disabled">Selecione o solícitante </option>
                                 </select>
                                 <div class="invalid-feedback">
                                     Informe o usuário solicitante

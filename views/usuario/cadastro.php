@@ -30,7 +30,7 @@
                     <h1 class="card-title h5 mb-1"><i class="fas fa-user-plus"></i> Novo Usuário</h1>
                 </header>
                 <article class="card-body">
-                    <form method="POST" action="<?php echo BASE_URL ?>usuario/cadastro" enctype="multipart/form-data" autocomplete="off"  name="nFormCCA">
+                    <form method="POST" action="<?php echo BASE_URL ?>usuario/cadastro" enctype="multipart/form-data" autocomplete="off"  name="nFormUsuario" class="<?php echo (isset($arrayErro) && is_array($arrayErro) && !empty($arrayErro)) ? 'was-validated' : ''; ?>">
                         <input type="hidden" name="nId" value="<?php echo!empty($chamado['id']) ? $chamado['id'] : 0; ?>"/>
                         <div class="row">
                             <div class="col-md-6">
@@ -62,47 +62,41 @@
                                 </div>
                                 <div class="mb-3"
                                      <label for='iUsuario'>Usuário: *</label><br/>
-                                    <input type="text" name="nUsuario"  class="form-control  mt-2" id="iUsuario" placeholder="Exemplo: joab.torres" value="<?php echo!empty($arrayCad['usuario']) ? $arrayCad['usuario'] : ''; ?>" required>
+                                    <input type="text" name="nUsuario"  class="form-control  mt-2 <?php echo !empty($arrayErro['usuario']) ? $arrayErro['usuario']['class'] : ''; ?>" id="iUsuario" placeholder="Exemplo: joab.torres" value="<?php echo!empty($arrayCad['usuario']) ? $arrayCad['usuario'] : ''; ?>" required>
                                     <div class="invalid-feedback">
-                                        Informe o usuário
+                                        <?php echo !empty($arrayErro['usuario']) ? $arrayErro['usuario']['msg'] : 'Informe o usuário'; ?>
                                     </div>
                                 </div>
                                 <div class="mb-3"
                                      <label for='iEmail'>Email: *</label><br/>
-                                    <input type="email" name="nEmail"  class="form-control  mt-2" id="iEmail" placeholder="Exemplo: Criação de novo usuário" value="<?php echo!empty($chamado['assunto']) ? $chamado['assunto'] : ''; ?>" required>
+                                    <input type="email" name="nEmail"  class="form-control  mt-2 <?php echo!empty($arrayErro['email']) ? $arrayErro['email']['class'] : ''; ?>" id="iEmail" placeholder="Exemplo: joab.alencar@hotmail.com" value="<?php echo!empty($arrayCad['email']) ? $arrayCad['email'] : ''; ?>" required>
                                     <div class="invalid-feedback">
-                                        Informe o email
+                                        <?php echo !empty($arrayErro['email']) ? $arrayErro['email']['msg'] : 'Informe o email'; ?>
                                     </div>
                                 </div>
                                 <div class="mb-3"
                                      <label for='iSenha'>Senha: *</label><br/>
-                                    <input type="password" name="nSenha"  class="form-control  mt-2" id="iSenha"  value="<?php echo!empty($chamado['assunto']) ? $chamado['assunto'] : ''; ?>" required>
+                                    <input type="password" name="nSenha"  class="form-control  mt-2 <?php echo !empty($arrayErro['senha']) ? $arrayErro['senha']['class'] : ''; ?>" id="iSenha"  required>
                                     <div class="invalid-feedback">
-                                        Informe o senha
+                                        <?php echo !empty($arrayErro['senha']) ? $arrayErro['senha']['msg'] : 'Informe o senha'; ?>
                                     </div>
                                 </div>
                                 <div class="mb-3"
-                                     <label for='iAssunto'>Repetir Senha: *</label><br/>
-                                    <input type="password" name="nAssunto"  class="form-control  mt-2" id="iAssunto" value="<?php echo!empty($chamado['assunto']) ? $chamado['assunto'] : ''; ?>" required>
+                                     <label for='iRepetirSenha'>Repetir Senha: *</label><br/>
+                                    <input type="password" name="nRepetirSenha"  class="form-control  mt-2 <?php echo !empty($arrayErro['senha']) ? $arrayErro['senha']['class'] : ''; ?>" id="iRepetirSenha" required>
                                     <div class="invalid-feedback">
-                                        Repita a senha
+                                        <?php echo !empty($arrayErro['senha']) ? $arrayErro['senha']['msg'] : "Os campos 'Senha' e 'Repetir Senha' devem ser preenchidos"; ?>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3"
-                                     <label for='iAssunto'>Cargo: *</label><br/>
-                                    <input type="text" name="nAssunto"  class="form-control  mt-2" id="iAssunto" placeholder="Exemplo: Criação de novo usuário" value="<?php echo!empty($chamado['assunto']) ? $chamado['assunto'] : ''; ?>" required>
-                                    <div class="invalid-feedback">
-                                        Informe o Assunto
-                                    </div>
+                                     <label for='iAssunto'>Cargo: </label><br/>
+                                    <input type="text" name="nCargo"  class="form-control  mt-2" id="iAssunto" placeholder="Exemplo: Coordenador" value="<?php echo!empty($arrayCad['cargo']) ? $arrayCad['cargo'] : ''; ?>" >
                                 </div>
                                 <div class="mb-3"
-                                     <label for='iAssunto'>Cargo: *</label><br/>
-                                    <input type="text" name="nAssunto"  class="form-control  mt-2" id="iAssunto" placeholder="Exemplo: Criação de novo usuário" value="<?php echo!empty($chamado['assunto']) ? $chamado['assunto'] : ''; ?>" required>
-                                    <div class="invalid-feedback">
-                                        Informe o Assunto
-                                    </div>
+                                     <label for='iAcesso'>Nivel de Acesso: </label><br/>
+                                    <input type="text" name="nAcesso"  class="form-control  mt-2" id="iAcesso" placeholder="Exemplo: 1" value="<?php echo!empty($arrayCad['acesso']) ? $arrayCad['acesso'] : ''; ?>">
                                 </div>
                                 <div class="mb-3">
                                     <span>Status:</span><br/>
@@ -111,14 +105,14 @@
                                         $status = array(array('nome' => 'Ativo', 'valor' => '1'), array('nome' => 'Inativo', 'valor' => '0'));
                                         foreach ($status as $statu) {
                                             if ($usuario['status'] == $statu['valor']) {
-                                                echo ' <label><input type="radio" name="nStatuUsuario" value="' . $statu['valor'] . '" checked /> ' . $statu['nome'] . '</label> ';
+                                                echo ' <label><input type="radio" name="nStatus" value="' . $statu['valor'] . '" checked /> ' . $statu['nome'] . '</label> ';
                                             } else {
-                                                echo ' <label><input type="radio" name="nStatuUsuario" value="' . $statu['valor'] . '" /> ' . $statu['nome'] . '</label> ';
+                                                echo ' <label><input type="radio" name="nStatus" value="' . $statu['valor'] . '" /> ' . $statu['nome'] . '</label> ';
                                             }
                                         }
                                     } else {
-                                        echo ' <label><input type="radio" name="nStatuUsuario" value="1"/> Ativo</label> ';
-                                        echo ' <label><input type="radio" name="nStatuUsuario" value="0" checked/> Inativo </label> ';
+                                        echo ' <label><input type="radio" name="nStatus" value="1" checked/> Ativo</label> ';
+                                        echo ' <label><input type="radio" name="nStatus" value="0"/> Inativo </label> ';
                                     }
                                     ?>                                  
 
@@ -139,7 +133,7 @@
                         </div>
                         <div class="row">
                             <div class="form-group col">
-                                <button class="btn btn-success" name="nSalvar" value="Salvar" type="submit"><i class="fa fa-check-circle" aria-hidden="true"></i> Salvar</button>
+                                <button class="btn btn-success" name="nSalvar" value="Salvar" type="submit" onclick="valida_formUsuario()"><i class="fa fa-check-circle" aria-hidden="true"></i> Salvar</button>
                                 <a href="<?php echo BASE_URL ?>home" class="btn btn-danger"><i class="fa fa-times" aria-hidden="true"></i> Cancelar</a>
                             </div>
                         </div>

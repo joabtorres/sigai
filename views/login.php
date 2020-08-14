@@ -42,7 +42,7 @@
 
             <?php
             if (isset($erro)) {
-                echo '<p class="bg-danger">' . $erro["msg"] . '</p>';
+                echo '<p class="bg-danger pb-3 pt-3">' . $erro["msg"] . '</p>';
             }
             ?>
             <button class="btn btn-lg btn-success btn-block" type="submit" name="nSalvar"><i class="fa fa-sign-in-alt" aria-hidden="true"></i> Fazer Login</button>

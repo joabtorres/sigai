@@ -118,9 +118,7 @@
                                     <th scope="col">Setor</th>
                                     <th scope="col">Status</th>
                                     <th scope="col">Solicitante</th>
-                                    <?php if (($this->checkUser())): ?>
-                                        <th scope="col">Ação</th>
-                                    <?php endif; ?>
+                                    <th scope="col">Ação</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -132,17 +130,19 @@
                                         <td class="text-center"><?php echo $qtd ?></td>
                                         <td><?php echo $this->formatDateViewComplet($indice['data']) ?></td>
                                         <td><?php echo $indice['setor'] ?></td>
-                                        <td><?php echo $indice['status'] ?></td>
+                                        <td><?php $this->getStatus($indice['status_id'], $indice['status']); ?></td>
                                         <td><?php echo $indice['usuario'] ?></td>
-                                        <?php if (($this->checkUser())): ?>
-                                            <td class="table-acao text-center">
-                                                <a class="btn btn-success btn-sm" href="<?php echo BASE_URL . 'cca/chamado/' . md5($indice['id']); ?>" title="Visualizar"><i class="fa fa-eye"></i></a> 
+                                        <td class="table-acao text-center">
+                                            <a class="btn btn-success btn-sm" href="<?php echo BASE_URL . 'cca/chamado/' . md5($indice['id']); ?>" title="Visualizar"><i class="fa fa-eye"></i></a> 
+                                            <?php if ($this->checkSetor() == 10 || ($indice['status_id'] == 1 && $indice['usuario_id']==$this->getIdUser())): ?>
                                                 <a class="btn btn-primary btn-sm" href="<?php echo BASE_URL . 'cca/editar/' . md5($indice['id']); ?>" title="Editar"><i class="fa fa-pencil-alt"></i></a> 
-                                                <?php if ($this->checkUser() == 10): ?>
-                                                    <button type="button"  class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modal_relatorio_<?php echo md5($indice['id']) ?>" title="Excluir"><i class="fa fa-trash"></i></button>
-                                                <?php endif; ?>
-                                            </td>
-                                        <?php endif; ?>
+                                                <?php
+                                            endif;
+                                            if ($this->checkSetor() == 10):
+                                                ?>
+                                                <button type="button"  class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modal_relatorio_<?php echo md5($indice['id']) ?>" title="Excluir"><i class="fa fa-trash"></i></button>
+                                            <?php endif; ?>
+                                        </td>
                                     </tr>
                                     <?php
                                     $qtd++;
@@ -200,7 +200,7 @@ if (ceil($paginas) > 1) {
 ?>
 <!--fim da paginação-->
 <?php
-if ($this->checkUser() == 10):
+if ($this->checkSetor() == 10):
     if (isset($chamados) && is_array($chamados)) :
         foreach ($chamados as $indice) :
             ?>        

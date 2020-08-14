@@ -18,11 +18,10 @@
         <!-- Scrollbar Custom CSS -->
         <link rel="stylesheet" href="<?php echo BASE_URL ?>assets/css/mCustomScrollbar.min.css">
         <!-- Font Awesome JS -->
-        <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
-        <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
+        <script defer src="<?php echo BASE_URL ?>assets/js/all.js"></script>
         <!-- jQuery CDN - Slim version (=without AJAX) -->
         <script src="<?php echo BASE_URL ?>assets/js/jquery-3.3.1.slim.min.js"></script>
-        <script>base_url = '<?php echo BASE_URL?>';</script>
+        <script>base_url = '<?php echo BASE_URL ?>';</script>
 
 
     </head>
@@ -58,14 +57,16 @@
                     <li>                        
                         <a href="#userSubmenu" data-toggle="collapse" aria-expanded="false"> <i class="fas fa-angle-double-right"></i>  Usuários</a>
                         <ul class="collapse list-unstyled" id="userSubmenu">
+                            <?php if ($this->checkUser() == 10) : ?>
+                                <li>
+                                    <a href="<?php echo BASE_URL . 'usuario/cadastro' ?>"><i class="fas fa-user-plus"></i> Novo Usuário</a>
+                                </li>
+                                <li>
+                                    <a href="<?php echo BASE_URL . 'usuario/consultar' ?>"><i class="fa fa-users"></i> Consultar Usuários</a>
+                                </li>
+                            <?php endif; ?>
                             <li>
-                                <a href="<?php echo BASE_URL.'usuario/cadastro'?>"><i class="fas fa-user-plus"></i> Novo Usuário</a>
-                            </li>
-                            <li>
-                                <a href="#"><i class="fa fa-users"></i> Consultar Usuários</a>
-                            </li>
-                            <li>
-                                <a href="#"><i class="fas fa-user-edit"></i> Editar Usuário</a>
+                                <a href="<?php echo BASE_URL . 'usuario/editar/' . md5($_SESSION['usuario']['id']) ?>"><i class="fas fa-user-edit"></i> Editar Usuário</a>
                             </li>
                         </ul>
                     </li>
@@ -73,7 +74,7 @@
                         <a href="#userConfig" data-toggle="collapse" aria-expanded="false"> <i class="fas fa-angle-double-right"></i> Semma</a>
                         <ul class="collapse list-unstyled" id="userConfig">
                             <li>
-                                <a href="#"><i class="fas fa-cogs"></i> Dados da Secretaria</a>
+                                <a href="<?php echo BASE_URL . 'semma' ?>"><i class="fas fa-cogs"></i> Dados da Secretaria</a>
                             </li>
                             <li>
                                 <a href="#"><i class="fas fa-toolbox"></i> Setores</a>

@@ -6,13 +6,32 @@ class ccaController extends controller {
         $this->cadastro();
     }
 
+    public function getusuarios() {
+        if (isset($_POST) && is_array($_POST) && !empty($_POST)) {
+            print_r($_POST);
+            $crudModel = new crud_db();
+            $setor_id = addslashes($_POST['setor_id']);
+            if (isset($_POST['id_user'])) {
+                $user_id = addslashes($_POST['id_user']);
+            }
+            $usuarios = $crudModel->read("SELECT * FROM usuario WHERE status=1 AND setor_id=:id", array('id' => $setor_id));
+
+            foreach ($usuarios as $indice) {
+                if (isset($user_id) && $indice['id'] == $user_id['usuario_id']) {
+                    echo '<option value = "' . $indice['id'] . '" selected = "selected">' . $indice['nome'] . '</option>';
+                } else {
+                    echo '<option value = "' . $indice['id'] . '">' . $indice['nome'] . '</option>';
+                }
+            }
+        }
+    }
+
     public function cadastro() {
         if ($this->checkUser()) {
             $viewName = "cca/cadastro";
             $dados = array();
             $crudModel = new crud_db();
             $dados['setores'] = $crudModel->read("SELECT * FROM setor");
-            $dados['usuarios'] = $crudModel->read("SELECT * FROM usuario");
 
             if (isset($_POST['nSalvar']) && !empty($_POST['nSalvar'])) {
                 $chamado = array();
@@ -155,7 +174,7 @@ class ccaController extends controller {
             $chamados = $crudModel->read_specific($sql, $arraySql);
             $dados['chamado'] = $chamados;
 
-            $chamados_historicos = $crudModel->read("SELECT h.*, cs.nome as status, u.nome as usuario, u.portaria, u.imagem, s.nome as setor, s.abreviacao FROM chamado as c INNER JOIN chamado_historico AS h INNER JOIN chamado_status as cs INNER JOIN usuario as u INNER JOIN setor as s WHERE h.chamado_id=c.id AND h.status_id=cs.id  AND h.usuario_id=u.id AND u.setor_id=s.id");
+            $chamados_historicos = $crudModel->read("SELECT h.*, cs.nome as status, u.nome as usuario, u.portaria, u.imagem, s.nome as setor, s.abreviacao FROM chamado as c INNER JOIN chamado_historico AS h INNER JOIN chamado_status as cs INNER JOIN usuario as u INNER JOIN setor as s WHERE h.chamado_id=c.id AND h.status_id=cs.id  AND h.usuario_id=u.id AND u.setor_id=s.id AND h.chamado_id=:chamado", array('chamado' => $chamados['id']));
             $dados['chamados_historicos'] = $chamados_historicos;
             $this->loadTemplate($view, $dados);
         } else {
@@ -169,6 +188,39 @@ class ccaController extends controller {
             $view = "cca/editar";
             $dados = array();
             $crudModel = new crud_db();
+            $dados['setores'] = $crudModel->read("SELECT * FROM setor");
+            $dados['chamado'] = $crudModel->read_specific("SELECT * FROM chamado where md5(id)=:id", array('id' => $id));
+            if (isset($_POST['nSalvar']) && !empty($_POST['nSalvar'])) {
+                $chamado = array();
+                //id
+                $chamado['id'] = $_POST['nId'];
+                //setor
+                $chamado['setor_id'] = addslashes($_POST['nSetor']);
+                //usuario
+                $chamado['usuario_id'] = addslashes($_POST['nUsuario']);
+                //status
+                $chamado['status_id'] = $dados['chamado']['status_id'];
+                //assunto
+                $chamado['assunto'] = addslashes($_POST['nAssunto']);
+                //descricao
+                $chamado['descricao'] = addslashes($_POST['nDescricao']);
+
+                if (isset($_FILES['nFile']) && $_FILES['nFile']['error'] == 0) {
+                    $chamado['anexo'] = $this->upload_file($_FILES['nFile']);
+                    if (!empty($_POST['nFileEnviado'])) {
+                        $crudModel->delete_file($_POST['nFileEnviado']);
+                    }
+                } else {
+                    $chamado['anexo'] = addslashes($_POST['nFileEnviado']);
+                }
+                $resultado = $crudModel->update("UPDATE chamado SET setor_id=:setor_id, usuario_id=:usuario_id, status_id=:status_id, assunto=:assunto, descricao=:descricao, anexo=:anexo WHERE id=:id", $chamado);
+                if ($resultado) {
+                    $dados['erro'] = array('class' => 'alert-success', 'msg' => '<i class="fa fa-check-circle" aria-hidden="true"></i> Alteração realizada com sucesso!');
+                    $dados['chamado'] = $chamado;
+                } else {
+                    $dados['chamado'] = $chamado;
+                }
+            }
             $this->loadTemplate($view, $dados);
         } else {
             $url = "location: " . BASE_URL . "home";
@@ -210,7 +262,7 @@ class ccaController extends controller {
                 $crudModel->delete_file($resultado['anexo']);
             }
             if ($crudModel->remove("DELETE FROM chamado_historico WHERE md5(id)=:cod", array('cod' => addslashes($id)))) {
-                $url = "location: " . BASE_URL . 'cca/chamado/'.md5($resultado['chamado_id']);
+                $url = "location: " . BASE_URL . 'cca/chamado/' . md5($resultado['chamado_id']);
                 header($url);
             }
         } else {
@@ -232,6 +284,28 @@ class ccaController extends controller {
         } else {
             return null;
         }
+    }
+
+    protected function getStatus($status_id, $status) {
+        $respota = '';
+        switch ($status_id) {
+            case 1:
+                $respota = '<b class="text-warning"> <i class="fas fa-comment-dots"></i> ' . $status . '</b>';
+                break;
+            case 2:
+                $respota = '<b class="text-info"> <i class="fas fa-running"></i> ' . $status . '</b>';
+                break;
+            case 3:
+                $respota = '<b class="text-danger"> <i class="fas fa-window-close"></i> ' . $status . '</b>';
+                break;
+            case 4:
+                $respota = '<b class="text-success"> <i class="fas fa-check text-success"></i> ' . $status . '</b>';
+                break;
+            default :
+                $respota = '';
+                break;
+        }
+        echo $respota;
     }
 
 }

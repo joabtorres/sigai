@@ -33,31 +33,31 @@
                 <div class="card-header bg-success">
                     <h5 class="card-title mb-1 mt-1">Chamado: Nº  <?php echo str_pad($chamado['id'], 5, '0', STR_PAD_LEFT) . ' - ' . $chamado['assunto'] ?></h5>
                 </div>
-                <div class="card-body">
+                <div class="card-body py-0 px-3">
                     <div class="row">
-                        <div class="col-md-2 text-center">
-                            <figure class="figure ">
-                                <img src="<?php echo!empty($chamado['imagem']) ? BASE_URL . $chamado['imagem'] : BASE_URL . 'assets/imagens/user.png'; ?>" class="figure-img img-fluid rounded" alt="A generic square placeholder image with rounded corners in a figure.">
-                                <figcaption class="figure-caption text-center"><?php echo!empty($chamado['usuario']) ? $chamado['usuario'] : 'nome' ?> <br/>
-                                    <?php echo!empty($chamado['portaria']) ? 'Portaria: ' . $chamado['portaria'] : 'matricula' ?><br/>
+                        <div class="col-md-2 text-center bg-secondary py-5 text-while">
+                            <figure class="figure">
+                                <img src="<?php echo!empty($chamado['imagem']) ? BASE_URL . $chamado['imagem'] : BASE_URL . 'assets/imagens/user.png'; ?>" class="figure-img img-fluid rounded-circle" alt="A generic square placeholder image with rounded corners in a figure.">
+                                <figcaption class="figure-caption text-center text-while"><?php echo!empty($chamado['usuario']) ? $chamado['usuario'] : 'nome' ?> <br/>
+                                    <?php echo!empty($chamado['portaria']) ? 'Portaria / Matricula: ' . $chamado['portaria'] : 'matricula' ?><br/>
                                     <?php echo!empty($chamado['abreviacao']) ? $chamado['abreviacao'] : 'setor' ?>
                                 </figcaption>
                             </figure>
                         </div>
-                        <div class="col">
-                            <p><b>Setor:</b> <?php echo $chamado ['setor'] . ' - ' . $chamado['abreviacao'] ?></p>
-                            <p><b>Data de abertura do chamado:</b> <?php echo $this->formatDateViewComplet($chamado['data']) ?></p>
-                            <p><b>Status:</b> <?php echo $chamado ['status'] ?></p>
+                        <div class="col-md-10 py-5">
+                            <p><b class="text-success">Setor:</b> <br/> <i class="fas fa-bullhorn text-success"></i> <?php echo $chamado ['setor'] . ' - ' . $chamado['abreviacao'] ?></p>
+                            <p><b class="text-success">Abertura do chamado:</b> <br/> <i class="fas fa-calendar-alt text-success"></i>  <?php echo $this->formatDateViewComplet($chamado['data']) ?></p>
+                            <p><b class="text-success">Status:</b> <br/> <?php $this->getStatus($chamado['status_id'], $chamado['status']); ?>
+                            </p>
                             <p>
-                                <b>Descrição:</b></br>
+                                <b class="text-success">Descrição:</b></br>
                                 <i><?php echo $chamado['descricao'] ?></i>
                             </p>
-                            <hr>
                             <?php
                             if (!empty($chamado['anexo'])) {
                                 $file = explode('/', $chamado['anexo']);
                                 $fileName = end($file);
-                                echo '<b>Anexo:</b> <br> <em> <a href="' . BASE_URL . $chamado['anexo'] . '" download class="text-primary">' . $fileName . '</a></em>';
+                                echo '<hr><b class="text-success">Anexo:</b> <br> <em> <i class="fas fa-paperclip text-success"></i> <a href="' . BASE_URL . $chamado['anexo'] . '" download class="text-primary">' . $fileName . '</a></em>';
                             }
                             ?>
                         </div>
@@ -74,26 +74,26 @@
                 <div class="col">
                     <br>
                     <div class="card bg-white">
-                        <div class="card-body">
+                        <div class="card-body py-0 px-3">
                             <div class="row">
-                                <div class="col-md-2 text-center">
-                                    <figure class="figure ">
-                                        <img src="<?php echo!empty($index['imagem']) ? BASE_URL . $index['imagem'] : BASE_URL . 'assets/imagens/user.png'; ?>" class="figure-img img-fluid rounded" alt="A generic square placeholder image with rounded corners in a figure.">
-                                        <figcaption class="figure-caption text-center"><?php echo!empty($index['usuario']) ? $index['usuario'] : 'nome' ?> <br/>
-                                            <?php echo!empty($index['usuario']) ? 'Matricula: ' . $index['matricula'] : 'matricula' ?><br/>
+                                <div class="col-md-2 text-center bg-success py-5 text-while">
+                                    <figure class="figure">
+                                        <img src="<?php echo!empty($index['imagem']) ? BASE_URL . $index['imagem'] : BASE_URL . 'assets/imagens/user.png'; ?>" class="figure-img img-fluid rounded-circle" alt="A generic square placeholder image with rounded corners in a figure.">
+                                        <figcaption class="figure-caption text-center text-while"><?php echo!empty($index['usuario']) ? $index['usuario'] : 'nome' ?> <br/>
+                                            <?php echo!empty($index['portaria']) ? 'Portaria / Matricula: ' . $index['portaria'] : 'matricula' ?><br/>
                                             <?php echo!empty($index['abreviacao']) ? $index['abreviacao'] : 'setor' ?>
                                         </figcaption>
-
                                     </figure>
                                 </div>
-                                <div class="col">
-                                    <p><b>Status:</b> <?php echo!empty($index['status']) ? $index['status'] : 'status' ?>
-                                        <button type="button"  class="btn btn-danger btn-sm pull-right" data-toggle="modal" data-target="#modal_relatorio_<?php echo md5($index['id']) ?>" title="Excluir"><i class="fa fa-trash"></i></button>
-
+                                <div class="col-md-10 py-5">
+                                    <p><b class="text-success">Status:</b> <br/><?php $this->getStatus($index['status_id'], $index['status']); ?>
+                                        <?php if ($this->checkSetor() == 10) : ?>
+                                            <button type="button"  class="btn btn-danger btn-sm pull-right" data-toggle="modal" data-target="#modal_relatorio_<?php echo md5($index['id']) ?>" title="Excluir"><i class="fa fa-trash"></i></button>
+                                        <?php endif; ?>
                                     </p>
-                                    <p><b>Data:</b> <?php echo!empty($index['data']) ? $this->formatDateViewComplet($index['data']) : '' ?> </p>
+                                    <p><b class="text-success">Data:</b> <br/> <i class="fas fa-calendar-alt text-success"></i>  <?php echo $this->formatDateViewComplet($index['data']) ?></p> 
                                     <p>
-                                        <b>Descrição:</b></br>
+                                        <b class="text-success">Descrição:</b></br>
                                         <i><?php echo!empty($index['descricao']) ? $index['descricao'] : 'descricao' ?></i>
                                     </p>
                                     <?php
@@ -101,7 +101,7 @@
                                         echo ' <hr>';
                                         $file = explode('/', $index['anexo']);
                                         $fileName = end($file);
-                                        echo '<b>Anexo:</b> <br> <em> <a href="' . BASE_URL . $index['anexo'] . '" download class="text-primary">' . $fileName . '</a></em>';
+                                        echo '<hr><b class="text-success">Anexo:</b> <br> <em> <i class="fas fa-paperclip text-success"></i> <a href="' . BASE_URL . $index['anexo'] . '" download class="text-primary">' . $fileName . '</a></em>';
                                     }
                                     ?>
                                 </div>
@@ -114,7 +114,7 @@
         endforeach;
     endif;
 
-    if ($this->checkUser() == 10):
+    if ($this->checkSetor() == 10):
         ?>
         <div class="row">
             <div class="col">
@@ -190,7 +190,7 @@
 
 
 <?php
-if ($this->checkUser() == 10):
+if ($this->checkSetor() == 10):
     if (isset($chamados_historicos) && is_array($chamados_historicos)) :
         foreach ($chamados_historicos as $indice) :
             ?>        
@@ -206,7 +206,7 @@ if ($this->checkUser() == 10):
                         </header>
                         <article class="modal-body">
                             <ul class="list-unstyled">
-                                <li><b>Histórico do chamado: </b> <?php echo!empty($indice['chamado_id']) ? 'Nº '.str_pad($indice['chamado_id'], 5, '0', STR_PAD_LEFT) : '' ?>;</li>
+                                <li><b>Histórico do chamado: </b> <?php echo!empty($indice['chamado_id']) ? 'Nº ' . str_pad($indice['chamado_id'], 5, '0', STR_PAD_LEFT) : '' ?>;</li>
                                 <li><b>Status: </b> <?php echo isset($indice['status']) && !empty($indice['status']) ? $indice['status'] : '0' ?>;</li>
                                 <li><b>Usuário: </b> <?php echo isset($indice['usuario']) && !empty($indice['usuario']) ? $indice['usuario'] : '0' ?>;</li>
                                 <li><b>Data: </b> <?php echo isset($indice['data']) && !empty($indice['data']) ? $this->formatDateViewComplet($index['data']) : '0' ?>;</li>
