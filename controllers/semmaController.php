@@ -10,7 +10,7 @@ class semmaController extends controller {
             if (isset($_POST['nSalvar']) && !empty($_POST['nSalvar'])) {
                 $arrayCad = array();
                 //id
-                $arrayCad['id'] = $_POST['iId'];
+                $arrayCad['id'] = $_POST['nId'];
                 //iNome
                 $arrayCad['nome'] = $_POST['nNome'];
                 //nAbrevicao
@@ -20,7 +20,7 @@ class semmaController extends controller {
                 //nCEP
                 $arrayCad['cep'] = $_POST['nCEP'];
                 //nCNPJ
-                $arrayCad['data'] = $_POST['nCNPJ'];
+                $arrayCad['cnpj'] = $_POST['nCNPJ'];
                 //iTelefone
                 $arrayCad['telefone'] = $_POST['nTelefone'];
                 //nEmail
@@ -32,17 +32,16 @@ class semmaController extends controller {
                     $arrayCad['figura'] = $this->save_image($_FILES['nFile']);
                     if ($arrayCad['figura'] != null) {
                         if (!empty($_POST['nFileEnviado'])) {
-                            $crudModel->delete_file($_POST['nFileEnviado']);
+                            $crud->delete_file($_POST['nFileEnviado']);
                         }
                     }
                 } else {
                     $arrayCad['figura'] = $_POST['nFileEnviado'];
                 }
-                $resultado = $crudModel->up("INSERT INTO chamado (setor_id, usuario_id, status_id, assunto, data, descricao, anexo) VALUES (:setor_id, :usuario_id, :status_id, :assunto, :data, :descricao, :anexo) ", $arrayCad);
+                $resultado = $crud->update("UPDATE empresa SET nome=:nome, abreviacao=:abreviacao, endereco=:endereco, cep=:cep, cnpj=:cnpj, telefone=:telefone, email=:email, site=:site, figura=:figura WHERE id=:id", $arrayCad);
                 if ($resultado) {
-                    $dados['erro'] = array('class' => 'alert-success', 'msg' => '<i class="fa fa-check-circle" aria-hidden="true"></i> Cadastro realizado com sucesso!');
-                } else {
-                    $dados['chamado'] = $arrayCad;
+                    $dados['erro'] = array('class' => 'alert-success', 'msg' => '<i class="fa fa-check-circle" aria-hidden="true"></i> Alteração realizada com sucesso!');
+                    $dados['arrayCad'] = $arrayCad;
                 }
             }
             $dados['arrayCad'] = $crud->read_specific("SELECT * FROM empresa");
@@ -90,14 +89,16 @@ class semmaController extends controller {
                 imagecopyresampled($imagem_final, $imagem_original, 0, 0, 0, 0, $largura, $altura, $larguraOriginal, $alturaOriginal);
                 imagejpeg($imagem_final, $imagem['diretorio'] . "/" . $imagem['name'], 90);
             } else if ($imagem['extensao'] == 'png') {
+                imagealphablending($imagem_final, false);
+                imagesavealpha($imagem_final, true);
                 $imagem_original = imagecreatefrompng($imagem['temp']);
                 imagecopyresampled($imagem_final, $imagem_original, 0, 0, 0, 0, $largura, $altura, $larguraOriginal, $alturaOriginal);
                 imagepng($imagem_final, $imagem['diretorio'] . "/" . $imagem['name']);
+                
             }
             return $imagem['diretorio'] . "/" . $imagem['name'];
         } else {
             return null;
         }
     }
-
 }

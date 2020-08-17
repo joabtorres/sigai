@@ -1,4 +1,5 @@
 <?php
+
 session_start();
 header('Cache-Control: no cache');
 require 'config.php';
