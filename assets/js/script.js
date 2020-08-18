@@ -7,6 +7,13 @@ $(document).ready(function () {
     $('.input-data-complete').mask("99/99/9999 99:99:99");
     $('.input-cpf').mask("999.999.999-99");
 });
+$(function () {
+    $(".date_serach").datepicker({
+        changeYear: true,
+        changeMonth: true,
+        dateFormat: 'dd/mm/yy'
+    });
+});
 $(document).ready(function () {
     $("#sidebar").mCustomScrollbar({
         theme: "minimal"

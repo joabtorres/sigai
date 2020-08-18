@@ -1,0 +1,8 @@
+INSERT INTO cofisc_tipo_documento (id, documento, protocolo_id) VALUES
+('1', 'E-mail', '1'),
+('2', 'Formulário de Denúncia', '1'),
+('3', 'Memorando', '1'),
+('4', 'Ofício', '1'),
+('5', 'Outros', '1'),
+('6', 'Processo Administrativo Punitivo', '2'),
+('7', 'Requerimento', '1');

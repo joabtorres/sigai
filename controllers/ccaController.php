@@ -8,7 +8,6 @@ class ccaController extends controller {
 
     public function getusuarios() {
         if (isset($_POST) && is_array($_POST) && !empty($_POST)) {
-            print_r($_POST);
             $crudModel = new crud_db();
             $setor_id = addslashes($_POST['setor_id']);
             if (isset($_POST['id_user'])) {

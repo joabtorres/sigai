@@ -13,16 +13,19 @@
 
         <!-- Bootstrap CSS CDN -->
         <link rel="stylesheet" href="<?php echo BASE_URL ?>assets/css/bootstrap.min.css">
-        <!-- Our Custom CSS -->
-        <link rel="stylesheet" href="<?php echo BASE_URL ?>assets/css/style.css">
         <!-- Scrollbar Custom CSS -->
         <link rel="stylesheet" href="<?php echo BASE_URL ?>assets/css/mCustomScrollbar.min.css">
+        <!-- Date datepicker CSS -->
+        <link rel="stylesheet" href="<?php echo BASE_URL ?>assets/css/jquery-ui.css">
+        <!-- Our Custom CSS -->
+        <link rel="stylesheet" href="<?php echo BASE_URL ?>assets/css/style.css">
         <!-- Font Awesome JS -->
         <script defer src="<?php echo BASE_URL ?>assets/js/all.js"></script>
         <!-- jQuery CDN - Slim version (=without AJAX) -->
-        <script src="<?php echo BASE_URL ?>assets/js/jquery-3.3.1.slim.min.js"></script>
+        <script src="<?php echo BASE_URL ?>assets/js/jquery-3.1.1.min.js"></script>
+        <!-- Date datepicker JS -->
+        <script src="<?php echo BASE_URL ?>assets/js/jquery-ui.js"></script>
         <script>base_url = '<?php echo BASE_URL ?>';</script>
-
 
     </head>
 
@@ -51,6 +54,23 @@
                             </li>
                             <li>
                                 <a href="<?php echo BASE_URL ?>cca/consultar"><i class="fas fa-tasks"></i> Consultar Chamados</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#cofiscSubmenu" data-toggle="collapse" aria-expanded="false"><i class="fas fa-angle-double-right"></i> COFISC</a>
+                        <ul class="collapse list-unstyled" id="cofiscSubmenu">
+                            <li>
+                                <a href="<?php echo BASE_URL ?>cofisc/cadastro_denuncia"><i class="fas fa-plus-square"></i> Nova Denúncia</a>
+                            </li>
+                            <li>
+                                <a href="<?php echo BASE_URL ?>cofisc/cadastro_solicitacao"><i class="fas fa-plus-square"></i> Nova Solicitação</a>
+                            </li>
+                            <li>
+                                <a href="<?php echo BASE_URL ?>cca/consultar"><i class="fas fa-tasks"></i> Consultar Denuncias</a>
+                            </li>
+                            <li>
+                                <a href="<?php echo BASE_URL ?>cca/consultar"><i class="fas fa-tasks"></i> Consultar Denuncias</a>
                             </li>
                         </ul>
                     </li>

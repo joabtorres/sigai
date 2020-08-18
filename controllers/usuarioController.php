@@ -67,7 +67,6 @@ class usuarioController extends controller {
                 }
                 //status
                 $arrayCad['status'] = !empty($_POST['nStatus']) ? 1 : 0;
-                print_r($arrayCad);
 
                 $dados['arrayCad'] = $arrayCad;
                 $dados['arrayErro'] = $arrayErro;
