@@ -173,7 +173,7 @@ class ccaController extends controller {
             $chamados = $crudModel->read_specific($sql, $arraySql);
             $dados['chamado'] = $chamados;
 
-            $chamados_historicos = $crudModel->read("SELECT h.*, cs.nome as status, u.nome as usuario, u.portaria, u.imagem, s.nome as setor, s.abreviacao FROM cca_chamado as c INNER JOIN cca_chamado_historico AS h INNER JOIN cca_chamado_status as cs INNER JOIN usuario as u INNER JOIN setor as s WHERE h.chamado_id=c.id AND h.status_id=cs.id  AND h.usuario_id=u.id AND u.setor_id=s.id AND h.chamado_id=:chamado", array('chamado' => $chamados['id']));
+            $chamados_historicos = $crudModel->read("SELECT h.*, cs.nome as status, u.nome as usuario, u.portaria, u.imagem, s.nome as setor, s.abreviacao FROM cca_chamado as c INNER JOIN cca_chamado_historico AS h INNER JOIN cca_chamado_status as cs INNER JOIN usuario as u INNER JOIN setor as s WHERE h.chamado_id=c.id AND h.status_id=cs.id  AND h.usuario_id=u.id AND u.setor_id=s.id AND h.chamado_id=:chamado ORDER BY h.id ASC", array('chamado' => $chamados['id']));
             $dados['chamados_historicos'] = $chamados_historicos;
             $this->loadTemplate($view, $dados);
         } else {

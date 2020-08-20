@@ -25,14 +25,14 @@
     <!--fim row-->
     <div class="row">
         <div class="col">
-            <section class="card bg-light">
-                <header class="card-header">
-                    <h1 class="card-title h5 mb-1"><i class="fas fa-edit"></i> Editar Chamado</h1>
-                </header>
-                <article class="card-body">
-                    <form method="POST" action="<?php echo BASE_URL ?>cca/editar/<?php echo md5($chamado['id']) ?>" enctype="multipart/form-data" autocomplete="off"  name="nFormCCA">
+            <form method="POST" action="<?php echo BASE_URL ?>cca/editar/<?php echo md5($chamado['id']) ?>" enctype="multipart/form-data" autocomplete="off"  name="nFormCCA">
+                <input type="hidden" name="nId" value="<?php echo!empty($chamado['id']) ? $chamado['id'] : 0; ?>"/>
+                <section class="card bg-light border-success">
+                    <header class="card-header bg-success">
+                        <h1 class="card-title h5 my-1"><i class="fas fa-edit"></i> Editar Chamado</h1>
+                    </header>
+                    <article class="card-body">
 
-                        <input type="hidden" name="nId" value="<?php echo!empty($chamado['id']) ? $chamado['id'] : 0; ?>"/>
 
                         <div class="form-row">
                             <div class="col mb-3">
@@ -59,7 +59,7 @@
                                 <select class="custom-select" name="nUsuario" id="iUsuario" required>
                                     <?php
                                     if (isset($chamado['usuario_id'])) {
-                                         echo '<script> id_usuario="' . $chamado['usuario_id'] . '" </script>';
+                                        echo '<script> id_usuario="' . $chamado['usuario_id'] . '" </script>';
                                     } else {
                                         echo '<option value="" selected = "selected" disabled="disabled">Selecione o solícitante </option>';
                                     }
@@ -100,17 +100,18 @@
                             <input type="hidden" name="nFileEnviado"  value="<?php echo isset($chamado['anexo']) ? $chamado['anexo'] : null; ?>"/>
 
                         </div>
-                        <div class="row">
-                            <div class="form-group col">
-                                <button class="btn btn-success" name="nSalvar" value="Salvar" onclick="valida_formCCA()" type="submit"><i class="fa fa-check-circle" aria-hidden="true"></i> Salvar</button>
-                                <a href="<?php echo BASE_URL ?>home" class="btn btn-danger"><i class="fa fa-times" aria-hidden="true"></i> Cancelar</a>
-                            </div>
-                        </div>
-                    </form>
-                </article>
-                <!--<article class="card-body">-->
-            </section>
-            <!--<section class="card">-->
+
+                    </article>
+                    <!--<article class="card-body">-->
+                </section>
+                <!--<section class="card">-->
+                <div class="row mt-3">
+                    <div class="form-group col">
+                        <button class="btn btn-success" name="nSalvar" value="Salvar" onclick="valida_formCCA()" type="submit"><i class="fa fa-check-circle" aria-hidden="true"></i> Salvar</button>
+                        <a href="<?php echo BASE_URL ?>home" class="btn btn-danger"><i class="fa fa-times" aria-hidden="true"></i> Cancelar</a>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
 </div>

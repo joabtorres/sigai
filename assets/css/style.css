@@ -215,3 +215,6 @@ ul.CTAs a {
     -o-border-radius: 50%;
     -webkit-border-radius: 50%;
 }
+
+/*//mapa*/
+#viewMapa{   min-height: 300px;}

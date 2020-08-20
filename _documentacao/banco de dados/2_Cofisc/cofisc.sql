@@ -101,18 +101,18 @@ DEFAULT CHARACTER SET = utf8;
 DROP TABLE IF EXISTS cofisc_solicitacao ;
 
 CREATE TABLE IF NOT EXISTS cofisc_solicitacao (
-  id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  id INT UNSIGNED NOT NULL AUTO_INCREMENT,  
+  protocolo_id INT UNSIGNED NOT NULL,
   tipo_solicitacao_id INT NOT NULL,
+  solicitante VARCHAR(255) NULL, 
   telefone VARCHAR(45) NULL,
   email VARCHAR(150) NULL,
+  descricao VARCHAR(255) NULL,
   endereco VARCHAR(255) NULL,
   cidade_id INT UNSIGNED NOT NULL,
   bairro_id INT UNSIGNED NOT NULL,
   latitude VARCHAR(45) NULL,
   longitude VARCHAR(45) NULL,
-  descricao VARCHAR(255) NULL,
-  anexo VARCHAR(255) NULL,
-  protocolo_id INT UNSIGNED NOT NULL,
   PRIMARY KEY (id)) ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
@@ -123,19 +123,18 @@ DROP TABLE IF EXISTS cofisc_denuncia ;
 
 CREATE TABLE IF NOT EXISTS cofisc_denuncia (
   id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  protocolo_id INT UNSIGNED NOT NULL,
   tipo_denuncia_id INT UNSIGNED NOT NULL,
-  denunciado VARCHAR(255) NULL,
-  endereco VARCHAR(255) NULL,
+  denunciado VARCHAR(255) NULL,  
+  descricao VARCHAR(255) NULL,
   cidade_id INT UNSIGNED NOT NULL,
   bairro_id INT UNSIGNED NOT NULL,
+  endereco VARCHAR(255) NULL,
   latitude VARCHAR(45) NULL,
   longitude VARCHAR(45) NULL,
   denunciante VARCHAR(255) NULL,
   telefone VARCHAR(45) NULL,
   email VARCHAR(150) NULL,
-  descricao VARCHAR(255) NULL,
-  anexo VARCHAR(255) NULL,
-  protocolo_id INT UNSIGNED NOT NULL,
   PRIMARY KEY (id)) ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
@@ -238,7 +237,7 @@ INSERT INTO cofisc_origem (id, origem) VALUES
 ('7', 'Interna'),
 ('8', 'Externa');
 
- --CAD cofisc_tipo_denuncia
+ -- CAD cofisc_tipo_denuncia
 INSERT INTO cofisc_tipo_denuncia ( id, tipo_denuncia) VALUES
 ('1', 'Animais Domésticos'),
 ('2', 'Animais Silvestres'),

@@ -118,15 +118,13 @@
         ?>
         <div class="row">
             <div class="col">
-                <br/>
-                <section class="card bg-light">
-                    <header class="card-header bg-success">
-                        <h1 class="card-title h5 mb-1 mt-1"><i class="fas fa-plus-square"></i> Novo histórico</h1>
-                    </header>
-                    <article class="card-body">
-                        <form method="POST" action="<?php echo BASE_URL ?>cca/chamado/<?php echo md5($chamado['id']) ?>" enctype="multipart/form-data" autocomplete="off"  name="nFormCCAChamado">
-
-                            <input type="hidden" name="nChamado" value="<?php echo!empty($formCad['chamado_id']) ? $formCad['chamado_id'] : $chamado['id']; ?>"/>
+                <form method="POST" action="<?php echo BASE_URL ?>cca/chamado/<?php echo md5($chamado['id']) ?>" enctype="multipart/form-data" autocomplete="off"  name="nFormCCAChamado">
+                    <input type="hidden" name="nChamado" value="<?php echo!empty($formCad['chamado_id']) ? $formCad['chamado_id'] : $chamado['id']; ?>"/>
+                    <section class="card bg-light mt-3">
+                        <header class="card-header bg-success">
+                            <h1 class="card-title h5 mb-1 my-1"><i class="fas fa-plus-square"></i> Novo histórico</h1>
+                        </header>
+                        <article class="card-body">
 
                             <div class="form-row">
                                 <div class="col mb-3">
@@ -172,17 +170,18 @@
                                 <input type="hidden" name="nFileEnviado"  value="<?php echo isset($formCad['anexo']) ? $formCad['anexo'] : null; ?>"/>
 
                             </div>
-                            <div class="row">
-                                <div class="form-group col">
-                                    <button class="btn btn-success" name="nSalvar" value="Salvar" onclick="valida_formChamado()" type="submit"><i class="fa fa-check-circle" aria-hidden="true"></i> Salvar</button>
-                                    <a href="<?php echo BASE_URL ?>cca/chamado/<?php echo md5($chamado['id']) ?>" class="btn btn-danger"><i class="fa fa-times" aria-hidden="true"></i> Cancelar</a>
-                                </div>
-                            </div>
-                        </form>
-                    </article>
-                    <!--<article class="card-body">-->
-                </section>
-                <!--<section class="card">-->
+
+                        </article>
+                        <!--<article class="card-body">-->
+                    </section>
+                    <!--<section class="card">-->
+                    <div class="row mt-3">
+                        <div class="form-group col">
+                            <button class="btn btn-success" name="nSalvar" value="Salvar" onclick="valida_formChamado()" type="submit"><i class="fa fa-check-circle" aria-hidden="true"></i> Salvar</button>
+                            <a href="<?php echo BASE_URL ?>cca/chamado/<?php echo md5($chamado['id']) ?>" class="btn btn-danger"><i class="fa fa-times" aria-hidden="true"></i> Cancelar</a>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     <?php endif; ?>

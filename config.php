@@ -8,7 +8,7 @@ require 'environment.php';
 $config = array();
 if (ENVIRONMENT == 'development') {
     //Raiz
-    define("BASE_URL", "http://localhost/sigai/");
+    define("BASE_URL", "http://192.168.1.110/sigai/");
     //nome do projeto
     define("NAME_PROJECT", "SIGAI - Sistema de Gerenciamento de Atividades Internas para SEMMA");
     //Nome do banco
