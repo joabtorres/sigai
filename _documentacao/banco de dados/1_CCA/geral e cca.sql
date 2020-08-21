@@ -3,18 +3,21 @@
 -- Estrutura da tabela empresa
 --
 
-CREATE TABLE empresa (
-  id int(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
-  nome varchar(255) DEFAULT NULL,
-  abreviacao varchar(45) DEFAULT NULL,
-  endereco varchar(255) DEFAULT NULL,
-  cep varchar(45) DEFAULT NULL,
-  cnpj varchar(45) DEFAULT NULL,
-  telefone varchar(45) DEFAULT NULL,
-  email varchar(255) DEFAULT NULL,
-  site varchar(255) DEFAULT NULL,
-  figura varchar(255) DEFAULT NULL
-) ENGINE = InnoDB
+DROP TABLE IF EXISTS empresa ;
+
+CREATE TABLE IF NOT EXISTS empresa (
+  id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  nome VARCHAR(255) NULL,
+  abreviacao VARCHAR(45) NULL,
+  endereco VARCHAR(255) NULL,
+  cep VARCHAR(45) NULL,
+  cnpj VARCHAR(45) NULL,
+  telefone VARCHAR(45) NULL,
+  email VARCHAR(255) NULL,
+  site VARCHAR(255) NULL,
+  figura VARCHAR(255) NULL,
+  PRIMARY KEY (id))
+ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
 --
@@ -29,12 +32,14 @@ INSERT INTO empresa (id, nome, abreviacao, endereco, cep, cnpj, telefone, email,
 --
 -- Estrutura da tabela setor
 --
+DROP TABLE IF EXISTS setor ;
 
-CREATE TABLE setor (
-  id int(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
-  nome varchar(255) DEFAULT NULL,
-  abreviacao varchar(45) DEFAULT NULL
-) ENGINE = InnoDB
+CREATE TABLE IF NOT EXISTS setor (
+  id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  nome VARCHAR(255) NULL,
+  abreviacao VARCHAR(45) NULL,
+  PRIMARY KEY (id))
+ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
 --
@@ -59,25 +64,31 @@ INSERT INTO setor (id, nome, abreviacao) VALUES
 -- Estrutura da tabela usuario
 --
 
-CREATE TABLE usuario (
-  id int(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
-  setor_id int(10) UNSIGNED NOT NULL,
-  portaria varchar(45) DEFAULT NULL,
-  cargo varchar(45) DEFAULT NULL,
-  nome varchar(255) NOT NULL,
-  usuario varchar(255) NOT NULL,
-  email varchar(255) NOT NULL,
-  senha varchar(255) NOT NULL,
-  acesso int(11) DEFAULT NULL,
-  cadastro date DEFAULT NULL,
-  imagem varchar(255) DEFAULT NULL,
-  status int(11) DEFAULT NULL
-) ENGINE = InnoDB
+DROP TABLE IF EXISTS usuario ;
+
+CREATE TABLE IF NOT EXISTS usuario (
+  id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  setor_id INT UNSIGNED NOT NULL,
+  portaria VARCHAR(45) NULL,
+  cargo VARCHAR(45) NULL,
+  nome VARCHAR(255) NOT NULL,
+  usuario VARCHAR(255) NOT NULL,
+  email VARCHAR(255) NOT NULL,
+  senha VARCHAR(255) NOT NULL,
+  acesso INT NULL,
+  cadastro DATE NULL,
+  imagem VARCHAR(255) NULL,
+  status INT NULL,
+  PRIMARY KEY (id),
+  UNIQUE INDEX usuario_UNIQUE (usuario ASC),
+  UNIQUE INDEX email_UNIQUE (email ASC),
+  CONSTRAINT fk_usuario_setor1
+    FOREIGN KEY (setor_id)
+    REFERENCES setor (id)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
-
-
-CREATE UNIQUE INDEX usuario_UNIQUE ON usuario (usuario ASC);
-CREATE UNIQUE INDEX email_UNIQUE ON usuario (email ASC);
 
 --
 -- Extraindo dados da tabela usuario
@@ -93,21 +104,58 @@ INSERT INTO usuario (id, setor_id, portaria, cargo, nome, usuario, email, senha,
 (10, 4, '1.300/20', 'Engenharia Sanitarista', 'Rafaele Freitas de Oliveira', 'rafaele.freitas', 'rafa.frei.oli@gmail.com', '7c235d85eb54aed62ec05bb250b284bb', 1, '2020-08-17', 'uploads/usuarios/user.png', 1),
 (11, 4, '1.301/20', 'Médico veterinário', 'Ludimyla Passos Silva', 'ludimyla.passos', 'ludimylapassos1@hotmail.com', '15fbadf5ee07ab5746c1e8bef2b0134d', 1, '2020-08-17', 'uploads/usuarios/user.png', 1);
 
+-- -----------------------------------------------------
+-- Table cca_chamado_status
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS cca_chamado_status ;
+
+CREATE TABLE IF NOT EXISTS cca_chamado_status (
+  id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  nome VARCHAR(255) NULL,
+  PRIMARY KEY (id))
+ENGINE = InnoDB;
+
+--
+-- Extraindo dados da tabela cca_chamado_status
+--
+
+INSERT INTO cca_chamado_status (id, nome) VALUES
+(1, 'Aguardando o Suporte'),
+(2, 'Em Andamento'),
+(3, 'Cancelado'),
+(4, 'Finalizado');
 
 --
 -- Estrutura da tabela cca_chamado
 --
+DROP TABLE IF EXISTS cca_chamado ;
 
-CREATE TABLE cca_chamado (
-  id int(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
-  setor_id int(10) UNSIGNED NOT NULL,
-  usuario_id int(10) UNSIGNED NOT NULL,
-  status_id int(10) UNSIGNED NOT NULL,
-  assunto varchar(255) DEFAULT NULL,
-  data datetime DEFAULT NULL,
-  descricao text NOT NULL,
-  anexo varchar(255) DEFAULT NULL
-) ENGINE = InnoDB
+CREATE TABLE IF NOT EXISTS cca_chamado (
+  id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  setor_id INT UNSIGNED NOT NULL,
+  usuario_id INT UNSIGNED NOT NULL,
+  status_id INT UNSIGNED NOT NULL,
+  assunto VARCHAR(255) NULL,
+  data DATETIME NULL,
+  descricao TEXT NULL,
+  anexo VARCHAR(255) NULL,
+  PRIMARY KEY (id),
+  CONSTRAINT fk_chamado_setor
+    FOREIGN KEY (setor_id)
+    REFERENCES setor (id)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT fk_chamado_usuario1
+    FOREIGN KEY (usuario_id)
+    REFERENCES usuario (id)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT fk_chamado_chamado_status1
+    FOREIGN KEY (status_id)
+    REFERENCES cca_chamado_status (id)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
 --
@@ -115,7 +163,7 @@ DEFAULT CHARACTER SET = utf8;
 --
 
 INSERT INTO cca_chamado (id, setor_id, usuario_id, status_id, assunto, data, descricao, anexo) VALUES
-(11, 7, 0, 1, 'asdas', '2020-08-07 13:30:00', '', ''),
+(11, 7, 1, 1, 'asdas', '2020-08-07 13:30:00', '', ''),
 (21, 4, 10, 4, 'Lentidão no uso do computador', '2020-08-17 11:14:00', 'Solicito suporte técnico para verificar o motivo de lentidão no uso do computador. ', '');
 
 -- --------------------------------------------------------
@@ -124,15 +172,33 @@ INSERT INTO cca_chamado (id, setor_id, usuario_id, status_id, assunto, data, des
 -- Estrutura da tabela cca_chamado_historico
 --
 
-CREATE TABLE cca_chamado_historico (
-  id int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
-  chamado_id int(10) UNSIGNED NOT NULL,
-  status_id int(10) UNSIGNED NOT NULL,
-  usuario_id int(10) UNSIGNED NOT NULL,
-  data datetime DEFAULT NULL,
-  descricao text DEFAULT NULL,
-  anexo varchar(255) DEFAULT NULL
-) ENGINE = InnoDB
+DROP TABLE IF EXISTS cca_chamado_historico ;
+
+CREATE TABLE IF NOT EXISTS cca_chamado_historico (
+  id INT NOT NULL AUTO_INCREMENT,
+  chamado_id INT UNSIGNED NOT NULL,
+  status_id INT UNSIGNED NOT NULL,
+  usuario_id INT UNSIGNED NOT NULL,
+  data DATETIME NULL,
+  descricao TEXT NULL,
+  anexo VARCHAR(255) NULL,
+  PRIMARY KEY (id),
+  CONSTRAINT fk_chamado_historico_chamado1
+    FOREIGN KEY (chamado_id)
+    REFERENCES cca_chamado (id)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT fk_chamado_historico_chamado_status1
+    FOREIGN KEY (status_id)
+    REFERENCES cca_chamado_status (id)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT fk_chamado_historico_usuario1
+    FOREIGN KEY (usuario_id)
+    REFERENCES usuario (id)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
 --
@@ -145,23 +211,4 @@ INSERT INTO cca_chamado_historico (id, chamado_id, status_id, usuario_id, data, 
 
 -- --------------------------------------------------------
 
---
--- Estrutura da tabela cca_chamado_status
---
-
-CREATE TABLE cca_chamado_status (
-  id int(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
-  nome varchar(255) DEFAULT NULL
-) ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8;
-
---
--- Extraindo dados da tabela cca_chamado_status
---
-
-INSERT INTO cca_chamado_status (id, nome) VALUES
-(1, 'Aguardando o Suporte'),
-(2, 'Em Andamento'),
-(3, 'Cancelado'),
-(4, 'Finalizado');
 

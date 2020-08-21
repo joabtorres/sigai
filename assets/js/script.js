@@ -54,7 +54,9 @@ if (document.nFormCCA) {
                 || null_or_empty("iDescricao"))
         {
             $(form).addClass('was-validated');
-            console.log(form);
+
+        } else {
+            form.submit();
         }
 
     }
@@ -107,7 +109,8 @@ if (document.nFormCCAChamado) {
                 || null_or_empty("iDescricao"))
         {
             $(form).addClass('was-validated');
-            console.log(form);
+        } else {
+            form.submit();
         }
 
     }
@@ -124,7 +127,8 @@ if (document.nFormUsuario) {
                 || null_or_empty("iRepetirSenha"))
         {
             $(form).addClass('was-validated');
-            console.log(form);
+        } else {
+            form.submit();
         }
 
     }
@@ -136,9 +140,9 @@ if (document.nFormUsuario) {
                 || null_or_empty("iEmail"))
         {
             $(form).addClass('was-validated');
-            console.log(form);
+        } else {
+            form.submit();
         }
-
     }
 }
 //form da empresa
@@ -154,7 +158,8 @@ if (document.nFormEmpresa) {
                 || null_or_empty("iEmail"))
         {
             $(form).addClass('was-validated');
-            console.log(form);
+        } else {
+            form.submit();
         }
 
     }
@@ -201,7 +206,6 @@ if (document.getElementById("container-usuario-form")) {
     };
 }
 if (document.nFormCOFISCDenuncia) {
-
     /*
      * Google mapas
      */
@@ -226,71 +230,55 @@ if (document.nFormCOFISCDenuncia) {
             draggable: true
         });
         marker.setPosition(latlng);
+
+        google.maps.event.addListener(marker, 'drag', function () {
+            geocoder.geocode({'latLng': marker.getPosition()}, function (results, status) {
+                if (status == google.maps.GeocoderStatus.OK) {
+                    if (results[0]) {
+                        $('#cEndereco').val(results[0].formatted_address);
+                        $('#cLatitude').val(marker.getPosition().lat());
+                        $('#cLongitude').val(marker.getPosition().lng());
+                    }
+                }
+            });
+        });
     }
 
-    $(document).ready(function () {
-
-        if (document.getElementById("viewMapa")) {
-            initialize();
-            function carregarNoMapa(endereco) {
-                geocoder.geocode({'address': endereco + ', Brasil', 'region': 'BR'}, function (results, status) {
-                    if (status == google.maps.GeocoderStatus.OK) {
-                        if (results[0]) {
-                            var latitude = results[0].geometry.location.lat();
-                            var longitude = results[0].geometry.location.lng();
-                            $('#cEndereco').val(results[0].formatted_address);
-                            $('#cLatitude').val(latitude);
-                            $('#cLongitude').val(longitude);
-                            var location = new google.maps.LatLng(latitude, longitude);
-                            marker.setPosition(location);
-                            map.setCenter(location);
-                            map.setZoom(16);
-                        }
-                    }
-                });
+    function loadScriptGoogleMapsAPI() {
+        var script = document.createElement('script');
+        script.type = 'text/javascript';
+        script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyCg1ogHawJGuDbw7nd6qBz9yYxYPoGTWQo&callback=initialize';
+        document.body.appendChild(script);
+    }
+    
+    function carregarNoMapa(endereco) {
+        geocoder.geocode({'address': endereco + ', Brasil', 'region': 'BR'}, function (results, status) {
+            if (status == google.maps.GeocoderStatus.OK) {
+                if (results[0]) {
+                    var latitude = results[0].geometry.location.lat();
+                    var longitude = results[0].geometry.location.lng();
+                    $('#cEndereco').val(results[0].formatted_address);
+                    $('#cLatitude').val(latitude);
+                    $('#cLongitude').val(longitude);
+                    var location = new google.maps.LatLng(latitude, longitude);
+                    marker.setPosition(location);
+                    map.setCenter(location);
+                    map.setZoom(16);
+                }
             }
-
-            $("#btnEndereco").click(function () {
-                if ($(this).val() !== "")
-                    carregarNoMapa($("#txtEndereco").val());
-            });
-            $("#cEndereco").blur(function () {
-                if ($(this).val() !== "")
-                    carregarNoMapa($(this).val());
-            });
-            google.maps.event.addListener(marker, 'drag', function () {
-                geocoder.geocode({'latLng': marker.getPosition()}, function (results, status) {
-                    if (status == google.maps.GeocoderStatus.OK) {
-                        if (results[0]) {
-                            $('#cEndereco').val(results[0].formatted_address);
-                            $('#cLatitude').val(marker.getPosition().lat());
-                            $('#cLongitude').val(marker.getPosition().lng());
-                        }
-                    }
-                });
-            });
-        }
-    });
-
-    function validarFormCOFISCDenuncia() {
-        var form = document.nFormCOFISCDenuncia;
-        if (null_or_empty("iData")
-                || null_or_empty("iTipoProtocolo")
-                || null_or_empty("iTipoDocumento")
-                || null_or_empty("iOrigem")
-                || null_or_empty("iNumeroProtocolo")
-                || null_or_empty("iAnoProtocolo")
-                || null_or_empty("iTipoDenuncia")
-                || null_or_empty("iDenunciado")
-                || null_or_empty("iCidade")
-                || null_or_empty("iBairro"))
-        {
-            $(form).addClass('was-validated');
-            console.log(form);
-        }
+        });
     }
-
-
+    loadScriptGoogleMapsAPI();
+    $(document).ready(function () {
+        $("#btnEndereco").click(function () {
+            if ($(this).val() !== "")
+                carregarNoMapa($("#txtEndereco").val());
+        });
+        $("#cEndereco").blur(function () {
+            if ($(this).val() !== "")
+                carregarNoMapa($(this).val());
+        });
+    });
     function selectTipoDenuncia(tipo_protocolo) {
         xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function () {
@@ -315,15 +303,140 @@ if (document.nFormCOFISCDenuncia) {
         xhttp.send("cidade_id=" + cidade_id);
     }
 
-    function selectSetor(setor_id, user_id) {
+    function validarFormCOFISCDenuncia() {
+        var form = document.nFormCOFISCDenuncia;
+        if (null_or_empty("iData")
+                || null_or_empty("iTipoProtocolo")
+                || null_or_empty("iTipoDocumento")
+                || null_or_empty("iOrigem")
+                || null_or_empty("iNumeroProtocolo")
+                || null_or_empty("iAnoProtocolo")
+                || null_or_empty("iTipoDenuncia")
+                || null_or_empty("iDenunciado")
+                || null_or_empty("iCidade")
+                || null_or_empty("iBairro"))
+        {
+            $(form).addClass('was-validated');
+        } else {
+            form.submit();
+        }
+    }
+}
+
+if (document.nFormCOFISCSolicitacao) {
+    /*
+     * Google mapas
+     */
+    var geocoder;
+    var map;
+    var marker;
+    function initialize() {
+        if (document.getElementById("cLatitude").value != '' && document.getElementById("cLongitude").value != '') {
+            var latlng = new google.maps.LatLng(document.getElementById("cLatitude").value, document.getElementById("cLongitude").value);
+        } else {
+            var latlng = new google.maps.LatLng(-1.2955583054409823, -47.91926629129639);
+        }
+        var options = {
+            zoom: 14,
+            center: latlng,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+        map = new google.maps.Map(document.getElementById("viewMapa"), options);
+        geocoder = new google.maps.Geocoder();
+        marker = new google.maps.Marker({
+            map: map,
+            draggable: true
+        });
+        marker.setPosition(latlng);
+
+        google.maps.event.addListener(marker, 'drag', function () {
+            geocoder.geocode({'latLng': marker.getPosition()}, function (results, status) {
+                if (status == google.maps.GeocoderStatus.OK) {
+                    if (results[0]) {
+                        $('#cEndereco').val(results[0].formatted_address);
+                        $('#cLatitude').val(marker.getPosition().lat());
+                        $('#cLongitude').val(marker.getPosition().lng());
+                    }
+                }
+            });
+        });
+    }
+
+    function loadScriptGoogleMapsAPI() {
+        var script = document.createElement('script');
+        script.type = 'text/javascript';
+        script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyCg1ogHawJGuDbw7nd6qBz9yYxYPoGTWQo&callback=initialize';
+        document.body.appendChild(script);
+    }
+    
+    function carregarNoMapa(endereco) {
+        geocoder.geocode({'address': endereco + ', Brasil', 'region': 'BR'}, function (results, status) {
+            if (status == google.maps.GeocoderStatus.OK) {
+                if (results[0]) {
+                    var latitude = results[0].geometry.location.lat();
+                    var longitude = results[0].geometry.location.lng();
+                    $('#cEndereco').val(results[0].formatted_address);
+                    $('#cLatitude').val(latitude);
+                    $('#cLongitude').val(longitude);
+                    var location = new google.maps.LatLng(latitude, longitude);
+                    marker.setPosition(location);
+                    map.setCenter(location);
+                    map.setZoom(16);
+                }
+            }
+        });
+    }
+    loadScriptGoogleMapsAPI();
+    $(document).ready(function () {
+        $("#btnEndereco").click(function () {
+            if ($(this).val() !== "")
+                carregarNoMapa($("#txtEndereco").val());
+        });
+        $("#cEndereco").blur(function () {
+            if ($(this).val() !== "")
+                carregarNoMapa($(this).val());
+        });
+    });
+    function selectTipoDenuncia(tipo_protocolo) {
         xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {
-                document.getElementById("iUsuario").innerHTML = this.responseText;
+                document.getElementById("iTipoDocumento").innerHTML = this.responseText;
             }
         };
-        xhttp.open("POST", base_url + "cca/getusuarios", true);
+        xhttp.open("POST", base_url + "cofisc/get_tipo_documento", true);
         xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        xhttp.send("setor_id=" + setor_id + "&id_user=" + user_id);
+        xhttp.send("protocolo_id=" + tipo_protocolo);
+    }
+
+    function selectBairro(cidade_id) {
+        xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                document.getElementById("iBairro").innerHTML = this.responseText;
+            }
+        };
+        xhttp.open("POST", base_url + "cofisc/get_bairro", true);
+        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhttp.send("cidade_id=" + cidade_id);
+    }
+
+    function validarFormCOFISCSolicitacao() {
+        var form = document.nFormCOFISCSolicitacao;
+        if (null_or_empty("iData")
+                || null_or_empty("iTipoProtocolo")
+                || null_or_empty("iTipoDocumento")
+                || null_or_empty("iOrigem")
+                || null_or_empty("iNumeroProtocolo")
+                || null_or_empty("iAnoProtocolo")
+                || null_or_empty("iTipoDenuncia")
+                || null_or_empty("iSolicitante")
+                || null_or_empty("iCidade")
+                || null_or_empty("iBairro"))
+        {
+            $(form).addClass('was-validated');
+        } else {
+            form.submit();
+        }
     }
 }

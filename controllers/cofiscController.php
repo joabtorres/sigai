@@ -30,7 +30,9 @@ class cofiscController extends controller {
                 $user_id = addslashes($_POST['id_user']);
             }
             $usuarios = $crudModel->read("SELECT * FROM cofisc_tipo_documento WHERE protocolo_id=:id ORDER BY documento ASC", array('id' => $protocolo_id));
-
+            if (!isset($user_id)) {
+                echo '<option value="" selected = "selected" disabled="disabled">Selecione o tipo do documento </option>';
+            }
             foreach ($usuarios as $indice) {
                 if (isset($user_id) && $indice['id'] == $user_id) {
                     echo '<option value = "' . $indice['id'] . '" selected = "selected">' . $indice['documento'] . '</option>';
@@ -50,6 +52,9 @@ class cofiscController extends controller {
             }
             $usuarios = $crudModel->read("SELECT * FROM bairro WHERE cidade_id=:id ORDER BY bairro ASC", array('id' => $cidade_id));
 
+            if (!isset($bairro_id)) {
+                echo '<option value="" selected = "selected" disabled="disabled">Selecione o bairro </option>';
+            }
             foreach ($usuarios as $indice) {
                 if (isset($bairro_id) && $indice['id'] == $bairro_id) {
                     echo '<option value = "' . $indice['id'] . '" selected = "selected">' . $indice['bairro'] . '</option>';
@@ -62,13 +67,15 @@ class cofiscController extends controller {
 
     public function cadastro_denuncia() {
         if ($this->checkUser() && ($this->checkSetor() == 4 || $this->checkSetor() == 10)) {
-            $viewName = 'cofisc/cadastra-denuncia';
+            $viewName = 'cofisc/denuncia/cadastro';
             $dados = array();
             $crud = new cofisc_model();
             $dados['tipo_protocolo'] = $crud->read("SELECT * FROM cofisc_tipo_protocolo ORDER BY tipo_protocolo ASC");
+            $dados['documento'] = $crud->read("SELECT * FROM cofisc_tipo_documento ORDER BY documento ASC");
             $dados['origem'] = $crud->read("SELECT * FROM cofisc_origem ORDER BY origem ASC");
             $dados['tipo_denuncia'] = $crud->read("SELECT * FROM cofisc_tipo_denuncia ORDER BY tipo_denuncia ASC");
             $dados['cidade'] = $crud->read("SELECT * FROM cidade");
+            $dados['bairro'] = $crud->read("SELECT * FROM bairro WHERE cidade_id=1 ORDER BY bairro ASC");
             // cadastro
             if (isset($_POST['nSalvar']) && !empty($_POST['nSalvar'])) {
                 $cadForm = array();
@@ -80,44 +87,58 @@ class cofiscController extends controller {
                  * protocolo
                  * ******************** */
                 //data do protocolo
-                $cadForm['data_protocolo'] = $this->formatDateBD($_POST['nData']);
+                $cadForm['protocolo']['data_protocolo'] = $this->formatDateBD($_POST['nData']);
                 //tipo do protocolo
-                $cadForm['protocolo_id'] = addslashes($_POST['nTipoProtocolo']);
+                $cadForm['protocolo']['protocolo_id'] = addslashes($_POST['nTipoProtocolo']);
                 //tipo do documento
-                $cadForm['tipo_documento_id'] = addslashes($_POST['nTipoDocumento']);
+                $cadForm['protocolo']['tipo_documento_id'] = addslashes($_POST['nTipoDocumento']);
                 //origem
-                $cadForm['origem_id'] = addslashes($_POST['nOrigem']);
+                $cadForm['protocolo']['origem_id'] = addslashes($_POST['nOrigem']);
                 //protocolo
-                $cadForm['numero_protocolo'] = addslashes($_POST['nNumeroProtocolo']);
-                $cadForm['ano_protocolo'] = addslashes($_POST['nAnoProtocolo']);
+                $cadForm['protocolo']['numero_protocolo'] = addslashes($_POST['nNumeroProtocolo']);
+                $cadForm['protocolo']['ano_protocolo'] = addslashes($_POST['nAnoProtocolo']);
                 //oficio
-                $cadForm['numero_oficio'] = addslashes($_POST['nNumeroOficio']);
-                $cadForm['ano_oficio'] = addslashes($_POST['nAnoOficio']);
+                $cadForm['protocolo']['numero_oficio'] = addslashes($_POST['nNumeroOficio']);
+                $cadForm['protocolo']['ano_oficio'] = addslashes($_POST['nAnoOficio']);
                 //memorando
-                $cadForm['numero_memorando'] = addslashes($_POST['nNumeroMemorando']);
-                $cadForm['ano_memorando'] = addslashes($_POST['nAnoMemorando']);
-                $cadForm['hash'] = $this->hash_md5();
-                $cadData = $cadForm;
+                $cadForm['protocolo']['numero_memorando'] = addslashes($_POST['nNumeroMemorando']);
+                $cadForm['protocolo']['ano_memorando'] = addslashes($_POST['nAnoMemorando']);
+                $cadForm['protocolo']['hash'] = $this->hash_md5();
                 /*                 * *********************
                  * Denuncia
                  * ******************** */
                 //tipo da denuncia
-                $cadForm['tipo_denuncia_id'] = addslashes($_POST['nTipoDenuncia']);
+                $cadForm['denuncia']['tipo_denuncia_id'] = addslashes($_POST['nTipoDenuncia']);
                 //denunciante
-                $cadForm['denunciado'] = addslashes($_POST['nDenunciado']);
-                $cadForm['descricao'] = addslashes($_POST['nDescricao']); //descricao
-                $cadForm['cidade_id'] = addslashes($_POST['nCidade']); //cidade
-                $cadForm['bairro_id'] = addslashes($_POST['nBairro']); //bairro
-                $cadForm['endereco'] = addslashes($_POST['nEndereco']); //endereco
-                $cadForm['latitude'] = addslashes($_POST['nLatitude']); // latitude
-                $cadForm['longitude'] = addslashes($_POST['nLongitude']); // longitude
+                $cadForm['denuncia']['denunciado'] = addslashes($_POST['nDenunciado']);
+                $cadForm['denuncia']['descricao'] = addslashes($_POST['nDescricao']); //descricao
+                $cadForm['denuncia']['cidade_id'] = addslashes($_POST['nCidade']); //cidade
+                $cadForm['denuncia']['bairro_id'] = addslashes($_POST['nBairro']); //bairro
+                $cadForm['denuncia']['endereco'] = addslashes($_POST['nEndereco']); //endereco
+                $cadForm['denuncia']['latitude'] = addslashes($_POST['nLatitude']); // latitude
+                $cadForm['denuncia']['longitude'] = addslashes($_POST['nLongitude']); // longitude
                 /*                 * *********************
                  * denunciante
                  * ******************** */
-                $cadForm['denunciante'] = addslashes($_POST['nDenunciante']);
-                $cadForm['telefone'] = addslashes($_POST['nTelefone']);
-                $cadForm['email'] = addslashes($_POST['nEmail']);
-                $resultado = $crud->create("INSERT INTO cofisc_protocolo (data_protocolo, protocolo_id, tipo_documento_id, origem_id, numero_protocolo, ano_protocolo, numero_oficio, ano_oficio, numero_memorando, ano_memorando, hash) VALUES (:data_protocolo, :protocolo_id, :tipo_documento_id, :origem_id, :numero_protocolo, :ano_protocolo, :numero_oficio, :ano_oficio, :numero_memorando, :ano_memorando, :hash)", $cadForm);
+                $cadForm['denuncia']['denunciante'] = addslashes($_POST['nDenunciante']);
+                $cadForm['denuncia']['telefone'] = addslashes($_POST['nTelefone']);
+                $cadForm['denuncia']['email'] = addslashes($_POST['nEmail']);
+                $resultado = $crud->create("INSERT INTO cofisc_protocolo (data_protocolo, protocolo_id, tipo_documento_id, origem_id, numero_protocolo, ano_protocolo, numero_oficio, ano_oficio, numero_memorando, ano_memorando, hash) VALUES (:data_protocolo, :protocolo_id, :tipo_documento_id, :origem_id, :numero_protocolo, :ano_protocolo, :numero_oficio, :ano_oficio, :numero_memorando, :ano_memorando, :hash)", $cadForm['protocolo']);
+                if ($resultado) {
+                    $protocolo = $crud->read_specific("SELECT * FROM cofisc_protocolo WHERE hash=:hash", array('hash' => $cadForm['protocolo']['hash']));
+                    $cadForm['denuncia']['protocolo_id'] = $protocolo['id'];
+                    $resultado = $crud->create("INSERT INTO cofisc_denuncia (protocolo_id, tipo_denuncia_id, denunciado, descricao, cidade_id, bairro_id, endereco, latitude, longitude, denunciante, telefone, email) VALUES (:protocolo_id, :tipo_denuncia_id, :denunciado, :descricao, :cidade_id, :bairro_id, :endereco, :latitude, :longitude, :denunciante, :telefone, :email)", $cadForm['denuncia']);
+                    if ($resultado) {
+                        $denuncia = $crud->read_specific("SELECT * FROM cofisc_denuncia WHERE protocolo_id=:id", array('id' => $protocolo['id']));
+                        $historico = array();
+                        $historico['data'] = $this->getDatatimeNow();
+                        $historico['descricao'] = "Foi realizado o cadastro da denúncia no banco de dados";
+                        $historico['usuario_id'] = $this->getIdUser();
+                        $historico['denuncia_id'] = $denuncia['id'];
+                        $crud->create("INSERT INTO cofisc_historico_denuncia (data, descricao, usuario_id, denuncia_id) VALUES (:data, :descricao, :usuario_id, :denuncia_id) ", $historico);
+                        $dados['erro'] = array('class' => 'alert-success', 'msg' => '<i class="fa fa-check-circle" aria-hidden="true"></i> Cadastro realizado com sucesso!');
+                    }
+                }
             }
             $this->loadTemplate($viewName, $dados);
         } else {
@@ -127,11 +148,84 @@ class cofiscController extends controller {
     }
 
     public function cadastro_solicitacao() {
-        
-    }
-
-    private function hash_md5() {
-        return md5(microtime(true) . mt_Rand(10000, 90000));
+        if ($this->checkUser() && ($this->checkSetor() == 4 || $this->checkSetor() == 10)) {
+            $viewName = 'cofisc/solicitacao/cadastro';
+            $dados = array();
+            $crud = new cofisc_model();
+            $dados['tipo_protocolo'] = $crud->read("SELECT * FROM cofisc_tipo_protocolo ORDER BY tipo_protocolo ASC");
+            $dados['documento'] = $crud->read("SELECT * FROM cofisc_tipo_documento ORDER BY documento ASC");
+            $dados['origem'] = $crud->read("SELECT * FROM cofisc_origem ORDER BY origem ASC");
+            $dados['tipo_solicitacao'] = $crud->read("SELECT * FROM cofisc_tipo_solicitacao ORDER BY tipo_solicitacao ASC");
+            $dados['cidade'] = $crud->read("SELECT * FROM cidade");
+            $dados['bairro'] = $crud->read("SELECT * FROM bairro WHERE cidade_id=1 ORDER BY bairro ASC");
+            // cadastro
+            if (isset($_POST['nSalvar']) && !empty($_POST['nSalvar'])) {
+                $cadForm = array();
+                //id
+                if (!empty($_POST['nId'])) {
+                    $cadForm['id'] = addslashes($_POST['nId']);
+                }
+                /*                 * *********************
+                 * protocolo
+                 * ******************** */
+                //data do protocolo
+                $cadForm['protocolo']['data_protocolo'] = $this->formatDateBD($_POST['nData']);
+                //tipo do protocolo
+                $cadForm['protocolo']['protocolo_id'] = addslashes($_POST['nTipoProtocolo']);
+                //tipo do documento
+                $cadForm['protocolo']['tipo_documento_id'] = addslashes($_POST['nTipoDocumento']);
+                //origem
+                $cadForm['protocolo']['origem_id'] = addslashes($_POST['nOrigem']);
+                //protocolo
+                $cadForm['protocolo']['numero_protocolo'] = addslashes($_POST['nNumeroProtocolo']);
+                $cadForm['protocolo']['ano_protocolo'] = addslashes($_POST['nAnoProtocolo']);
+                //oficio
+                $cadForm['protocolo']['numero_oficio'] = addslashes($_POST['nNumeroOficio']);
+                $cadForm['protocolo']['ano_oficio'] = addslashes($_POST['nAnoOficio']);
+                //memorando
+                $cadForm['protocolo']['numero_memorando'] = addslashes($_POST['nNumeroMemorando']);
+                $cadForm['protocolo']['ano_memorando'] = addslashes($_POST['nAnoMemorando']);
+                $cadForm['protocolo']['hash'] = $this->hash_md5();
+                /*                 * *********************
+                 * solicitação
+                 * ******************** */
+                //tipo da solicitacao
+                $cadForm['solicitacao']['tipo_solicitacao_id'] = addslashes($_POST['nTipoSolicitacao']);
+                //denunciante
+                $cadForm['solicitacao']['solicitante'] = addslashes($_POST['nDenunciado']);
+                $cadForm['solicitacao']['telefone'] = addslashes($_POST['nTelefone']);
+                $cadForm['solicitacao']['email'] = addslashes($_POST['nEmail']);
+                $cadForm['solicitacao']['descricao'] = addslashes($_POST['nDescricao']); //descricao
+                $cadForm['solicitacao']['cidade_id'] = addslashes($_POST['nCidade']); //cidade
+                $cadForm['solicitacao']['bairro_id'] = addslashes($_POST['nBairro']); //bairro
+                $cadForm['solicitacao']['endereco'] = addslashes($_POST['nEndereco']); //endereco
+                $cadForm['solicitacao']['latitude'] = addslashes($_POST['nLatitude']); // latitude
+                $cadForm['solicitacao']['longitude'] = addslashes($_POST['nLongitude']); // longitude
+                /*                 * *********************
+                 * denunciante
+                 * ******************** */
+                $resultado = $crud->create("INSERT INTO cofisc_protocolo (data_protocolo, protocolo_id, tipo_documento_id, origem_id, numero_protocolo, ano_protocolo, numero_oficio, ano_oficio, numero_memorando, ano_memorando, hash) VALUES (:data_protocolo, :protocolo_id, :tipo_documento_id, :origem_id, :numero_protocolo, :ano_protocolo, :numero_oficio, :ano_oficio, :numero_memorando, :ano_memorando, :hash)", $cadForm['protocolo']);
+                if ($resultado) {
+                    $protocolo = $crud->read_specific("SELECT * FROM cofisc_protocolo WHERE hash=:hash", array('hash' => $cadForm['protocolo']['hash']));
+                    $cadForm['solicitacao']['protocolo_id'] = $protocolo['id'];
+                    $resultado = $crud->create("INSERT INTO cofisc_solicitacao (protocolo_id, tipo_solicitacao_id, solicitante, telefone, email, descricao, cidade_id, bairro_id, endereco, latitude, longitude) VALUES (:protocolo_id, :tipo_solicitacao_id, :solicitante, :telefone, :email, :descricao, :cidade_id, :bairro_id, :endereco, :latitude, :longitude)", $cadForm['solicitacao']);
+                    if ($resultado) {
+                        $solicitacao = $crud->read_specific("SELECT * FROM cofisc_solicitacao WHERE protocolo_id=:id", array('id' => $protocolo['id']));
+                        $historico = array();
+                        $historico['data'] = $this->getDatatimeNow();
+                        $historico['descricao'] = "Foi realizado o cadastro da solicitação no banco de dados";
+                        $historico['usuario_id'] = $this->getIdUser();
+                        $historico['solicitacao_id'] = $solicitacao['id'];
+                        $crud->create("INSERT INTO cofisc_historico_solicitacao (data, descricao, usuario_id, solicitacao_id) VALUES (:data, :descricao, :usuario_id, :solicitacao_id) ", $historico);
+                        $dados['erro'] = array('class' => 'alert-success', 'msg' => '<i class="fa fa-check-circle" aria-hidden="true"></i> Cadastro realizado com sucesso!');
+                    }
+                }
+            }
+            $this->loadTemplate($viewName, $dados);
+        } else {
+            $url = "location: " . BASE_URL . "home";
+            header($url);
+        }
     }
 
 }

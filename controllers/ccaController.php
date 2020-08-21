@@ -43,7 +43,7 @@ class ccaController extends controller {
                 //assunto
                 $chamado['assunto'] = addslashes($_POST['nAssunto']);
                 //data
-                $chamado['data'] = date("Y-m-d H:i:00", (time() - 18000));
+                $chamado['data'] = $this->getDatatimeNow();
                 //descricao
                 $chamado['descricao'] = addslashes($_POST['nDescricao']);
 
@@ -104,6 +104,7 @@ class ccaController extends controller {
                 //paginacao
                 $limite = 30;
                 $total_registro = $crudModel->read($sql, $arrayForm);
+                $total_registro = empty($total_registro) ? array() : $total_registro;
                 $paginas = count($total_registro) / $limite;
                 $indice = 0;
                 $pagina_atual = (isset($page) && !empty($page)) ? addslashes($page) : 1;

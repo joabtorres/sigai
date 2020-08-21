@@ -168,4 +168,35 @@ class controller {
         }
     }
 
+    protected function hash_md5() {
+        return md5($this->generato(10) . microtime(true) . mt_Rand(10000, 90000));
+    }
+
+    /**
+     * Este método é responsável para criar uma sequencia de caracteres aleatória. 
+     * @param int $tamanho - tamanho de caracteres a ser gerado;
+     * @access private
+     * @return string os caracteres gerados
+     * @author Joab Torres <joabtorres1508@gmail.com>
+     */
+    private function generato($tamanho = 8) {
+        $car_minusculo = 'q w e r t y u i o p a s d f g h j k l z x c v b n m';
+        $car_numero = ' 0 1 2 3 4 5 6 7 8 9';
+        $car_maiusculo = " Q W E R T Y U I O P A S D F G H J K L Z X C V B N M";
+        $car_especial = " ! @ # $ % & Ç ç";
+
+        $retorno = "";
+        $caracteres = $car_minusculo . $car_numero . $car_maiusculo . $car_especial;
+
+        $caracteres = explode(" ", $caracteres);
+        for ($i = 1; $i <= $tamanho; $i++) {
+            $retorno = $retorno . $caracteres[mt_rand(1, count($caracteres) - 1)];
+        }
+        return $retorno;
+    }
+
+    public function getDatatimeNow() {
+        return date("Y-m-d H:i:00", (time() - 18000));
+    }
+
 }
