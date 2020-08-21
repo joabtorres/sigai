@@ -43,39 +43,6 @@ CREATE TABLE IF NOT EXISTS cofisc_tipo_denuncia (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
-
--- -----------------------------------------------------
--- Table cidade
--- -----------------------------------------------------
-DROP TABLE IF EXISTS cidade ;
-
-CREATE TABLE IF NOT EXISTS cidade (
-  id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  cidade VARCHAR(100) NULL,
-  PRIMARY KEY (id))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8;
-
-
--- -----------------------------------------------------
--- Table bairro
--- -----------------------------------------------------
-DROP TABLE IF EXISTS bairro ;
-
-CREATE TABLE IF NOT EXISTS bairro (
-  id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  bairro VARCHAR(150) NULL,
-  cidade_id INT UNSIGNED NOT NULL,
-  PRIMARY KEY (id),
-  CONSTRAINT fk_bairro_cidade1
-    FOREIGN KEY (cidade_id)
-    REFERENCES cidade (id)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8;
-
-
 -- -----------------------------------------------------
 -- Table cofisc_origem
 -- -----------------------------------------------------
@@ -109,7 +76,7 @@ DROP TABLE IF EXISTS cofisc_protocolo ;
 
 CREATE TABLE IF NOT EXISTS cofisc_protocolo (
   id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  data_protocolo DATETIME NULL,
+  data_protocolo DATE NULL,
   protocolo_id INT UNSIGNED NOT NULL,
   tipo_documento_id INT UNSIGNED NOT NULL,
   origem_id INT UNSIGNED NOT NULL,
@@ -318,50 +285,6 @@ CREATE TABLE IF NOT EXISTS cofisc_anexo_solicitacao (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
-
--- cadastro de cidade
-INSERT INTO cidade (id, cidade) VALUES ('1', 'Castanhal'); 
-
--- cadastra bairro
-INSERT INTO bairro (id, bairro, cidade_id) VALUES
-('1', 'Apeú', '1'),
-('2', 'Área de Invasão', '1'),
-('3', 'Bairro Novo', '1'),
-('4', 'Betânia', '1'),
-('5', 'Bom Jesus', '1'),
-('6', 'Caiçara', '1'),
-('7', 'Cariri', '1'),
-('8', 'Centro', '1'),
-('9', 'Conjuntos Ypês', '1'),
-('10', 'Cristo', '1'),
-('11', 'Distrito Industrial', '1'),
-('12', 'Estrela', '1'),
-('13', 'Florestal', '1'),
-('14', 'Fonte Boa', '1'),
-('15', 'Heliolândia', '1'),
-('16', 'Ianetama', '1'),
-('17', 'Imperador', '1'),
-('18', 'Imperial', '1'),
-('19', 'Jaderlândia', '1'),
-('20', 'Não se Aplica', '1'),
-('21', 'Nova Olinda', '1'),
-('22', 'Novo Caiçara', '1'),
-('23', 'Novo Estrela', '1'),
-('24', 'Pantanal', '1'),
-('25', 'Pirapora', '1'),
-('26', 'Propira', '1'),
-('27', 'Rouxinol', '1'),
-('28', 'Sales Jardim', '1'),
-('29', 'Salgadinho', '1'),
-('30', 'Santa Catarina', '1'),
-('31', 'Santa Helena', '1'),
-('32', 'Santa Lídia', '1'),
-('33', 'São José', '1'),
-('34', 'Saudade I', '1'),
-('35', 'Saudade II', '1'),
-('36', 'Titanlândia', '1'),
-('37', 'Tókio', '1'),
-('38', 'Zona Rural', '1');
 
 -- cad tipo de protocolo
 INSERT INTO `cofisc_tipo_protocolo` (`id`, `tipo_protocolo`) VALUES 

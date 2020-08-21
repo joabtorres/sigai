@@ -187,14 +187,14 @@
                                  <label for='iTelefone'>Telefone:  </label><br/>
                                 <input type="text" name="nTelefone"  class="form-control mt-2" id="iTelefone" placeholder="Exemplo: (99) 99999-9999 / (98) 99999-9999" value="<?php echo!empty($arrayCad['solicitacao']['telefone']) ? $arrayCad['solicitacao']['telefone'] : ''; ?>" >
                                 <div class="invalid-feedback">
-                                    Informe o Assunto
+                                    Informe o telefone
                                 </div>
                             </div>
                             <div class="col-md-6 mb-3"
                                  <label for='iEmail'>Email:  </label><br/>
                                 <input type="email" name="nEmail"  class="form-control mt-2" id="iEmail" placeholder="Exemplo: joab@gmail.com" value="<?php echo!empty($arrayCad['solicitacao']['email']) ? $arrayCad['solicitacao']['email'] : ''; ?>" >
                                 <div class="invalid-feedback">
-                                    Informe o Assunto
+                                    Informe o email
                                 </div>
                             </div>
                         </div>

@@ -228,4 +228,74 @@ class cofiscController extends controller {
         }
     }
 
+    public function consultar_denuncia($page = 1) {
+        if ($this->checkUser()) {
+            $view = "cofisc/denuncia/consulta";
+            $dados = array();
+            $crudModel = new crud_db();
+            $dados['tipo_protocolo'] = $crudModel->read("SELECT * FROM cofisc_tipo_protocolo ORDER BY tipo_protocolo ASC");
+            $dados['documento'] = $crudModel->read("SELECT * FROM cofisc_tipo_documento ORDER BY documento ASC");
+            $dados['origem'] = $crudModel->read("SELECT * FROM cofisc_origem ORDER BY origem ASC");
+            $dados['tipo_denuncia'] = $crudModel->read("SELECT * FROM cofisc_tipo_denuncia ORDER BY tipo_denuncia ASC");
+            $dados['cidade'] = $crudModel->read("SELECT * FROM cidade");
+            $dados['bairro'] = $crudModel->read("SELECT * FROM bairro WHERE cidade_id=1 ORDER BY bairro ASC");
+
+            $sql = "SELECT p.data_protocolo, p.numero_protocolo, p.ano_protocolo, d.* FROM cofisc_protocolo as p INNER JOIN cofisc_denuncia as d WHERE d.protocolo_id=p.id";
+            $arrayForm = array();
+            if (isset($_GET['nBuscarBT'])) {
+                $parametros = "?nSetor=" . $_GET['nSetor'] . "&nUsuario=" . $_GET['nUsuario'] . "&nStatus=" . $_GET['nStatus'] . "&nModoPDF=" . $_GET['nModoPDF'] . "&nBuscarBT=BuscarBT";
+                if ($_GET['nModoPDF'] == 1) {
+                    $url = BASE_URL . "cca/relatorio_pdf" . $parametros;
+                    echo "<script>window.open('$url', '_blank')</script>";
+                }
+                //setor
+                if (!empty($_GET['nSetor'])) {
+                    $sql .= " AND c.setor_id=:id_setor ";
+                    $arrayForm['id_setor'] = addslashes($_GET['nSetor']);
+                }
+                //nUsuario
+                if (!empty($_GET['nUsuario'])) {
+                    $sql .= " AND u.id=:id_usuario ";
+                    $arrayForm['id_usuario'] = addslashes($_GET['nUsuario']);
+                }
+                //setor
+                if (!empty($_GET['nStatus'])) {
+                    $sql .= " AND c.status_id=:id_status ";
+                    $arrayForm['id_status'] = addslashes($_GET['nStatus']);
+                }
+                //paginacao
+                $limite = 30;
+                $total_registro = $crudModel->read($sql, $arrayForm);
+                $total_registro = empty($total_registro) ? array() : $total_registro;
+                $paginas = count($total_registro) / $limite;
+                $indice = 0;
+                $pagina_atual = (isset($page) && !empty($page)) ? addslashes($page) : 1;
+                $indice = ($pagina_atual - 1) * $limite;
+                $dados["paginas"] = $paginas;
+                $dados["pagina_atual"] = $pagina_atual;
+                $dados['metodo_buscar'] = $parametros;
+                $sql .= " LIMIT $indice,$limite ";
+                $chamados = $crudModel->read($sql, $arrayForm);
+            } else {
+                //paginacao
+                $limite = 30;
+                $total_registro = $crudModel->read_specific("SELECT COUNT(d.id) AS qtd FROM cofisc_protocolo as p INNER JOIN cofisc_denuncia as d WHERE d.protocolo_id=p.id");
+                $paginas = $total_registro['qtd'] / $limite;
+                $indice = 0;
+                $pagina_atual = (isset($page) && !empty($page)) ? addslashes($page) : 1;
+                $indice = ($pagina_atual - 1) * $limite;
+                $dados["paginas"] = $paginas;
+                $dados["pagina_atual"] = $pagina_atual;
+                $dados['metodo_buscar'] = "";
+                $sql .= "  LIMIT $indice,$limite";
+                $chamados = $crudModel->read($sql);
+            }
+            $dados['chamados'] = $chamados;
+            $this->loadTemplate($view, $dados);
+        } else {
+            $url = "location: " . BASE_URL . "home";
+            header($url);
+        }
+    }
+
 }

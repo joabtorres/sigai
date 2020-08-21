@@ -100,6 +100,19 @@ if (document.nFormCCA) {
         xhttp.send("setor_id=" + setor_id + "&id_user=" + user_id);
     }
 }
+if (document.formCCASearch) {
+    function selectSetor(setor_id) {
+        xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                document.getElementById("iUsuario").innerHTML = this.responseText;
+            }
+        };
+        xhttp.open("POST", base_url + "cca/getusuariossearch", true);
+        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhttp.send("setor_id=" + setor_id);
+    }
+}
 //form do historico do chamado
 if (document.nFormCCAChamado) {
     function valida_formChamado() {
@@ -250,7 +263,7 @@ if (document.nFormCOFISCDenuncia) {
         script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyCg1ogHawJGuDbw7nd6qBz9yYxYPoGTWQo&callback=initialize';
         document.body.appendChild(script);
     }
-    
+
     function carregarNoMapa(endereco) {
         geocoder.geocode({'address': endereco + ', Brasil', 'region': 'BR'}, function (results, status) {
             if (status == google.maps.GeocoderStatus.OK) {
@@ -368,7 +381,7 @@ if (document.nFormCOFISCSolicitacao) {
         script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyCg1ogHawJGuDbw7nd6qBz9yYxYPoGTWQo&callback=initialize';
         document.body.appendChild(script);
     }
-    
+
     function carregarNoMapa(endereco) {
         geocoder.geocode({'address': endereco + ', Brasil', 'region': 'BR'}, function (results, status) {
             if (status == google.maps.GeocoderStatus.OK) {
@@ -438,5 +451,31 @@ if (document.nFormCOFISCSolicitacao) {
         } else {
             form.submit();
         }
+    }
+}
+
+if (document.formSearhCofisc) {
+    function selectTipoDenuncia(tipo_protocolo) {
+        xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                document.getElementById("iTipoDocumento").innerHTML = this.responseText;
+            }
+        };
+        xhttp.open("POST", base_url + "cofisc/get_tipo_documento", true);
+        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhttp.send("protocolo_id=" + tipo_protocolo);
+    }
+
+    function selectBairro(cidade_id) {
+        xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                document.getElementById("iBairro").innerHTML = this.responseText;
+            }
+        };
+        xhttp.open("POST", base_url + "cofisc/get_bairro", true);
+        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhttp.send("cidade_id=" + cidade_id);
     }
 }

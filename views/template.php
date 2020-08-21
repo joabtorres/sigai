@@ -67,7 +67,7 @@
                                 <a href="<?php echo BASE_URL ?>cofisc/cadastro_solicitacao"><i class="fas fa-plus-square"></i> Nova Solicitação</a>
                             </li>
                             <li>
-                                <a href="<?php echo BASE_URL ?>cca/consultar"><i class="fas fa-tasks"></i> Consultar Denuncias</a>
+                                <a href="<?php echo BASE_URL ?>cofisc/consultar_denuncia"><i class="fas fa-tasks"></i> Consultar Denuncias</a>
                             </li>
                             <li>
                                 <a href="<?php echo BASE_URL ?>cca/consultar"><i class="fas fa-tasks"></i> Consultar Denuncias</a>

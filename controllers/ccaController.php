@@ -13,6 +13,31 @@ class ccaController extends controller {
             if (isset($_POST['id_user'])) {
                 $user_id = addslashes($_POST['id_user']);
             }
+            if (!isset($user_id)) {
+                echo '<option value="" selected = "selected" disabled="disabled">Selecione o tipo do documento </option>';
+            }
+            $usuarios = $crudModel->read("SELECT * FROM usuario WHERE status=1 AND setor_id=:id", array('id' => $setor_id));
+
+            foreach ($usuarios as $indice) {
+                if (isset($user_id) && $indice['id'] == $user_id['usuario_id']) {
+                    echo '<option value = "' . $indice['id'] . '" selected = "selected">' . $indice['nome'] . '</option>';
+                } else {
+                    echo '<option value = "' . $indice['id'] . '">' . $indice['nome'] . '</option>';
+                }
+            }
+        }
+    }
+
+    public function getusuariossearch() {
+        if (isset($_POST) && is_array($_POST) && !empty($_POST)) {
+            $crudModel = new crud_db();
+            $setor_id = addslashes($_POST['setor_id']);
+            if (isset($_POST['id_user'])) {
+                $user_id = addslashes($_POST['id_user']);
+            }
+            if (!isset($user_id)) {
+                echo '<option value="" selected = "selected" >Todos </option>';
+            }
             $usuarios = $crudModel->read("SELECT * FROM usuario WHERE status=1 AND setor_id=:id", array('id' => $setor_id));
 
             foreach ($usuarios as $indice) {

@@ -8,7 +8,7 @@ require 'environment.php';
 $config = array();
 if (ENVIRONMENT == 'development') {
     //Raiz
-    define("BASE_URL", "http://localhost/sigai/");
+    define("BASE_URL", "http://192.168.1.110/sigai/");
     //nome do projeto
     define("NAME_PROJECT", "SIGAI - Sistema de Gerenciamento de Atividades Internas para SEMMA");
     //Nome do banco
@@ -20,15 +20,17 @@ if (ENVIRONMENT == 'development') {
     //senha
     $config['dbpass'] = '';
 } else {
-    //Raiz
-    define("BASE_URL", "URL");
+     //Raiz
+    define("BASE_URL", "http://192.168.1.110/sigai/");
+    //nome do projeto
+    define("NAME_PROJECT", "SIGAI - Sistema de Gerenciamento de Atividades Internas para SEMMA");
     //Nome do banco
-    $config['dbname'] = 'BANCO_DE_DADOS';
+    $config['dbname'] = 'bd_semma_sigai';
     //host
     $config['host'] = 'localhost';
     //usuario
-    $config['dbuser'] = 'USUARIO_MYSQL';
+    $config['dbuser'] = 'root';
     //senha
-    $config['dbpass'] = 'SENHA_DO_USUÁRIO';
+    $config['dbpass'] = '';
 }
 ?>

@@ -24,58 +24,88 @@
                 </header>
                 <div class="collapse" id="collapseExample">
                     <article class="card-body">
-                        <form method="GET" action="<?php echo BASE_URL ?>cca/consultar/1" name="formCCASearch">
+                        <form method="GET" action="<?php echo BASE_URL ?>cofisc/consultar_denuncia/1" name="formSearhCofisc">
                             <div class="form-row">
-                                <div class="col mb-3">
-                                    <label for='iSetor'>Setor: </label><br/>
-                                    <select class="custom-select" name="nSetor" id="iSetor" onchange="selectSetor(this.value)">
-                                        <option value="" selected="selected">Todas</option>
+                                <div class="col-md-3 mb-3">
+                                    <label for='iTipoProtocolo'>Tipo de Protocolo: * </label><br/>
+                                    <select class="select-single custom-select" name="nTipoProtocolo" id="iTipoProtocolo" required onchange="selectTipoDenuncia(this.value)">
+                                        <option value="" selected = "selected" >Todos </option>
                                         <?php
-                                        foreach ($setores as $indice) {
-                                            if (isset($chamado['setor_id']) && $indice['id'] == $chamado['setor_id']) {
-                                                echo '<option value = "' . $indice['id'] . '" selected = "selected">' . $indice['nome'] . ' - ' . $indice['abreviacao'] . '</option>';
-                                            } else {
-                                                echo '<option value = "' . $indice['id'] . '">' . $indice['nome'] . ' - ' . $indice['abreviacao'] . '</option>';
-                                            }
+                                        foreach ($tipo_protocolo as $indice) {
+                                            echo '<option value = "' . $indice['id'] . '">' . $indice['tipo_protocolo'] . '</option>';
                                         }
                                         ?>
+                                    </select>
+                                    <div class="invalid-feedback">Informe o tipo do protocolo</div>
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <label for='iTipoDocumento'>Tipo de Documento: </label><br/>
+                                    <select class="select-single custom-select" name="nTipoDocumento" id="iTipoDocumento" required>
+                                        <option value="" selected = "selected" >Todos </option>
+                                        <?php
+                                        foreach ($documento as $indice) {
+
+                                            echo '<option value = "' . $indice['id'] . '">' . $indice['documento'] . '</option>';
+                                        }
+                                        ?>
+                                    </select>
+                                    <div class="invalid-feedback">Informe o tipo do documento</div>
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <label for='iOrigem'>Origem:  </label><br/>
+                                    <select class="select-single custom-select" name="nOrigem" id="iOrigem" required>
+                                        <option value="" selected = "selected" >Todos </option>
+                                        <?php
+                                        foreach ($origem as $indice) {
+                                            echo '<option value = "' . $indice['id'] . '">' . $indice['origem'] . '</option>';
+                                        }
+                                        ?>
+                                    </select>
+                                    <div class="invalid-feedback">Informe a origem</div>
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <label for='iTipoDenuncia'>Tipo de Denúncia:  </label><br/>
+                                    <select class="select-single custom-select" name="nTipoDenuncia" id="iTipoDenuncia" required>
+                                        <option value="" selected = "selected" >Todos </option>
+                                        <?php
+                                        foreach ($tipo_denuncia as $indice) {
+                                            echo '<option value = "' . $indice['id'] . '">' . $indice['tipo_denuncia'] . '</option>';
+                                        }
+                                        ?>
+                                    </select>
+                                    <div class="invalid-feedback">Informe o tipo da denúncia</div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col-md-3 mb-3">
+                                    <label for="iCampo">Data Inicial do Protocolo:  </label>
+                                    <input type="text" class="form-control" name="nCampo" id="iCampo" required/>
+                                    <div class="invalid-feedback">
+                                        Informe nome / email do usuário
+                                    </div>
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <label for="iCampo">Data final do Protocolo:  </label>
+                                    <input type="text" class="form-control" name="nCampo" id="iCampo" required/>
+                                    <div class="invalid-feedback">
+                                        Informe nome / email do usuário
+                                    </div>
+                                </div>
+                                <div class="col-md-2 mb-3">
+                                    <label for='iSelectBuscar'>Por: </label><br/>
+                                    <select class="custom-select" name="nSelectBuscar" id="iSelectBuscar" required>
+                                        <option value="protoco">Nº de Protocolo</option>
+                                        <option value="denunciado">Denunciado</option>
+                                        <option value="denunciante">Denunciante</option>
+                                        <option value="Descrição">Descrição</option>
                                     </select>
                                     <div class="invalid-feedback">Informe o setor</div>
                                 </div>
-                                <div class="col mb-3">
-                                    <label for='iUsuario'>Solícitante: </label><br/>
-                                    <select class="custom-select" name="nUsuario" id="iUsuario" >
-                                        <option value="" selected="selected">Todas</option>
-                                        <?php
-                                        foreach ($usuarios as $indice) {
-                                            if (isset($chamado['usuario_id']) && $indice['id'] == $chamado['usuario_id']) {
-                                                echo '<option value = "' . $indice['id'] . '" selected = "selected">' . $indice['nome'] . '</option>';
-                                            } else {
-                                                echo '<option value = "' . $indice['id'] . '">' . $indice['nome'] . '</option>';
-                                            }
-                                        }
-                                        ?>
-                                    </select>
+                                <div class="col-md-4 mb-3">
+                                    <label for="iCampo">Campo:  </label>
+                                    <input type="text" class="form-control" name="nCampo" id="iCampo" required/>
                                     <div class="invalid-feedback">
-                                        Informe o usuário solicitante
-                                    </div>
-                                </div>
-                                <div class="col mb-3">
-                                    <label for='iUsuario'>Status do chamado: </label><br/>
-                                    <select class="custom-select" name="nStatus" id="iUsuario" >
-                                        <option value="" selected="selected">Todas</option>
-                                        <?php
-                                        foreach ($chamado_status as $indice) {
-                                            if (isset($chamado['status_id']) && $indice['id'] == $chamado['status_id']) {
-                                                echo '<option value = "' . $indice['id'] . '" selected = "selected">' . $indice['nome'] . '</option>';
-                                            } else {
-                                                echo '<option value = "' . $indice['id'] . '">' . $indice['nome'] . '</option>';
-                                            }
-                                        }
-                                        ?>
-                                    </select>
-                                    <div class="invalid-feedback">
-                                        Informe o usuário solicitante
+                                        Informe nome / email do usuário
                                     </div>
                                 </div>
                             </div>
@@ -114,10 +144,11 @@
                             <thead class="bg-success">
                                 <tr>
                                     <th scope="col" >#</th>
-                                    <th scope="col">Data</th>
-                                    <th scope="col">Setor</th>
-                                    <th scope="col">Status</th>
-                                    <th scope="col">Solicitante</th>
+                                    <th scope="col">Data do Protocolo</th>
+                                    <th scope="col">Nº do Protocolo</th>
+                                    <th scope="col">Ano do Protocolo</th>
+                                    <th scope="col">Denunciado</th>
+                                    <th scope="col">Denunciante</th>
                                     <th scope="col">Ação</th>
                                 </tr>
                             </thead>
@@ -128,13 +159,14 @@
                                     ?>
                                     <tr>
                                         <td class="text-center"><?php echo $qtd ?></td>
-                                        <td><?php echo $this->formatDateViewComplet($indice['data']) ?></td>
-                                        <td><?php echo $indice['setor'] ?></td>
-                                        <td><?php $this->getStatus($indice['status_id'], $indice['status']); ?></td>
-                                        <td><?php echo $indice['usuario'] ?></td>
+                                        <td><?php echo $this->formatDateView($indice['data_protocolo']) ?></td>
+                                        <td><?php echo!empty($indice['numero_protocolo']) ? $indice['numero_protocolo'] : '' ?></td>
+                                        <td><?php echo!empty($indice['ano_protocolo']) ? $indice['ano_protocolo'] : '' ?></td>
+                                        <td><?php echo!empty($indice['denunciado']) ? $indice['denunciado'] : 'Anônimo' ?></td>
+                                        <td><?php echo!empty($indice['denunciante']) ? $indice['denunciante'] : 'Anônimo' ?></td>
                                         <td class="table-acao text-center">
                                             <a class="btn btn-success btn-sm" href="<?php echo BASE_URL . 'cca/chamado/' . md5($indice['id']); ?>" title="Visualizar"><i class="fa fa-eye"></i></a> 
-                                            <?php if ($this->checkSetor() == 10 || ($indice['status_id'] == 1 && $indice['usuario_id']==$this->getIdUser())): ?>
+                                            <?php if ($this->checkSetor() == 10 || ($indice['status_id'] == 1 && $indice['usuario_id'] == $this->getIdUser())): ?>
                                                 <a class="btn btn-primary btn-sm" href="<?php echo BASE_URL . 'cca/editar/' . md5($indice['id']); ?>" title="Editar"><i class="fa fa-pencil-alt"></i></a> 
                                                 <?php
                                             endif;
