@@ -479,3 +479,29 @@ if (document.formSearhCofisc) {
         xhttp.send("cidade_id=" + cidade_id);
     }
 }
+
+if (document.getElementById('viewMapa2')) {
+    function initialize() {
+        if ((typeof latitude !== "undefined") && (typeof longitude !== "undefined")) {
+            var latlng = new google.maps.LatLng(latitude, longitude);
+        } else {
+            var latlng = new google.maps.LatLng(-1.2955583054409823, -47.91926629129639);
+        }
+        var options = {
+            zoom: 14,
+            center: latlng,
+        };
+        map = new google.maps.Map(document.getElementById("viewMapa2"), options);
+        marker = new google.maps.Marker({
+            map: map
+        });
+        marker.setPosition(latlng);
+    }
+    function loadScriptGoogleMapsAPI() {
+        var script = document.createElement('script');
+        script.type = 'text/javascript';
+        script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyCg1ogHawJGuDbw7nd6qBz9yYxYPoGTWQo&callback=initialize';
+        document.body.appendChild(script);
+    }
+    loadScriptGoogleMapsAPI();
+}

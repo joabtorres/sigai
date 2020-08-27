@@ -1,12 +1,12 @@
 <div class="container-fluid">
     <div class="row" >
         <div class="col" id="pagina-header">
-            <h5>Consultar Chamados</h5>
+            <h5>Consultar Denúncias</h5>
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="<?php echo BASE_URL ?>home"><i class="fa fa-tachometer-alt"></i> Inicial</a></li>
                     <li class="breadcrumb-item"><a href="#" ><i class="fas fa-angle-double-right"></i> CCA</a></li>
-                    <li class="breadcrumb-item active" aria-current="page"><a href="<?php echo BASE_URL ?>cca/consultar"><i class="fas fa-tasks"></i> Consultar Chamados</a></li>
+                    <li class="breadcrumb-item active" aria-current="page"><a href="<?php echo BASE_URL ?>cofisc/consultar_denuncia"><i class="fas fa-tasks"></i> Consultar Denúncias</a></li>
                 </ol>
             </nav>
         </div>
@@ -27,8 +27,8 @@
                         <form method="GET" action="<?php echo BASE_URL ?>cofisc/consultar_denuncia/1" name="formSearhCofisc">
                             <div class="form-row">
                                 <div class="col-md-3 mb-3">
-                                    <label for='iTipoProtocolo'>Tipo de Protocolo: * </label><br/>
-                                    <select class="select-single custom-select" name="nTipoProtocolo" id="iTipoProtocolo" required onchange="selectTipoDenuncia(this.value)">
+                                    <label for='iTipoProtocolo'>Tipo de Protocolo: </label><br/>
+                                    <select class="select-single custom-select" name="nTipoProtocolo" id="iTipoProtocolo" onchange="selectTipoDenuncia(this.value)">
                                         <option value="" selected = "selected" >Todos </option>
                                         <?php
                                         foreach ($tipo_protocolo as $indice) {
@@ -40,7 +40,7 @@
                                 </div>
                                 <div class="col-md-3 mb-3">
                                     <label for='iTipoDocumento'>Tipo de Documento: </label><br/>
-                                    <select class="select-single custom-select" name="nTipoDocumento" id="iTipoDocumento" required>
+                                    <select class="select-single custom-select" name="nTipoDocumento" id="iTipoDocumento">
                                         <option value="" selected = "selected" >Todos </option>
                                         <?php
                                         foreach ($documento as $indice) {
@@ -53,7 +53,7 @@
                                 </div>
                                 <div class="col-md-3 mb-3">
                                     <label for='iOrigem'>Origem:  </label><br/>
-                                    <select class="select-single custom-select" name="nOrigem" id="iOrigem" required>
+                                    <select class="select-single custom-select" name="nOrigem" id="iOrigem">
                                         <option value="" selected = "selected" >Todos </option>
                                         <?php
                                         foreach ($origem as $indice) {
@@ -65,7 +65,7 @@
                                 </div>
                                 <div class="col-md-3 mb-3">
                                     <label for='iTipoDenuncia'>Tipo de Denúncia:  </label><br/>
-                                    <select class="select-single custom-select" name="nTipoDenuncia" id="iTipoDenuncia" required>
+                                    <select class="select-single custom-select" name="nTipoDenuncia" id="iTipoDenuncia" >
                                         <option value="" selected = "selected" >Todos </option>
                                         <?php
                                         foreach ($tipo_denuncia as $indice) {
@@ -78,22 +78,23 @@
                             </div>
                             <div class="form-row">
                                 <div class="col-md-3 mb-3">
-                                    <label for="iCampo">Data Inicial do Protocolo:  </label>
-                                    <input type="text" class="form-control" name="nCampo" id="iCampo" required/>
+                                    <label for="iDataInicial">Data Inicial do Protocolo:  </label>
+                                    <input type="text" class="form-control date_serach" name="nDataInicial" id="iDataInicial" />
                                     <div class="invalid-feedback">
                                         Informe nome / email do usuário
                                     </div>
                                 </div>
                                 <div class="col-md-3 mb-3">
-                                    <label for="iCampo">Data final do Protocolo:  </label>
-                                    <input type="text" class="form-control" name="nCampo" id="iCampo" required/>
+                                    <label for="iDataFinal">Data final do Protocolo:  </label>
+                                    <input type="text" class="form-control date_serach" name="nDataFinal" id="iDataFinal" />
                                     <div class="invalid-feedback">
                                         Informe nome / email do usuário
                                     </div>
                                 </div>
                                 <div class="col-md-2 mb-3">
                                     <label for='iSelectBuscar'>Por: </label><br/>
-                                    <select class="custom-select" name="nSelectBuscar" id="iSelectBuscar" required>
+                                    <select class="custom-select" name="nSelectBuscar" id="iSelectBuscar" >
+                                        <option value="" selected="selected" disabled="disabled">Selecione</option>
                                         <option value="protoco">Nº de Protocolo</option>
                                         <option value="denunciado">Denunciado</option>
                                         <option value="denunciante">Denunciante</option>
@@ -103,19 +104,11 @@
                                 </div>
                                 <div class="col-md-4 mb-3">
                                     <label for="iCampo">Campo:  </label>
-                                    <input type="text" class="form-control" name="nCampo" id="iCampo" required/>
+                                    <input type="text" class="form-control" name="nCampo" id="iCampo"/>
                                     <div class="invalid-feedback">
                                         Informe nome / email do usuário
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-2 mb-3">
-                                    <label>Gerar PDF:</label><br/>
-                                    <label><input type="radio" name="nModoPDF" value="1"/> Sim </label>
-                                    <label><input type="radio" name="nModoPDF" value="0" checked="checked" /> Não </label>
-                                </div>
-
                             </div>
                             <div class="row">
                                 <div class="col mt-2 mb-3">
@@ -165,7 +158,7 @@
                                         <td><?php echo!empty($indice['denunciado']) ? $indice['denunciado'] : 'Anônimo' ?></td>
                                         <td><?php echo!empty($indice['denunciante']) ? $indice['denunciante'] : 'Anônimo' ?></td>
                                         <td class="table-acao text-center">
-                                            <a class="btn btn-success btn-sm" href="<?php echo BASE_URL . 'cca/chamado/' . md5($indice['id']); ?>" title="Visualizar"><i class="fa fa-eye"></i></a> 
+                                            <a class="btn btn-success btn-sm" href="<?php echo BASE_URL . 'cofisc/denuncia/' . md5($indice['id']); ?>" title="Visualizar"><i class="fa fa-eye"></i></a> 
                                             <?php if ($this->checkSetor() == 10 || ($indice['status_id'] == 1 && $indice['usuario_id'] == $this->getIdUser())): ?>
                                                 <a class="btn btn-primary btn-sm" href="<?php echo BASE_URL . 'cca/editar/' . md5($indice['id']); ?>" title="Editar"><i class="fa fa-pencil-alt"></i></a> 
                                                 <?php

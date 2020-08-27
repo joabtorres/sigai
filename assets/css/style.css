@@ -16,7 +16,9 @@ body {
     font-family: 'Poppins', sans-serif;
     background: #fafafa;
 }
-
+.font-bold{
+    font-weight: bold;
+}
 a,
 a:hover,
 a:focus {
@@ -218,3 +220,4 @@ ul.CTAs a {
 
 /*//mapa*/
 #viewMapa{   min-height: 300px;}
+#viewMapa2{   min-height: 250px; width: 100%}
