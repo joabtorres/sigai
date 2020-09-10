@@ -115,6 +115,8 @@ DROP TABLE IF EXISTS cofisc_solicitacao ;
 CREATE TABLE IF NOT EXISTS cofisc_solicitacao (
   id INT UNSIGNED NOT NULL AUTO_INCREMENT,
   protocolo_id INT UNSIGNED NOT NULL,
+  usuario_id INT UNSIGNED NOT NULL,
+  status INT NULL,
   tipo_solicitacao_id INT NOT NULL,
   solicitante VARCHAR(255) NULL,
   telefone VARCHAR(45) NULL,
@@ -145,6 +147,11 @@ CREATE TABLE IF NOT EXISTS cofisc_solicitacao (
     FOREIGN KEY (cidade_id)
     REFERENCES cidade (id)
     ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT fk_cofisc_solicitacao_usuario1
+    FOREIGN KEY (usuario_id)
+    REFERENCES usuario (id)
+    ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
@@ -158,6 +165,8 @@ DROP TABLE IF EXISTS cofisc_denuncia ;
 CREATE TABLE IF NOT EXISTS cofisc_denuncia (
   id INT UNSIGNED NOT NULL AUTO_INCREMENT,
   protocolo_id INT UNSIGNED NOT NULL,
+  usuario_id INT UNSIGNED NOT NULL,
+  status INT NULL,
   tipo_denuncia_id INT UNSIGNED NOT NULL,
   denunciado VARCHAR(255) NULL,
   descricao VARCHAR(255) NULL,
@@ -188,6 +197,11 @@ CREATE TABLE IF NOT EXISTS cofisc_denuncia (
   CONSTRAINT fk_cofisc_denuncia_cofisc_protocolo1
     FOREIGN KEY (protocolo_id)
     REFERENCES cofisc_protocolo (id)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT fk_cofisc_denuncia_usuario1
+    FOREIGN KEY (usuario_id)
+    REFERENCES usuario (id)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
@@ -284,7 +298,44 @@ CREATE TABLE IF NOT EXISTS cofisc_anexo_solicitacao (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
+-- -----------------------------------------------------
+-- Table cofisc_vistoria_denuncia
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS cofisc_vistoria_denuncia ;
 
+CREATE TABLE IF NOT EXISTS cofisc_vistoria_denuncia (
+  id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  data DATE NULL,
+  descricao TEXT NULL,
+  denuncia_id INT UNSIGNED NOT NULL,
+  PRIMARY KEY (id),
+  CONSTRAINT fk_cofisc_vistoria_denuncia_cofisc_denuncia1
+    FOREIGN KEY (denuncia_id)
+    REFERENCES cofisc_denuncia (id)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table cofisc_vistoria_solicitacao
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS cofisc_vistoria_solicitacao ;
+
+CREATE TABLE IF NOT EXISTS cofisc_vistoria_solicitacao (
+  id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  data DATE NULL,
+  descricao TEXT NULL,
+  solicitacao_id INT UNSIGNED NOT NULL,
+  PRIMARY KEY (id),
+  CONSTRAINT fk_cofisc_vistoria_solicitacao_cofisc_solicitacao1
+    FOREIGN KEY (solicitacao_id)
+    REFERENCES cofisc_solicitacao (id)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
 
 -- cad tipo de protocolo
 INSERT INTO `cofisc_tipo_protocolo` (`id`, `tipo_protocolo`) VALUES 

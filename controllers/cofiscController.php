@@ -73,6 +73,7 @@ class cofiscController extends controller {
             $dados['tipo_protocolo'] = $crud->read("SELECT * FROM cofisc_tipo_protocolo ORDER BY tipo_protocolo ASC");
             $dados['documento'] = $crud->read("SELECT * FROM cofisc_tipo_documento ORDER BY documento ASC");
             $dados['origem'] = $crud->read("SELECT * FROM cofisc_origem ORDER BY origem ASC");
+            $dados['tecnicos'] = $crud->read("SELECT * FROM usuario WHERE setor_id=4 ORDER BY nome ASC");
             $dados['tipo_denuncia'] = $crud->read("SELECT * FROM cofisc_tipo_denuncia ORDER BY tipo_denuncia ASC");
             $dados['cidade'] = $crud->read("SELECT * FROM cidade");
             $dados['bairro'] = $crud->read("SELECT * FROM bairro WHERE cidade_id=1 ORDER BY bairro ASC");
@@ -108,6 +109,8 @@ class cofiscController extends controller {
                  * Denuncia
                  * ******************** */
                 //tipo da denuncia
+                $cadForm['denuncia']['usuario_id'] = addslashes($_POST['nTecnico']);
+                $cadForm['denuncia']['status'] = addslashes($_POST['nStatus']);
                 $cadForm['denuncia']['tipo_denuncia_id'] = addslashes($_POST['nTipoDenuncia']);
                 //denunciante
                 $cadForm['denuncia']['denunciado'] = addslashes($_POST['nDenunciado']);
@@ -127,7 +130,7 @@ class cofiscController extends controller {
                 if ($resultado) {
                     $protocolo = $crud->read_specific("SELECT * FROM cofisc_protocolo WHERE hash=:hash", array('hash' => $cadForm['protocolo']['hash']));
                     $cadForm['denuncia']['protocolo_id'] = $protocolo['id'];
-                    $resultado = $crud->create("INSERT INTO cofisc_denuncia (protocolo_id, tipo_denuncia_id, denunciado, descricao, cidade_id, bairro_id, endereco, latitude, longitude, denunciante, telefone, email) VALUES (:protocolo_id, :tipo_denuncia_id, :denunciado, :descricao, :cidade_id, :bairro_id, :endereco, :latitude, :longitude, :denunciante, :telefone, :email)", $cadForm['denuncia']);
+                    $resultado = $crud->create("INSERT INTO cofisc_denuncia (protocolo_id, usuario_id, status, tipo_denuncia_id, denunciado, descricao, cidade_id, bairro_id, endereco, latitude, longitude, denunciante, telefone, email) VALUES (:protocolo_id, :usuario_id, :status, :tipo_denuncia_id, :denunciado, :descricao, :cidade_id, :bairro_id, :endereco, :latitude, :longitude, :denunciante, :telefone, :email)", $cadForm['denuncia']);
                     if ($resultado) {
                         $denuncia = $crud->read_specific("SELECT * FROM cofisc_denuncia WHERE protocolo_id=:id", array('id' => $protocolo['id']));
                         $historico = array();
@@ -301,12 +304,11 @@ class cofiscController extends controller {
     public function denuncia($id) {
         if ($this->checkUser()) {
             $crudModel = new crud_db();
-            $resultado = $crudModel->read_specific("SELECT p.data_protocolo, p.numero_protocolo, p.ano_protocolo, p.numero_oficio, p.ano_oficio, p.numero_memorando, p.ano_memorando, tp.tipo_protocolo, td.documento, o.origem, d.*, tds.tipo_denuncia, c.cidade, b.bairro FROM cofisc_protocolo AS p INNER JOIN cofisc_tipo_protocolo AS tp INNER JOIN cofisc_tipo_documento AS td INNER JOIN cofisc_origem AS o INNER JOIN cofisc_denuncia AS d INNER JOIN cofisc_tipo_denuncia AS tds INNER JOIN cidade AS c INNER JOIN bairro AS b WHERE p.protocolo_id = tp.id AND p.tipo_documento_id = td.id AND p.origem_id = o.id AND d.protocolo_id = p.id AND d.tipo_denuncia_id = tds.id AND d.cidade_id = c.id AND d.bairro_id = b.id AND md5(d.id)=:id", array('id' => $id));
+            $resultado = $crudModel->read_specific("SELECT p.data_protocolo, p.numero_protocolo, p.ano_protocolo, p.numero_oficio, p.ano_oficio, p.numero_memorando, p.ano_memorando, tp.tipo_protocolo, td.documento, o.origem, d.*, tds.tipo_denuncia, c.cidade, b.bairro, u.nome as tecnico FROM cofisc_protocolo AS p INNER JOIN cofisc_tipo_protocolo AS tp INNER JOIN cofisc_tipo_documento AS td INNER JOIN cofisc_origem AS o INNER JOIN cofisc_denuncia AS d INNER JOIN cofisc_tipo_denuncia AS tds INNER JOIN cidade AS c INNER JOIN bairro AS b INNER JOIN usuario as u WHERE p.protocolo_id = tp.id AND p.tipo_documento_id = td.id AND p.origem_id = o.id AND d.protocolo_id = p.id AND d.tipo_denuncia_id = tds.id AND d.cidade_id = c.id AND d.bairro_id = b.id AND d.usuario_id = u.id AND md5(d.id)=:id", array('id' => $id));
             if (!empty($resultado)) {
                 $dados = array();
                 $dados['result'] = $resultado;
                 $view = "cofisc/denuncia/denuncia";
-                print_r($resultado);
                 $this->loadTemplate($view, $dados);
             } else {
                 $url = "location: " . BASE_URL . "home";

@@ -324,6 +324,8 @@ if (document.nFormCOFISCDenuncia) {
                 || null_or_empty("iOrigem")
                 || null_or_empty("iNumeroProtocolo")
                 || null_or_empty("iAnoProtocolo")
+                || null_or_empty("iTecnico")
+                || null_or_empty("iStatus")
                 || null_or_empty("iTipoDenuncia")
                 || null_or_empty("iDenunciado")
                 || null_or_empty("iCidade")

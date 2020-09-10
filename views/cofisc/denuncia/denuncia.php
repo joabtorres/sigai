@@ -1,13 +1,13 @@
 <div class="container-fluid">
     <div class="row" >
         <div class="col" id="pagina-header">
-            <h5>Denúnica: N 0001</h5>
+            <h5>Denúnica: Nº <?php echo str_pad($result['id'], 5, '0', STR_PAD_LEFT) ?></h5>
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="<?php echo BASE_URL ?>home"><i class="fa fa-tachometer-alt"></i> Inicial</a></li>
                     <li class="breadcrumb-item"><a href="#" ><i class="fas fa-angle-double-right"></i> CCA</a></li>
                     <li class="breadcrumb-item"><a href="<?php echo BASE_URL ?>cofisc/consultar_denuncia"><i class="fas fa-tasks"></i> Consultar Denúncias</a></li>
-                    <li class="breadcrumb-item" aria-current="page"><a href="<?php echo BASE_URL ?>cofisc/consultar_denuncia">Denúncia: N 0001</a></li>
+                    <li class="breadcrumb-item" aria-current="page"><a href="<?php echo BASE_URL ?>cofisc/consultar_denuncia">Denúncia: Nº <?php echo str_pad($result['id'], 5, '0', STR_PAD_LEFT) ?> </a></li>
                 </ol>
             </nav>
         </div>
@@ -87,6 +87,19 @@
                     <h5 class="card-title h6 my-1"><i class="fas fa-info-circle"></i>  Denúncia</h5>
                 </header>
                 <article class="card-body py-0">
+
+                    <div class="row">
+                        <div class="col-md-5">
+                            <p class="text-justify"><div class="text-success font-bold">Técnico responsável:</div> 
+                            <?php echo (isset($result) && !empty($result['tecnico'])) ? $result['tecnico'] : ''; ?>     
+                            </p>
+                        </div>
+                        <div class="col-md-7">
+                            <p class="text-justify"><div class="text-success font-bold">Status da denúncia:</div> 
+                            <?php echo (isset($result) && !empty($result['status'])) && $result['status'] == 1 ? 'Em Andamento' : "Finalizado"; ?>     
+                            </p>
+                        </div>
+                    </div>
 
                     <div class="row">
                         <div class="col-md-5">
@@ -182,6 +195,7 @@
                         <thead class="bg-light">
                             <tr>
                                 <th scope="col" width="50px" >#</th>
+                                <th scope="col" >Data</th>
                                 <th scope="col" >Descrição</th>
                                 <th scope="col" width="100px">Ação</th>
                             </tr>
@@ -189,6 +203,7 @@
                         <tbody>
                             <tr>
                                 <td>1</td>
+                                <td>02/09/2020</td>
                                 <td>Protocolo</td>
                                 <td class="text-center">
                                     <?php
@@ -277,7 +292,7 @@
                                     if ($this->checkSetor() == 10):
                                         ?>
                                         <button type="button"  class="btn btn-outline-danger btn-sm" data-toggle="modal" data-target="#modal_relatorio_<?php echo md5($indice['id']) ?>" title="Excluir"><i class="fa fa-trash"></i></button>
-                                        <?php endif; ?>
+                                    <?php endif; ?>
                                 </td>
                             </tr>
                         </tbody>
@@ -289,3 +304,29 @@
     </div>
 
 </div>
+
+<section class="modal fade" id="modal_vistoria" tabindex="-1" role="dialog">
+    <article class="modal-dialog modal-md modal-dialog-centered" role="document">
+        <section class="modal-content">
+            <header class="modal-header bg-danger text-while">
+                <h5 class="modal-title">Vistoria</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </header>
+            <article class="modal-body">
+                <ul class="list-unstyled">
+                    <li><b>Chamado: </b> <?php echo!empty($indice['id']) ? $indice['id'] : '' ?>;</li>
+                    <li><b>Status: </b> <?php echo isset($indice['status']) && !empty($indice['status']) ? $indice['status'] : '0' ?>;</li>
+                    <li><b>Setor: </b> <?php echo isset($indice['setor']) && !empty($indice['setor']) ? $indice['setor'] : '0' ?>;</li>
+                    <li><b>Solicitante: </b> <?php echo isset($indice['usuario']) && !empty($indice['usuario']) ? $indice['usuario'] : '0' ?>;</li>
+                </ul>
+                <p class="text-justify text-danger"><span class="font-bold">OBS : </span> Ao clicar em "Excluir", este registro e todos registos relacionados ao mesmo deixaram de existir no sistema.</p>
+            </article>
+            <footer class="modal-footer">
+                <a class="btn btn-danger pull-left" href="<?php echo BASE_URL . 'cca/excluirchamado/' . md5($indice['id']) ?>"> <i class="fa fa-trash"></i> Excluir</a> 
+                <button class="btn btn-default" type="button" data-dismiss="modal"><i class="fa fa-times"></i> Fechar</button>
+            </footer>
+        </section>
+    </article>
+</section>
