@@ -10,7 +10,7 @@ if (ENVIRONMENT == 'development') {
     //Raiz
     define("BASE_URL", "http://localhost/sigai/");
     //nome do projeto
-    define("NAME_PROJECT", "SIGAI - Sistema de Gerenciamento de Atividades Internas para SEMMA");
+    define("NAME_PROJECT", "SISPAM - Sistema de Procedimentos Ambientais");
     //Nome do banco
     $config['dbname'] = 'bd_semma_sigai';
     //host
@@ -21,9 +21,9 @@ if (ENVIRONMENT == 'development') {
     $config['dbpass'] = '';
 } else {
      //Raiz
-    define("BASE_URL", "http://192.168.1.110/sigai/");
+    define("BASE_URL", "https://192.168.1.66/sigai/");
     //nome do projeto
-    define("NAME_PROJECT", "SIGAI - Sistema de Gerenciamento de Atividades Internas para SEMMA");
+    define("NAME_PROJECT", "SISPAM - Sistema de Procedimentos Ambientais");
     //Nome do banco
     $config['dbname'] = 'bd_semma_sigai';
     //host

@@ -39,7 +39,7 @@
                 </div>
 
                 <div class="sidebar-header">
-                    <h5> <span class="sidebar-sigla">SIGAI</span><br/> <small><em>Sistema de Gerenciamento de Atividades Internas para </em><abbr title="Secretaria Municipal de Meio Ambiente">SEMMA</abbr></small></h5>
+                    <h6> <span class="sidebar-sigla">SISPAM</span><br/> <small><em>Sistema de Procedimentos Ambientais para </em><abbr title="Secretaria Municipal de Meio Ambiente">SEMMA</abbr></small></h6>
                 </div>
 
                 <ul class="list-unstyled components">
@@ -61,13 +61,13 @@
                         <a href="#cofiscSubmenu" data-toggle="collapse" aria-expanded="false"><i class="fas fa-angle-double-right"></i> COFISC</a>
                         <ul class="collapse list-unstyled" id="cofiscSubmenu">
                             <li>
-                                <a href="<?php echo BASE_URL ?>cofisc/cadastro_denuncia"><i class="fas fa-plus-square"></i> Nova Denúncia</a>
+                                <a href="<?php echo BASE_URL ?>cofisc_denuncia/cadastro"><i class="fas fa-plus-square"></i> Nova Denúncia</a>
                             </li>
                             <li>
                                 <a href="<?php echo BASE_URL ?>cofisc/cadastro_solicitacao"><i class="fas fa-plus-square"></i> Nova Solicitação</a>
                             </li>
                             <li>
-                                <a href="<?php echo BASE_URL ?>cofisc/consultar_denuncia"><i class="fas fa-tasks"></i> Consultar Denuncias</a>
+                                <a href="<?php echo BASE_URL ?>cofisc_denuncia/consultar"><i class="fas fa-tasks"></i> Consultar Denuncias</a>
                             </li>
                             <li>
                                 <a href="<?php echo BASE_URL ?>cca/consultar"><i class="fas fa-tasks"></i> Consultar Denuncias</a>

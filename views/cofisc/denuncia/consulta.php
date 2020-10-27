@@ -158,7 +158,7 @@
                                         <td><?php echo!empty($indice['denunciado']) ? $indice['denunciado'] : 'Anônimo' ?></td>
                                         <td><?php echo!empty($indice['denunciante']) ? $indice['denunciante'] : 'Anônimo' ?></td>
                                         <td class="table-acao text-center">
-                                            <a class="btn btn-success btn-sm" href="<?php echo BASE_URL . 'cofisc/denuncia/' . md5($indice['id']); ?>" title="Visualizar"><i class="fa fa-eye"></i></a> 
+                                            <a class="btn btn-success btn-sm" href="<?php echo BASE_URL . 'cofisc_denuncia/denuncia/' . md5($indice['id']); ?>" title="Visualizar"><i class="fa fa-eye"></i></a> 
                                             <?php if ($this->checkSetor() == 10 || ($indice['status_id'] == 1 && $indice['usuario_id'] == $this->getIdUser())): ?>
                                                 <a class="btn btn-primary btn-sm" href="<?php echo BASE_URL . 'cca/editar/' . md5($indice['id']); ?>" title="Editar"><i class="fa fa-pencil-alt"></i></a> 
                                                 <?php

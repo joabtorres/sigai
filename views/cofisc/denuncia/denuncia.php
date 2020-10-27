@@ -185,7 +185,7 @@
                 <article class="card-body py-0">
                     <div class="row">
                         <div class="col-12 my-2">
-                            <button class="btn btn-sm btn-outline-warning pull-right"><i class="fas fa-plus-square"></i> Adicionar</button>
+                            <button class="btn btn-sm btn-outline-warning pull-right" type="button" data-toggle="modal" data-target="#modal_vistoria" title="Adicionar"><i class="fas fa-plus-square"></i> Adicionar</button>
                         </div>                       
                     </div>                    
                 </article>
@@ -195,24 +195,36 @@
                         <thead class="bg-light">
                             <tr>
                                 <th scope="col" width="50px" >#</th>
-                                <th scope="col" >Data</th>
+                                <th scope="col" width="150px">Data</th>
                                 <th scope="col" >Descrição</th>
                                 <th scope="col" width="100px">Ação</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>02/09/2020</td>
-                                <td>Protocolo</td>
-                                <td class="text-center">
+                            <?php
+                            if (isset($vistorias) && !empty($vistorias)) {
+                                $qtd = 1;
+                                foreach ($vistorias as $indice):
+                                    ?>
+                                    <tr>
+                                        <td><?php echo $qtd ?></td>
+                                        <td> <?php echo (isset($indice) && !empty($indice['data'])) ? $this->formatDateView($indice['data']) : ''; ?>  </td>
+                                        <td><?php echo (isset($indice) && !empty($indice['descricao'])) ? $indice['descricao'] : ''; ?> </td>
+                                        <td class="text-center">
+                                            <?php
+                                            if ($this->checkSetor() == 10):
+                                                ?>
+                                                <button type="button"  class="btn btn-outline-danger btn-sm" data-toggle="modal" data-target="#modal_vistoria_<?php echo md5($indice['id']) ?>" title="Excluir"><i class="fa fa-trash"></i></button>
+                                            <?php endif; ?>
+                                        </td>
+                                    </tr>
                                     <?php
-                                    if ($this->checkSetor() == 10):
-                                        ?>
-                                        <button type="button"  class="btn btn-outline-danger btn-sm" data-toggle="modal" data-target="#modal_relatorio_<?php echo md5($indice['id']) ?>" title="Excluir"><i class="fa fa-trash"></i></button>
-                                    <?php endif; ?>
-                                </td>
-                            </tr>
+                                    $qtd++;
+                                endforeach;
+                            }else {
+                                echo '<tr><td scope="col" colspan="4">Nenhum registro encontrado</td></tr>';
+                            }
+                            ?>
                         </tbody>
                     </table>
                     <!--table-->  
@@ -306,27 +318,69 @@
 </div>
 
 <section class="modal fade" id="modal_vistoria" tabindex="-1" role="dialog">
-    <article class="modal-dialog modal-md modal-dialog-centered" role="document">
+    <article class="modal-dialog modal-lg modal-dialog-centered" role="document">
         <section class="modal-content">
-            <header class="modal-header bg-danger text-while">
-                <h5 class="modal-title">Vistoria</h5>
+            <header class="modal-header bg-light">
+                <h5 class="modal-title"><i class="fas fa-list"></i>  Vistoria</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </header>
             <article class="modal-body">
-                <ul class="list-unstyled">
-                    <li><b>Chamado: </b> <?php echo!empty($indice['id']) ? $indice['id'] : '' ?>;</li>
-                    <li><b>Status: </b> <?php echo isset($indice['status']) && !empty($indice['status']) ? $indice['status'] : '0' ?>;</li>
-                    <li><b>Setor: </b> <?php echo isset($indice['setor']) && !empty($indice['setor']) ? $indice['setor'] : '0' ?>;</li>
-                    <li><b>Solicitante: </b> <?php echo isset($indice['usuario']) && !empty($indice['usuario']) ? $indice['usuario'] : '0' ?>;</li>
-                </ul>
-                <p class="text-justify text-danger"><span class="font-bold">OBS : </span> Ao clicar em "Excluir", este registro e todos registos relacionados ao mesmo deixaram de existir no sistema.</p>
+                <form method="post" name="nFormVistoria">
+                    <div class="form-row">
+                        <div class="col-12 mb-3">
+                            <label for="iData">Data: </label>
+                            <input name="nData" id="iData" class="form-control date_serach" value="<?php echo $this->formatDateView(date("Y-m-d")) ?>"/>
+                        </div>
+                        <div class="col-12 mb-3">
+                            <label for="iDescricao">Descrição: </label>
+                            <textarea id="iDescricao" class="form-control date_serach" rows="5" name="nDescricao"></textarea>
+                        </div>
+                    </div>
+                    <button class="btn btn-success" name="nSalvaVistoria" value="true" type="submit"><i class="fa fa-check-circle" aria-hidden="true"></i> Salvar</button>
+                </form>
             </article>
-            <footer class="modal-footer">
-                <a class="btn btn-danger pull-left" href="<?php echo BASE_URL . 'cca/excluirchamado/' . md5($indice['id']) ?>"> <i class="fa fa-trash"></i> Excluir</a> 
+            <footer class="modal-footer">              
                 <button class="btn btn-default" type="button" data-dismiss="modal"><i class="fa fa-times"></i> Fechar</button>
             </footer>
         </section>
     </article>
 </section>
+
+<!--fim da paginação-->
+<?php
+if ($this->checkSetor() == 10):
+    if (isset($vistorias) && is_array($vistorias)) :
+        foreach ($vistorias as $indice) :
+            ?>        
+            <!--MODAL - ESTRUTURA BÁSICA-->
+            <section class="modal fade" id="modal_vistoria_<?php echo md5($indice['id']) ?>" tabindex="-1" role="dialog">
+                <article class="modal-dialog modal-md modal-dialog-centered" role="document">
+                    <section class="modal-content">
+                        <header class="modal-header bg-danger text-while">
+                            <h5 class="modal-title">Deseja remover este registro?</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </header>
+                        <article class="modal-body">
+                            <ul class="list-unstyled">
+                                <li><b>id: </b> <?php echo!empty($indice['id']) ? $indice['id'] : '' ?>;</li>
+                                <li><b>Data: </b> <?php echo isset($indice['data']) && !empty($indice['data']) ? $this->formatDateView($indice['data']) : '' ?>;</li>
+                                <li><b>Descrição: </b> <?php echo isset($indice['descricao']) && !empty($indice['descricao']) ? $indice['descricao'] : '' ?>.</li>
+                            </ul>
+                            <p class="text-justify text-danger"><span class="font-bold">OBS : </span> Ao clicar em "Excluir", este registro deixará de existir no sistema.</p>
+                        </article>
+                        <footer class="modal-footer">
+                            <a class="btn btn-danger pull-left" href="<?php echo BASE_URL . 'cca/excluirchamado/' . md5($indice['id']) ?>"> <i class="fa fa-trash"></i> Excluir</a> 
+                            <button class="btn btn-default" type="button" data-dismiss="modal"><i class="fa fa-times"></i> Fechar</button>
+                        </footer>
+                    </section>
+                </article>
+            </section>
+            <?php
+        endforeach;
+    endif;
+endif;
+?>
