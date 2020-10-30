@@ -39,7 +39,7 @@
                 </div>
 
                 <div class="sidebar-header">
-                    <h6> <span class="sidebar-sigla">SISPAM</span><br/> <small><em>Sistema de Procedimentos Ambientais para </em><abbr title="Secretaria Municipal de Meio Ambiente">SEMMA</abbr></small></h6>
+                    <h6> <b class="sidebar-sigla">SISPAM</b><br/> <small><em>Sistema de Procedimentos Ambientais para </em><abbr title="Secretaria Municipal de Meio Ambiente">SEMMA</abbr></small></h6>
                 </div>
 
                 <ul class="list-unstyled components">
@@ -47,18 +47,21 @@
                         <a href="<?php echo BASE_URL ?>home"><i class="fa fa-tachometer-alt "></i> Página Inicial</a>
                     </li>
                     <li>
-                        <a href="#ccaSubmenu" data-toggle="collapse" aria-expanded="false"><i class="fas fa-angle-double-right"></i> CCA</a>
-                        <ul class="collapse list-unstyled" id="ccaSubmenu">
+                        <a href="#protocoloSubmenu" data-toggle="collapse" aria-expanded="false"><i class="fas fa-angle-double-right"></i> Protocolo</a>
+                        <ul class="collapse list-unstyled" id="protocoloSubmenu">
                             <li>
-                                <a href="<?php echo BASE_URL ?>cca/cadastro"><i class="fas fa-plus-square"></i> Novo Chamado</a>
+                                <a href="<?php echo BASE_URL ?>protocolo/cadastro"><i class="fas fa-plus-square"></i> Novo Registro</a>
                             </li>
                             <li>
-                                <a href="<?php echo BASE_URL ?>cca/consultar"><i class="fas fa-tasks"></i> Consultar Chamados</a>
+                                <a href="<?php echo BASE_URL ?>protocolo/consultar"><i class="fas fa-tasks"></i> Consultar Protocolos</a>
                             </li>
                         </ul>
                     </li>
                     <li>
-                        <a href="#cofiscSubmenu" data-toggle="collapse" aria-expanded="false"><i class="fas fa-angle-double-right"></i> COFISC</a>
+                        <a href="<?php echo BASE_URL ?>tramitacao/consultar"><i class="fas fa-copy"></i> Tramitação</a>
+                    </li>
+                    <li>
+                        <a href="#cofiscSubmenu" data-toggle="collapse" aria-expanded="false"><i class="fas fa-angle-double-right"></i> Fiscalização</a>
                         <ul class="collapse list-unstyled" id="cofiscSubmenu">
                             <li>
                                 <a href="<?php echo BASE_URL ?>cofisc_denuncia/cadastro"><i class="fas fa-plus-square"></i> Nova Denúncia</a>
@@ -71,6 +74,17 @@
                             </li>
                             <li>
                                 <a href="<?php echo BASE_URL ?>cca/consultar"><i class="fas fa-tasks"></i> Consultar Denuncias</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#tiSubmenu" data-toggle="collapse" aria-expanded="false"><i class="fas fa-angle-double-right"></i> Suporte Interno</a>
+                        <ul class="collapse list-unstyled" id="tiSubmenu">
+                            <li>
+                                <a href="<?php echo BASE_URL ?>cca/cadastro"><i class="fas fa-plus-square"></i> Novo Chamado</a>
+                            </li>
+                            <li>
+                                <a href="<?php echo BASE_URL ?>cca/consultar"><i class="fas fa-tasks"></i> Consultar Chamados</a>
                             </li>
                         </ul>
                     </li>

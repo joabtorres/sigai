@@ -47,16 +47,17 @@ DEFAULT CHARACTER SET = utf8;
 --
 
 INSERT INTO setor (id, nome, abreviacao) VALUES
-(1, 'Coordenadoria de Conservação de Áreas Verdes', 'CCAV'),
-(2, 'Coordenadoria Administrativa e Financeira', 'COAF'),
-(3, 'Coordenadoria de Gestão de Agrossilvipastoris', 'CGA'),
+(1, 'Coordenadoria de Proteção dos Recursos Naturais e Educação
+Ambiental', 'CPRN'),
+(2, 'Coordenadoria de Gestão Administrativa e Financeira', 'COAF'),
+(3, 'Coordenadoria de Licenciamento Ambiental', 'CLA'),
 (4, 'Coordenadoria de Fiscalização Ambiental', 'COFISC'),
 (5, 'Assessoria Jurídica', 'ASJUR'),
 (6, 'Arquivos da Secretária', 'AR-SEC'),
 (7, 'Protocolo da Secretária', 'PRO-SEC'),
-(8, 'Assessoria Técnica', 'ASTEC'),
-(9, 'Gabinete da Secretária', 'GAB-SEC'),
-(10, 'Coordenação de Controle Ambiental', 'CCA');
+(8, 'Assessoria Técnica e de Estudos legislativos', 'ASTEC'),
+(9, 'Secretário de Meio Ambiente', 'GAB-SEC'),
+(10, 'Assessoria de Tecnologia da Informação e de Geotecnologia', 'ASTIGE');
 
 -- --------------------------------------------------------
 

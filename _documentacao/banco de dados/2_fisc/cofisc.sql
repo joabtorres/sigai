@@ -1,10 +1,10 @@
 
 -- -----------------------------------------------------
--- Table cofisc_tipo_protocolo
+-- Table fisc_tipo_protocolo
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS cofisc_tipo_protocolo ;
+DROP TABLE IF EXISTS fisc_tipo_protocolo ;
 
-CREATE TABLE IF NOT EXISTS cofisc_tipo_protocolo (
+CREATE TABLE IF NOT EXISTS fisc_tipo_protocolo (
   id INT UNSIGNED NOT NULL AUTO_INCREMENT,
   tipo_protocolo VARCHAR(100) NULL,
   PRIMARY KEY (id))
@@ -13,18 +13,18 @@ DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table cofisc_tipo_documento
+-- Table fisc_tipo_documento
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS cofisc_tipo_documento ;
+DROP TABLE IF EXISTS fisc_tipo_documento ;
 
-CREATE TABLE IF NOT EXISTS cofisc_tipo_documento (
+CREATE TABLE IF NOT EXISTS fisc_tipo_documento (
   id INT UNSIGNED NOT NULL AUTO_INCREMENT,
   documento VARCHAR(100) NULL,
   protocolo_id INT UNSIGNED NOT NULL,
   PRIMARY KEY (id),
-  CONSTRAINT fk_cofisc_tipo_documento_cofisc_protocolo1
+  CONSTRAINT fk_fisc_tipo_documento_fisc_protocolo1
     FOREIGN KEY (protocolo_id)
-    REFERENCES cofisc_tipo_protocolo (id)
+    REFERENCES fisc_tipo_protocolo (id)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
@@ -32,11 +32,11 @@ DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table cofisc_tipo_denuncia
+-- Table fisc_tipo_denuncia
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS cofisc_tipo_denuncia ;
+DROP TABLE IF EXISTS fisc_tipo_denuncia ;
 
-CREATE TABLE IF NOT EXISTS cofisc_tipo_denuncia (
+CREATE TABLE IF NOT EXISTS fisc_tipo_denuncia (
   id INT UNSIGNED NOT NULL AUTO_INCREMENT,
   tipo_denuncia VARCHAR(100) NULL,
   PRIMARY KEY (id))
@@ -44,11 +44,11 @@ ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
 -- -----------------------------------------------------
--- Table cofisc_origem
+-- Table fisc_origem
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS cofisc_origem ;
+DROP TABLE IF EXISTS fisc_origem ;
 
-CREATE TABLE IF NOT EXISTS cofisc_origem (
+CREATE TABLE IF NOT EXISTS fisc_origem (
   id INT UNSIGNED NOT NULL AUTO_INCREMENT,
   origem VARCHAR(100) NULL,
   PRIMARY KEY (id))
@@ -57,11 +57,11 @@ DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table cofisc_tipo_solicitacao
+-- Table fisc_tipo_solicitacao
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS cofisc_tipo_solicitacao ;
+DROP TABLE IF EXISTS fisc_tipo_solicitacao ;
 
-CREATE TABLE IF NOT EXISTS cofisc_tipo_solicitacao (
+CREATE TABLE IF NOT EXISTS fisc_tipo_solicitacao (
   id INT NOT NULL,
   tipo_solicitacao VARCHAR(100) NULL,
   PRIMARY KEY (id))
@@ -70,13 +70,13 @@ DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table cofisc_protocolo
+-- Table fisc_protocolo
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS cofisc_protocolo ;
+DROP TABLE IF EXISTS fisc_protocolo ;
 
-CREATE TABLE IF NOT EXISTS cofisc_protocolo (
+CREATE TABLE IF NOT EXISTS fisc_protocolo (
   id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  data_protocolo DATE NULL,
+  data_protocolo DATETIME NULL,
   protocolo_id INT UNSIGNED NOT NULL,
   tipo_documento_id INT UNSIGNED NOT NULL,
   origem_id INT UNSIGNED NOT NULL,
@@ -87,20 +87,22 @@ CREATE TABLE IF NOT EXISTS cofisc_protocolo (
   numero_memorando VARCHAR(45) NULL,
   ano_memorando VARCHAR(10) NULL,
   hash VARCHAR(32) NULL,
+  denuncia_id INT NULL,
+  solicitacao_id INT NULL,
   PRIMARY KEY (id),
-  CONSTRAINT fk_table1_cofisc_protocolo1
+  CONSTRAINT fk_table1_fisc_protocolo1
     FOREIGN KEY (protocolo_id)
-    REFERENCES cofisc_tipo_protocolo (id)
+    REFERENCES fisc_tipo_protocolo (id)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT fk_table1_cofisc_tipo_documento1
+  CONSTRAINT fk_table1_fisc_tipo_documento1
     FOREIGN KEY (tipo_documento_id)
-    REFERENCES cofisc_tipo_documento (id)
+    REFERENCES fisc_tipo_documento (id)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT fk_table1_origem1
     FOREIGN KEY (origem_id)
-    REFERENCES cofisc_origem (id)
+    REFERENCES fisc_origem (id)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
@@ -108,11 +110,11 @@ DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table cofisc_solicitacao
+-- Table fisc_solicitacao
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS cofisc_solicitacao ;
+DROP TABLE IF EXISTS fisc_solicitacao ;
 
-CREATE TABLE IF NOT EXISTS cofisc_solicitacao (
+CREATE TABLE IF NOT EXISTS fisc_solicitacao (
   id INT UNSIGNED NOT NULL AUTO_INCREMENT,
   protocolo_id INT UNSIGNED NOT NULL,
   usuario_id INT UNSIGNED NOT NULL,
@@ -128,27 +130,27 @@ CREATE TABLE IF NOT EXISTS cofisc_solicitacao (
   latitude VARCHAR(45) NULL,
   longitude VARCHAR(45) NULL,
   PRIMARY KEY (id),
-  CONSTRAINT fk_cofisc_solicitacao_cofisc_tipo_solicitação1
+  CONSTRAINT fk_fisc_solicitacao_fisc_tipo_solicitação1
     FOREIGN KEY (tipo_solicitacao_id)
-    REFERENCES cofisc_tipo_solicitacao (id)
+    REFERENCES fisc_tipo_solicitacao (id)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT fk_cofisc_solicitacao_cofisc_protocolo1
+  CONSTRAINT fk_fisc_solicitacao_fisc_protocolo1
     FOREIGN KEY (protocolo_id)
-    REFERENCES cofisc_protocolo (id)
+    REFERENCES fisc_protocolo (id)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT fk_cofisc_solicitacao_bairro1
+  CONSTRAINT fk_fisc_solicitacao_bairro1
     FOREIGN KEY (bairro_id)
     REFERENCES bairro (id)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT fk_cofisc_solicitacao_cidade1
+  CONSTRAINT fk_fisc_solicitacao_cidade1
     FOREIGN KEY (cidade_id)
     REFERENCES cidade (id)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT fk_cofisc_solicitacao_usuario1
+  CONSTRAINT fk_fisc_solicitacao_usuario1
     FOREIGN KEY (usuario_id)
     REFERENCES usuario (id)
     ON DELETE NO ACTION
@@ -158,11 +160,11 @@ DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table cofisc_denuncia
+-- Table fisc_denuncia
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS cofisc_denuncia ;
+DROP TABLE IF EXISTS fisc_denuncia ;
 
-CREATE TABLE IF NOT EXISTS cofisc_denuncia (
+CREATE TABLE IF NOT EXISTS fisc_denuncia (
   id INT UNSIGNED NOT NULL AUTO_INCREMENT,
   protocolo_id INT UNSIGNED NOT NULL,
   usuario_id INT UNSIGNED NOT NULL,
@@ -179,27 +181,27 @@ CREATE TABLE IF NOT EXISTS cofisc_denuncia (
   telefone VARCHAR(45) NULL,
   email VARCHAR(150) NULL,
   PRIMARY KEY (id),
-  CONSTRAINT fk_cofisc_denuncia_cofisc_tipo_denuncia1
+  CONSTRAINT fk_fisc_denuncia_fisc_tipo_denuncia1
     FOREIGN KEY (tipo_denuncia_id)
-    REFERENCES cofisc_tipo_denuncia (id)
+    REFERENCES fisc_tipo_denuncia (id)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT fk_cofisc_denuncia_cidade1
+  CONSTRAINT fk_fisc_denuncia_cidade1
     FOREIGN KEY (cidade_id)
     REFERENCES cidade (id)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT fk_cofisc_denuncia_bairro1
+  CONSTRAINT fk_fisc_denuncia_bairro1
     FOREIGN KEY (bairro_id)
     REFERENCES bairro (id)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT fk_cofisc_denuncia_cofisc_protocolo1
+  CONSTRAINT fk_fisc_denuncia_fisc_protocolo1
     FOREIGN KEY (protocolo_id)
-    REFERENCES cofisc_protocolo (id)
+    REFERENCES fisc_protocolo (id)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT fk_cofisc_denuncia_usuario1
+  CONSTRAINT fk_fisc_denuncia_usuario1
     FOREIGN KEY (usuario_id)
     REFERENCES usuario (id)
     ON DELETE NO ACTION
@@ -209,25 +211,25 @@ DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table cofisc_historico_denuncia
+-- Table fisc_historico_denuncia
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS cofisc_historico_denuncia ;
+DROP TABLE IF EXISTS fisc_historico_denuncia ;
 
-CREATE TABLE IF NOT EXISTS cofisc_historico_denuncia (
+CREATE TABLE IF NOT EXISTS fisc_historico_denuncia (
   id INT UNSIGNED NOT NULL AUTO_INCREMENT,
   data DATETIME NULL,
   descricao VARCHAR(255) NULL,
   usuario_id INT UNSIGNED NOT NULL,
   denuncia_id INT UNSIGNED NOT NULL,
   PRIMARY KEY (id),
-  CONSTRAINT fk_cofisc_historico_usuario1
+  CONSTRAINT fk_fisc_historico_usuario1
     FOREIGN KEY (usuario_id)
     REFERENCES usuario (id)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT fk_cofisc_historico_cofisc_denuncia1
+  CONSTRAINT fk_fisc_historico_fisc_denuncia1
     FOREIGN KEY (denuncia_id)
-    REFERENCES cofisc_denuncia (id)
+    REFERENCES fisc_denuncia (id)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
@@ -235,23 +237,23 @@ DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table cofisc_historico_solicitacao
+-- Table fisc_historico_solicitacao
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS cofisc_historico_solicitacao ;
+DROP TABLE IF EXISTS fisc_historico_solicitacao ;
 
-CREATE TABLE IF NOT EXISTS cofisc_historico_solicitacao (
+CREATE TABLE IF NOT EXISTS fisc_historico_solicitacao (
   id INT UNSIGNED NOT NULL AUTO_INCREMENT,
   data DATETIME NULL,
   descricao VARCHAR(255) NULL,
   usuario_id INT UNSIGNED NOT NULL,
   solicitacao_id INT UNSIGNED NOT NULL,
   PRIMARY KEY (id),
-  CONSTRAINT fk_cofisc_historico_solicitacao_cofisc_solicitacao1
+  CONSTRAINT fk_fisc_historico_solicitacao_fisc_solicitacao1
     FOREIGN KEY (solicitacao_id)
-    REFERENCES cofisc_solicitacao (id)
+    REFERENCES fisc_solicitacao (id)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT fk_cofisc_historico_solicitacao_usuario1
+  CONSTRAINT fk_fisc_historico_solicitacao_usuario1
     FOREIGN KEY (usuario_id)
     REFERENCES usuario (id)
     ON DELETE NO ACTION
@@ -261,19 +263,19 @@ DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table cofisc_anexo_denuncia
+-- Table fisc_anexo_denuncia
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS cofisc_anexo_denuncia ;
+DROP TABLE IF EXISTS fisc_anexo_denuncia ;
 
-CREATE TABLE IF NOT EXISTS cofisc_anexo_denuncia (
+CREATE TABLE IF NOT EXISTS fisc_anexo_denuncia (
   id INT UNSIGNED NOT NULL AUTO_INCREMENT,
   denuncia_id INT UNSIGNED NOT NULL,
   nome VARCHAR(255) NULL,
   anexo VARCHAR(255) NULL,
   PRIMARY KEY (id),
-  CONSTRAINT fk_cofisc_anexo_denuncia_cofisc_denuncia1
+  CONSTRAINT fk_fisc_anexo_denuncia_fisc_denuncia1
     FOREIGN KEY (denuncia_id)
-    REFERENCES cofisc_denuncia (id)
+    REFERENCES fisc_denuncia (id)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
@@ -281,37 +283,38 @@ DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table cofisc_anexo_solicitacao
+-- Table fisc_anexo_solicitacao
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS cofisc_anexo_solicitacao ;
+DROP TABLE IF EXISTS fisc_anexo_solicitacao ;
 
-CREATE TABLE IF NOT EXISTS cofisc_anexo_solicitacao (
+CREATE TABLE IF NOT EXISTS fisc_anexo_solicitacao (
   id INT UNSIGNED NOT NULL AUTO_INCREMENT,
   solicitacao_id INT UNSIGNED NOT NULL,
   nome VARCHAR(255) NULL,
   anexo VARCHAR(255) NULL,
   PRIMARY KEY (id),
-  CONSTRAINT fk_cofisc_anexo_solicitacao_cofisc_solicitacao1
+  CONSTRAINT fk_fisc_anexo_solicitacao_fisc_solicitacao1
     FOREIGN KEY (solicitacao_id)
-    REFERENCES cofisc_solicitacao (id)
+    REFERENCES fisc_solicitacao (id)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
--- -----------------------------------------------------
--- Table cofisc_vistoria_denuncia
--- -----------------------------------------------------
-DROP TABLE IF EXISTS cofisc_vistoria_denuncia ;
 
-CREATE TABLE IF NOT EXISTS cofisc_vistoria_denuncia (
+-- -----------------------------------------------------
+-- Table fisc_vistoria_denuncia
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS fisc_vistoria_denuncia ;
+
+CREATE TABLE IF NOT EXISTS fisc_vistoria_denuncia (
   id INT UNSIGNED NOT NULL AUTO_INCREMENT,
   data DATE NULL,
   descricao TEXT NULL,
   denuncia_id INT UNSIGNED NOT NULL,
   PRIMARY KEY (id),
-  CONSTRAINT fk_cofisc_vistoria_denuncia_cofisc_denuncia1
+  CONSTRAINT fk_fisc_vistoria_denuncia_fisc_denuncia1
     FOREIGN KEY (denuncia_id)
-    REFERENCES cofisc_denuncia (id)
+    REFERENCES fisc_denuncia (id)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
@@ -319,30 +322,30 @@ DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table cofisc_vistoria_solicitacao
+-- Table fisc_vistoria_solicitacao
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS cofisc_vistoria_solicitacao ;
+DROP TABLE IF EXISTS fisc_vistoria_solicitacao ;
 
-CREATE TABLE IF NOT EXISTS cofisc_vistoria_solicitacao (
+CREATE TABLE IF NOT EXISTS fisc_vistoria_solicitacao (
   id INT UNSIGNED NOT NULL AUTO_INCREMENT,
   data DATE NULL,
   descricao TEXT NULL,
   solicitacao_id INT UNSIGNED NOT NULL,
   PRIMARY KEY (id),
-  CONSTRAINT fk_cofisc_vistoria_solicitacao_cofisc_solicitacao1
+  CONSTRAINT fk_fisc_vistoria_solicitacao_fisc_solicitacao1
     FOREIGN KEY (solicitacao_id)
-    REFERENCES cofisc_solicitacao (id)
+    REFERENCES fisc_solicitacao (id)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
 -- cad tipo de protocolo
-INSERT INTO `cofisc_tipo_protocolo` (`id`, `tipo_protocolo`) VALUES 
+INSERT INTO fisc_tipo_protocolo (id, tipo_protocolo) VALUES 
 ('1', 'Documento'), ('2', 'Processo');
 
--- CAD cofisc_tipo_documento
-INSERT INTO cofisc_tipo_documento (id, documento, protocolo_id) VALUES
+-- CAD fisc_tipo_documento
+INSERT INTO fisc_tipo_documento (id, documento, protocolo_id) VALUES
 ('1', 'E-mail', '1'),
 ('2', 'Formulário de Denúncia', '1'),
 ('3', 'Memorando', '1'),
@@ -351,9 +354,9 @@ INSERT INTO cofisc_tipo_documento (id, documento, protocolo_id) VALUES
 ('6', 'Processo Administrativo Punitivo', '2'),
 ('7', 'Requerimento', '1');
 
--- cad cofisc_origem
+-- cad fisc_origem
 
-INSERT INTO cofisc_origem (id, origem) VALUES 
+INSERT INTO fisc_origem (id, origem) VALUES 
 ('1', 'Denúncia Externa'),
 ('2', 'Denuncia Interna'),
 ('3', 'Poder Executivo'),
@@ -362,8 +365,8 @@ INSERT INTO cofisc_origem (id, origem) VALUES
 ('6', 'Interna'),
 ('7', 'Externa');
 
- -- CAD cofisc_tipo_denuncia
-INSERT INTO cofisc_tipo_denuncia ( id, tipo_denuncia) VALUES
+ -- CAD fisc_tipo_denuncia
+INSERT INTO fisc_tipo_denuncia ( id, tipo_denuncia) VALUES
 ('1', 'Animais Domésticos'),
 ('2', 'Animais Silvestres'),
 ('3', 'Apreensão de Madeira'),
@@ -392,8 +395,8 @@ INSERT INTO cofisc_tipo_denuncia ( id, tipo_denuncia) VALUES
 
 
 
--- CAD cofisc_tipo_solicitacao
-INSERT INTO cofisc_tipo_solicitacao (id, tipo_solicitacao) VALUES
+-- CAD fisc_tipo_solicitacao
+INSERT INTO fisc_tipo_solicitacao (id, tipo_solicitacao) VALUES
 ('1', 'Armazenamento de Madeira'),
 ('2', 'Atividade de Fiscalização'),
 ('3', 'Captura de Animais Domésticos'),

@@ -20,7 +20,7 @@
 
     <body class="text-center">
         <form class="form-signin" method="POST">
-            <img class="mb-4" src="<?php echo BASE_URL ?>assets/imagens/semma-login.png" alt="" height="140">
+            <img class="mb-4" src="<?php echo BASE_URL ?>assets/imagens/semma-login.png" alt="" height="100">
             <h1 class="h6 font-weight-normal">Por favor, informe o usuário e senha</h1>
 
             <label class="sr-only" for="iuser">Usuário</label>
