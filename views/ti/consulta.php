@@ -5,8 +5,8 @@
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="<?php echo BASE_URL ?>home"><i class="fa fa-tachometer-alt"></i> Inicial</a></li>
-                    <li class="breadcrumb-item"><a href="#" ><i class="fas fa-angle-double-right"></i> CCA</a></li>
-                    <li class="breadcrumb-item active" aria-current="page"><a href="<?php echo BASE_URL ?>cca/consultar"><i class="fas fa-tasks"></i> Consultar Chamados</a></li>
+                    <li class="breadcrumb-item"><a href="#" ><i class="fas fa-angle-double-right"></i> ASTIGE</a></li>
+                    <li class="breadcrumb-item active" aria-current="page"><a href="<?php echo BASE_URL ?>ti/consultar"><i class="fas fa-tasks"></i> Consultar Chamados</a></li>
                 </ol>
             </nav>
         </div>
@@ -24,7 +24,7 @@
                 </header>
                 <div class="collapse" id="collapseExample">
                     <article class="card-body">
-                        <form method="GET" action="<?php echo BASE_URL ?>cca/consultar/1" name="formCCASearch">
+                        <form method="GET" action="<?php echo BASE_URL ?>ti/consultar/1" name="formCCASearch">
                             <div class="form-row">
                                 <div class="col mb-3">
                                     <label for='iSetor'>Setor: </label><br/>
@@ -133,9 +133,9 @@
                                         <td><?php $this->getStatus($indice['status_id'], $indice['status']); ?></td>
                                         <td><?php echo $indice['usuario'] ?></td>
                                         <td class="table-acao text-center">
-                                            <a class="btn btn-success btn-sm" href="<?php echo BASE_URL . 'cca/chamado/' . md5($indice['id']); ?>" title="Visualizar"><i class="fa fa-eye"></i></a> 
+                                            <a class="btn btn-success btn-sm" href="<?php echo BASE_URL . 'ti/chamado/' . md5($indice['id']); ?>" title="Visualizar"><i class="fa fa-eye"></i></a> 
                                             <?php if ($this->checkSetor() == 10 || ($indice['status_id'] == 1 && $indice['usuario_id']==$this->getIdUser())): ?>
-                                                <a class="btn btn-primary btn-sm" href="<?php echo BASE_URL . 'cca/editar/' . md5($indice['id']); ?>" title="Editar"><i class="fa fa-pencil-alt"></i></a> 
+                                                <a class="btn btn-primary btn-sm" href="<?php echo BASE_URL . 'ti/editar/' . md5($indice['id']); ?>" title="Editar"><i class="fa fa-pencil-alt"></i></a> 
                                                 <?php
                                             endif;
                                             if ($this->checkSetor() == 10):
@@ -181,15 +181,15 @@ if (ceil($paginas) > 1) {
                 <nav aria-label="Page navigation example">
                     <ul class = "pagination">
                         <?php
-                        echo "<li class='page-item'><a class='page-link' href='" . BASE_URL . "cca/consultar/1" . $metodo_buscar . "'><span aria-hidden='true'>&laquo;</span></a></li>";
+                        echo "<li class='page-item'><a class='page-link' href='" . BASE_URL . "ti/consultar/1" . $metodo_buscar . "'><span aria-hidden='true'>&laquo;</span></a></li>";
                         for ($p = 0; $p < ceil($paginas); $p++) {
                             if ($pagina_atual == ($p + 1)) {
-                                echo "<li class='page-item active'><a class='page-link' href='" . BASE_URL . "cca/consultar/" . ($p + 1) . $metodo_buscar . "'>" . ($p + 1) . "</a></li>";
+                                echo "<li class='page-item active'><a class='page-link' href='" . BASE_URL . "ti/consultar/" . ($p + 1) . $metodo_buscar . "'>" . ($p + 1) . "</a></li>";
                             } else {
-                                echo "<li class='page-item'><a class='page-link' href='" . BASE_URL . "cca/consultar/" . ($p + 1) . $metodo_buscar . "'>" . ($p + 1) . "</a></li>";
+                                echo "<li class='page-item'><a class='page-link' href='" . BASE_URL . "ti/consultar/" . ($p + 1) . $metodo_buscar . "'>" . ($p + 1) . "</a></li>";
                             }
                         }
-                        echo "<li class='page-item'><a class='page-link' href='" . BASE_URL . "cca/consultar/" . ceil($paginas) . $metodo_buscar . "'>&raquo;</a></li>";
+                        echo "<li class='page-item'><a class='page-link' href='" . BASE_URL . "ti/consultar/" . ceil($paginas) . $metodo_buscar . "'>&raquo;</a></li>";
                         ?>
                     </ul>
                 </nav>
@@ -224,7 +224,7 @@ if ($this->checkSetor() == 10):
                             <p class="text-justify text-danger"><span class="font-bold">OBS : </span> Ao clicar em "Excluir", este registro e todos registos relacionados ao mesmo deixaram de existir no sistema.</p>
                         </article>
                         <footer class="modal-footer">
-                            <a class="btn btn-danger pull-left" href="<?php echo BASE_URL . 'cca/excluirchamado/' . md5($indice['id']) ?>"> <i class="fa fa-trash"></i> Excluir</a> 
+                            <a class="btn btn-danger pull-left" href="<?php echo BASE_URL . 'ti/excluirchamado/' . md5($indice['id']) ?>"> <i class="fa fa-trash"></i> Excluir</a> 
                             <button class="btn btn-default" type="button" data-dismiss="modal"><i class="fa fa-times"></i> Fechar</button>
                         </footer>
                     </section>

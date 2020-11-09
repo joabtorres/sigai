@@ -90,9 +90,16 @@
                         </div>
                         <!--<div class="row">;;;-->
                         <div class="row">
-                            <div class="col-md-10 mb-3"
+                            <div class="col-md-8 mb-3"
                                  <label for='iAssunto'>Interessado/Empreendimento: *</label><br/>
                                 <input type="text" name="nAssunto"  class="form-control mt-2" id="iAssunto" placeholder="Exemplo: COORDENADORIA DE LICENCIAMENTO AMBIENTAL - SEMMA CASTANHALL" value="<?php echo!empty($chamado['assunto']) ? $chamado['assunto'] : ''; ?>" required>
+                                <div class="invalid-feedback">
+                                    Informe o Assunto
+                                </div>
+                            </div>                            
+                            <div class="col-md-2 mb-3"
+                                 <label for='iAssunto'>Telefone para Contato: </label><br/>
+                                <input type="text" name="nAssunto"  class="form-control mt-2 input-" id="iAssunto" placeholder="Exemplo: (999) 99999-9999" value="<?php echo!empty($chamado['assunto']) ? $chamado['assunto'] : ''; ?>" required>
                                 <div class="invalid-feedback">
                                     Informe o Assunto
                                 </div>
@@ -107,6 +114,25 @@
                         </div>
                         <!--<div class="row">;;;-->
                         <div class="row">
+                            <div class="col-md-3 mb-3">
+                                <label for='iTipo'>Referente ao processo: * </label><br/>
+                                <select class="custom-select" name="nTipo" id="iSetor" required>
+                                    <?php
+                                    $array = array('Protocolo: 222321/2020/PROC - Interessado: JOAB TORRES ALENCAR', 'Processo');
+                                    if (!isset($chamado['setor_id'])) {
+                                        echo '<option value="" selected = "selected" disabled="disabled">Selecione o setor </option>';
+                                    }
+                                    for ($i = 0; $i < count($array); $i++) {
+                                        if (isset($chamado['setor_id']) && $array[$i] == $chamado['setor_id']) {
+                                            echo '<option value = "' . $array[$i] . '" selected = "selected">' . $array[$i] . '</option>';
+                                        } else {
+                                            echo '<option value = "' . $array[$i] . '">' . $array[$i] . '</option>';
+                                        }
+                                    }
+                                    ?>
+                                </select>
+                                <div class="invalid-feedback">Informe o tipo do protocolo</div>
+                            </div>
                             <div class="col mb-3"
                                  <label for='iAssunto'>Assunto: *</label><br/>
                                 <textarea rows="3" name="nDescricao"  class="form-control mt-2" id="iDescricao" placeholder="Exemplo: Solícito através deste chamado a criação de um novo usuário de acesso aos computadores..." required><?php echo!empty($chamado['descricao']) ? $chamado['descricao'] : ''; ?></textarea>
@@ -207,7 +233,6 @@
                         </div>
                         <div class="form-row">
                             <div class="col" id="viewMapa">
-
                             </div>
                         </div>  
                     </article>

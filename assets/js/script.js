@@ -44,7 +44,7 @@ function null_or_empty(str) {
     var v = document.getElementById(str).value;
     return v == null || v == "";
 }
-//form do chamado cca
+//form do chamado ti
 if (document.nFormCCA) {
     function valida_formCCA() {
         form = document.nFormCCA;
@@ -83,7 +83,7 @@ if (document.nFormCCA) {
                 document.getElementById("iUsuario").innerHTML = this.responseText;
             }
         };
-        xhttp.open("POST", base_url + "cca/getusuarios", true);
+        xhttp.open("POST", base_url + "ti/getusuarios", true);
         xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         xhttp.send("setor_id=" + setor_id);
     }
@@ -95,7 +95,7 @@ if (document.nFormCCA) {
                 document.getElementById("iUsuario").innerHTML = this.responseText;
             }
         };
-        xhttp.open("POST", base_url + "cca/getusuarios", true);
+        xhttp.open("POST", base_url + "ti/getusuarios", true);
         xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         xhttp.send("setor_id=" + setor_id + "&id_user=" + user_id);
     }
@@ -108,7 +108,7 @@ if (document.formCCASearch) {
                 document.getElementById("iUsuario").innerHTML = this.responseText;
             }
         };
-        xhttp.open("POST", base_url + "cca/getusuariossearch", true);
+        xhttp.open("POST", base_url + "ti/getusuariossearch", true);
         xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         xhttp.send("setor_id=" + setor_id);
     }
@@ -299,7 +299,7 @@ if (document.nFormCOFISCDenuncia) {
                 document.getElementById("iTipoDocumento").innerHTML = this.responseText;
             }
         };
-        xhttp.open("POST", base_url + "cofisc/get_tipo_documento", true);
+        xhttp.open("POST", base_url + "fisc/get_tipo_documento", true);
         xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         xhttp.send("protocolo_id=" + tipo_protocolo);
     }
@@ -311,7 +311,7 @@ if (document.nFormCOFISCDenuncia) {
                 document.getElementById("iBairro").innerHTML = this.responseText;
             }
         };
-        xhttp.open("POST", base_url + "cofisc/get_bairro", true);
+        xhttp.open("POST", base_url + "fisc/get_bairro", true);
         xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         xhttp.send("cidade_id=" + cidade_id);
     }
@@ -419,7 +419,7 @@ if (document.nFormCOFISCSolicitacao) {
                 document.getElementById("iTipoDocumento").innerHTML = this.responseText;
             }
         };
-        xhttp.open("POST", base_url + "cofisc/get_tipo_documento", true);
+        xhttp.open("POST", base_url + "fisc/get_tipo_documento", true);
         xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         xhttp.send("protocolo_id=" + tipo_protocolo);
     }
@@ -431,7 +431,7 @@ if (document.nFormCOFISCSolicitacao) {
                 document.getElementById("iBairro").innerHTML = this.responseText;
             }
         };
-        xhttp.open("POST", base_url + "cofisc/get_bairro", true);
+        xhttp.open("POST", base_url + "fisc/get_bairro", true);
         xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         xhttp.send("cidade_id=" + cidade_id);
     }
@@ -464,7 +464,7 @@ if (document.formSearhCofisc) {
                 document.getElementById("iTipoDocumento").innerHTML = this.responseText;
             }
         };
-        xhttp.open("POST", base_url + "cofisc/get_tipo_documento", true);
+        xhttp.open("POST", base_url + "fisc/get_tipo_documento", true);
         xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         xhttp.send("protocolo_id=" + tipo_protocolo);
     }
@@ -476,7 +476,7 @@ if (document.formSearhCofisc) {
                 document.getElementById("iBairro").innerHTML = this.responseText;
             }
         };
-        xhttp.open("POST", base_url + "cofisc/get_bairro", true);
+        xhttp.open("POST", base_url + "fisc/get_bairro", true);
         xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         xhttp.send("cidade_id=" + cidade_id);
     }

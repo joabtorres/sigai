@@ -5,8 +5,8 @@
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="<?php echo BASE_URL ?>home"><i class="fa fa-tachometer-alt"></i> Inicial</a></li>
-                    <li class="breadcrumb-item"><a href="#" ><i class="fas fa-angle-double-right"></i> CCA</a></li>
-                    <li class="breadcrumb-item active" aria-current="page"><a href="<?php echo BASE_URL ?>cca/editar/<?php echo md5($chamado['id']) ?>"><i class="fas fa-edit"></i> Editar Chamado</a></li>
+                    <li class="breadcrumb-item"><a href="#" ><i class="fas fa-angle-double-right"></i> ASTIGE</a></li>
+                    <li class="breadcrumb-item active" aria-current="page"><a href="<?php echo BASE_URL ?>ti/editar/<?php echo md5($chamado['id']) ?>"><i class="fas fa-edit"></i> Editar Chamado</a></li>
                 </ol>
             </nav>
         </div>
@@ -25,7 +25,7 @@
     <!--fim row-->
     <div class="row">
         <div class="col">
-            <form method="POST" action="<?php echo BASE_URL ?>cca/editar/<?php echo md5($chamado['id']) ?>" enctype="multipart/form-data" autocomplete="off"  name="nFormCCA">
+            <form method="POST" action="<?php echo BASE_URL ?>ti/editar/<?php echo md5($chamado['id']) ?>" enctype="multipart/form-data" autocomplete="off"  name="nFormCCA">
                 <input type="hidden" name="nId" value="<?php echo!empty($chamado['id']) ? $chamado['id'] : 0; ?>"/>
                 <section class="card bg-light border-success">
                     <header class="card-header bg-success">

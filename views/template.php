@@ -61,16 +61,16 @@
                         <a href="<?php echo BASE_URL ?>tramitacao/consultar"><i class="fas fa-copy"></i> Tramitação</a>
                     </li>
                     <li>
-                        <a href="#cofiscSubmenu" data-toggle="collapse" aria-expanded="false"><i class="fas fa-angle-double-right"></i> Fiscalização</a>
-                        <ul class="collapse list-unstyled" id="cofiscSubmenu">
+                        <a href="#fiscSubmenu" data-toggle="collapse" aria-expanded="false"><i class="fas fa-angle-double-right"></i> Fiscalização</a>
+                        <ul class="collapse list-unstyled" id="fiscSubmenu">
                             <li>
-                                <a href="<?php echo BASE_URL ?>cofisc_denuncia/cadastro"><i class="fas fa-plus-square"></i> Nova Denúncia</a>
+                                <a href="<?php echo BASE_URL ?>fisc_denuncia/cadastro"><i class="fas fa-plus-square"></i> Nova Denúncia</a>
                             </li>
                             <li>
-                                <a href="<?php echo BASE_URL ?>cofisc/cadastro_solicitacao"><i class="fas fa-plus-square"></i> Nova Solicitação</a>
+                                <a href="<?php echo BASE_URL ?>fisc/cadastro_solicitacao"><i class="fas fa-plus-square"></i> Nova Solicitação</a>
                             </li>
                             <li>
-                                <a href="<?php echo BASE_URL ?>cofisc_denuncia/consultar"><i class="fas fa-tasks"></i> Consultar Denuncias</a>
+                                <a href="<?php echo BASE_URL ?>fisc_denuncia/consultar"><i class="fas fa-tasks"></i> Consultar Denuncias</a>
                             </li>
                             <li>
                                 <a href="<?php echo BASE_URL ?>cca/consultar"><i class="fas fa-tasks"></i> Consultar Denuncias</a>
@@ -81,10 +81,10 @@
                         <a href="#tiSubmenu" data-toggle="collapse" aria-expanded="false"><i class="fas fa-angle-double-right"></i> Suporte Interno</a>
                         <ul class="collapse list-unstyled" id="tiSubmenu">
                             <li>
-                                <a href="<?php echo BASE_URL ?>cca/cadastro"><i class="fas fa-plus-square"></i> Novo Chamado</a>
+                                <a href="<?php echo BASE_URL ?>ti/cadastro"><i class="fas fa-plus-square"></i> Novo Chamado</a>
                             </li>
                             <li>
-                                <a href="<?php echo BASE_URL ?>cca/consultar"><i class="fas fa-tasks"></i> Consultar Chamados</a>
+                                <a href="<?php echo BASE_URL ?>ti/consultar"><i class="fas fa-tasks"></i> Consultar Chamados</a>
                             </li>
                         </ul>
                     </li>

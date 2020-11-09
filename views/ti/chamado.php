@@ -5,9 +5,9 @@
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="<?php echo BASE_URL ?>home"><i class="fa fa-tachometer-alt"></i> Inicial</a></li>
-                    <li class="breadcrumb-item"><a href="#" ><i class="fas fa-angle-double-right"></i> CCA</a></li>
-                    <li class="breadcrumb-item"><a href="<?php echo BASE_URL ?>cca/consultar"><i class="fas fa-tasks"></i> Consultar Chamados</a></li>
-                    <li class="breadcrumb-item active" aria-current="page"><a href="<?php echo BASE_URL ?>cca/chamado/<?php echo md5($chamado['id']) ?>">Chamado: Nº <?php echo str_pad($chamado['id'], 5, '0', STR_PAD_LEFT) . ' - ' . $chamado['assunto'] ?></a></li>
+                    <li class="breadcrumb-item"><a href="#" ><i class="fas fa-angle-double-right"></i> ASTIGE</a></li>
+                    <li class="breadcrumb-item"><a href="<?php echo BASE_URL ?>ti/consultar"><i class="fas fa-tasks"></i> Consultar Chamados</a></li>
+                    <li class="breadcrumb-item active" aria-current="page"><a href="<?php echo BASE_URL ?>ti/chamado/<?php echo md5($chamado['id']) ?>">Chamado: Nº <?php echo str_pad($chamado['id'], 5, '0', STR_PAD_LEFT) . ' - ' . $chamado['assunto'] ?></a></li>
                 </ol>
             </nav>
         </div>
@@ -118,7 +118,7 @@
         ?>
         <div class="row">
             <div class="col">
-                <form method="POST" action="<?php echo BASE_URL ?>cca/chamado/<?php echo md5($chamado['id']) ?>" enctype="multipart/form-data" autocomplete="off"  name="nFormCCAChamado">
+                <form method="POST" action="<?php echo BASE_URL ?>ti/chamado/<?php echo md5($chamado['id']) ?>" enctype="multipart/form-data" autocomplete="off"  name="nFormCCAChamado">
                     <input type="hidden" name="nChamado" value="<?php echo!empty($formCad['chamado_id']) ? $formCad['chamado_id'] : $chamado['id']; ?>"/>
                     <section class="card bg-light mt-3">
                         <header class="card-header bg-success">
@@ -178,7 +178,7 @@
                     <div class="row mt-3">
                         <div class="form-group col">
                             <button class="btn btn-success" name="nSalvar" value="Salvar" onclick="valida_formChamado()" type="submit"><i class="fa fa-check-circle" aria-hidden="true"></i> Salvar</button>
-                            <a href="<?php echo BASE_URL ?>cca/chamado/<?php echo md5($chamado['id']) ?>" class="btn btn-danger"><i class="fa fa-times" aria-hidden="true"></i> Cancelar</a>
+                            <a href="<?php echo BASE_URL ?>ti/chamado/<?php echo md5($chamado['id']) ?>" class="btn btn-danger"><i class="fa fa-times" aria-hidden="true"></i> Cancelar</a>
                         </div>
                     </div>
                 </form>
@@ -214,7 +214,7 @@ if ($this->checkSetor() == 10):
                             <p class="text-justify text-danger"><span class="font-bold">OBS : </span> Ao clicar em "Excluir", este registro deixará de existir no sistema.</p>
                         </article>
                         <footer class="modal-footer">
-                            <a class="btn btn-danger pull-left" href="<?php echo BASE_URL . 'cca/excluirhistorico/' . md5($indice['id']) ?>"> <i class="fa fa-trash"></i> Excluir</a> 
+                            <a class="btn btn-danger pull-left" href="<?php echo BASE_URL . 'ti/excluirhistorico/' . md5($indice['id']) ?>"> <i class="fa fa-trash"></i> Excluir</a> 
                             <button class="btn btn-default" type="button" data-dismiss="modal"><i class="fa fa-times"></i> Fechar</button>
                         </footer>
                     </section>

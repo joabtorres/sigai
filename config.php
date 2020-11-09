@@ -12,7 +12,7 @@ if (ENVIRONMENT == 'development') {
     //nome do projeto
     define("NAME_PROJECT", "SISPAM - Sistema de Procedimentos Ambientais");
     //Nome do banco
-    $config['dbname'] = 'bd_semma_sigai';
+    $config['dbname'] = 'sispam';
     //host
     $config['host'] = 'localhost';
     //usuario
@@ -25,7 +25,7 @@ if (ENVIRONMENT == 'development') {
     //nome do projeto
     define("NAME_PROJECT", "SISPAM - Sistema de Procedimentos Ambientais");
     //Nome do banco
-    $config['dbname'] = 'bd_semma_sigai';
+    $config['dbname'] = 'sispam';
     //host
     $config['host'] = 'localhost';
     //usuario
