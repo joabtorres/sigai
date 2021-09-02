@@ -5,7 +5,7 @@
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="<?php echo BASE_URL ?>home"><i class="fa fa-tachometer-alt"></i> Inicial</a></li>
-                    <li class="breadcrumb-item"><a href="#" ><i class="fas fa-angle-double-right"></i> ASTIGE</a></li>
+                    <li class="breadcrumb-item"><a href="#" ><i class="fas fa-angle-double-right"></i> Suporte Interno</a></li>
                     <li class="breadcrumb-item"><a href="<?php echo BASE_URL ?>ti/consultar"><i class="fas fa-tasks"></i> Consultar Chamados</a></li>
                     <li class="breadcrumb-item active" aria-current="page"><a href="<?php echo BASE_URL ?>ti/chamado/<?php echo md5($chamado['id']) ?>">Chamado: Nº <?php echo str_pad($chamado['id'], 5, '0', STR_PAD_LEFT) . ' - ' . $chamado['assunto'] ?></a></li>
                 </ol>

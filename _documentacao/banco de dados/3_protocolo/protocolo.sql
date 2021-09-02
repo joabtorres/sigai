@@ -23,7 +23,7 @@ INSERT INTO protocolo_tipo(id, tipo) VALUES (2, 'Processo');
 
 CREATE TABLE IF NOT EXISTS protocolo_objetivo (
   id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  objetivo VARCHAR(45) NULL,
+  objetivo VARCHAR(100) NULL,
   tipo_id INT UNSIGNED NOT NULL,
   PRIMARY KEY (id),
   CONSTRAINT fk_protocolo_objetivo_protocolo_tipo1
@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS protocolo_objetivo (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
-INSERT INTO protocolo_objetivo (id, obejetivo, tipo_id) VALUES
+INSERT INTO protocolo_objetivo (id, objetivo, tipo_id) VALUES
 ('1', 'Carta Consulta', '1'),
 ('2', 'Comunicado', '1'),
 ('3', 'Convite', '1'),
@@ -111,15 +111,22 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table tramitacao
 -- -----------------------------------------------------
+-- -----------------------------------------------------
+-- Table tramitacao
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS tramitacao ;
 
 CREATE TABLE IF NOT EXISTS tramitacao (
   id INT UNSIGNED NOT NULL AUTO_INCREMENT,
   protocolo_id INT UNSIGNED NOT NULL,
-  setor_id INT UNSIGNED NOT NULL,
-  usuario_id INT UNSIGNED NOT NULL,
+  setor_remetente_id INT UNSIGNED NOT NULL,
+  usuario_remetente_id INT UNSIGNED NOT NULL,
+  setor_destinatario_id INT UNSIGNED NOT NULL,
+  usuario_destinatario_id INT UNSIGNED NOT NULL,
   data DATETIME NULL,
   descricao TEXT NULL,
   anexo VARCHAR(255) NULL,
+  status INT NULL,
   PRIMARY KEY (id),
   CONSTRAINT fk_tramitacao_protocolo1
     FOREIGN KEY (protocolo_id)
@@ -127,13 +134,67 @@ CREATE TABLE IF NOT EXISTS tramitacao (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT fk_tramitacao_setor1
-    FOREIGN KEY (setor_id)
+    FOREIGN KEY (setor_remetente_id)
     REFERENCES setor (id)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT fk_tramitacao_usuario1
+    FOREIGN KEY (usuario_remetente_id)
+    REFERENCES usuario (id)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT fk_tramitacao_usuario2
+    FOREIGN KEY (usuario_destinatario_id)
+    REFERENCES usuario (id)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT fk_tramitacao_setor2
+    FOREIGN KEY (setor_destinatario_id)
+    REFERENCES setor (id)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table protocolo_historico
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS protocolo_historico ;
+
+CREATE TABLE IF NOT EXISTS protocolo_historico (
+  id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  data DATE NULL,
+  descricao TEXT NULL,
+  usuario_id INT UNSIGNED NOT NULL,
+  protocolo_id INT UNSIGNED NOT NULL,
+  PRIMARY KEY (id),
+  CONSTRAINT fk_protocolo_historico_usuario1
     FOREIGN KEY (usuario_id)
     REFERENCES usuario (id)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT fk_protocolo_historico_protocolo1
+    FOREIGN KEY (protocolo_id)
+    REFERENCES protocolo (id)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table protocolo_anexo
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS protocolo_anexo ;
+
+CREATE TABLE IF NOT EXISTS protocolo_anexo (
+  id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  nome VARCHAR(255) NULL,
+  arquivo VARCHAR(255) NULL,
+  protocolo_id INT UNSIGNED NOT NULL,
+  PRIMARY KEY (id),
+  CONSTRAINT fk_protocolo_anexo_protocolo1
+    FOREIGN KEY (protocolo_id)
+    REFERENCES protocolo (id)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;

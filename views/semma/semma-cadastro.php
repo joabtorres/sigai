@@ -5,7 +5,7 @@
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="<?php echo BASE_URL ?>home"><i class="fa fa-tachometer-alt"></i> Inicial</a></li>
-                    <li class="breadcrumb-item"><a href="#" ><i class="fas fa-angle-double-right"></i> CCA</a></li>
+                    <li class="breadcrumb-item"><a href="#" ><i class="fas fa-angle-double-right"></i> Semma</a></li>
                     <li class="breadcrumb-item active" aria-current="page"><a href="<?php echo BASE_URL ?>semma/index"><i class="fas fa-cogs"></i> Dados da Secretaria</a></li>
                 </ol>
             </nav>
@@ -25,8 +25,8 @@
     <!--fim row-->
     <div class="row">
         <div class="col">
-            <section class="card bg-light">
-                <header class="card-header">
+            <section class="card bg-light border-success">
+                <header class="card-header bg-success">
                     <h1 class="card-title h5 mb-1"><i class="fas fa-cogs"></i> Dados da Secretaria</h1>
                 </header>
                 <article class="card-body">

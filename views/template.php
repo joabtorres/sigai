@@ -27,6 +27,10 @@
         <script src="<?php echo BASE_URL ?>assets/js/jquery-ui.js"></script>
         <script>base_url = '<?php echo BASE_URL ?>';</script>
 
+        <!-- Our Custom SELECT 2 -->
+        <link rel="stylesheet" href="<?php echo BASE_URL ?>assets/css/select2.min.css">
+        <!-- select2 JS -->
+        <script defer src="<?php echo BASE_URL ?>assets/js/select2.min.js"></script>
     </head>
 
     <body>
@@ -60,23 +64,25 @@
                     <li>
                         <a href="<?php echo BASE_URL ?>tramitacao/consultar"><i class="fas fa-copy"></i> Tramitação</a>
                     </li>
-                    <li>
-                        <a href="#fiscSubmenu" data-toggle="collapse" aria-expanded="false"><i class="fas fa-angle-double-right"></i> Fiscalização</a>
-                        <ul class="collapse list-unstyled" id="fiscSubmenu">
-                            <li>
-                                <a href="<?php echo BASE_URL ?>fisc_denuncia/cadastro"><i class="fas fa-plus-square"></i> Nova Denúncia</a>
-                            </li>
-                            <li>
-                                <a href="<?php echo BASE_URL ?>fisc/cadastro_solicitacao"><i class="fas fa-plus-square"></i> Nova Solicitação</a>
-                            </li>
-                            <li>
-                                <a href="<?php echo BASE_URL ?>fisc_denuncia/consultar"><i class="fas fa-tasks"></i> Consultar Denuncias</a>
-                            </li>
-                            <li>
-                                <a href="<?php echo BASE_URL ?>cca/consultar"><i class="fas fa-tasks"></i> Consultar Denuncias</a>
-                            </li>
-                        </ul>
-                    </li>
+                    <?php if (1 == 1) { ?>
+                        <li>
+                            <a href="#fiscSubmenu" data-toggle="collapse" aria-expanded="false"><i class="fas fa-angle-double-right"></i> Fiscalização</a>
+                            <ul class="collapse list-unstyled" id="fiscSubmenu">
+                                <li>
+                                    <a href="<?php echo BASE_URL ?>fisc_denuncia/cadastro"><i class="fas fa-plus-square"></i> Nova Denúncia</a>
+                                </li>
+                                <li>
+                                    <a href="<?php echo BASE_URL ?>fisc/cadastro_solicitacao"><i class="fas fa-plus-square"></i> Nova Solicitação</a>
+                                </li>
+                                <li>
+                                    <a href="<?php echo BASE_URL ?>fisc_denuncia/consultar"><i class="fas fa-tasks"></i> Consultar Denuncias</a>
+                                </li>
+                                <li>
+                                    <a href="<?php echo BASE_URL ?>cca/consultar"><i class="fas fa-tasks"></i> Consultar Denuncias</a>
+                                </li>
+                            </ul>
+                        </li>
+                    <?php } ?>
                     <li>
                         <a href="#tiSubmenu" data-toggle="collapse" aria-expanded="false"><i class="fas fa-angle-double-right"></i> Suporte Interno</a>
                         <ul class="collapse list-unstyled" id="tiSubmenu">
@@ -104,17 +110,17 @@
                             </li>
                         </ul>
                     </li>
-                    <li>                        
-                        <a href="#userConfig" data-toggle="collapse" aria-expanded="false"> <i class="fas fa-angle-double-right"></i> Semma</a>
-                        <ul class="collapse list-unstyled" id="userConfig">
-                            <li>
-                                <a href="<?php echo BASE_URL . 'semma' ?>"><i class="fas fa-cogs"></i> Dados da Secretaria</a>
-                            </li>
-                            <li>
-                                <a href="#"><i class="fas fa-toolbox"></i> Setores</a>
-                            </li>
-                        </ul>
-                    </li>
+
+                    <?php if ($this->checkSetor() == 10) : ?>
+                        <li>                        
+                            <a href="#userConfig" data-toggle="collapse" aria-expanded="false"> <i class="fas fa-angle-double-right"></i> Semma</a>
+                            <ul class="collapse list-unstyled" id="userConfig">
+                                <li>
+                                    <a href="<?php echo BASE_URL . 'semma' ?>"><i class="fas fa-cogs"></i> Dados da Secretaria</a>
+                                </li>
+                            </ul>
+                        </li>
+                    <?php endif; ?>
                     <li>
                         <a href="<?php echo BASE_URL ?>usuario/sair"><i class="fa fa-sign-out-alt"></i> Sair</a>
                     </li>
@@ -182,7 +188,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
         <!-- jQuery Custom Scroller CDN -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
-        
+
         <script src="<?php echo BASE_URL ?>assets/js/script.js"></script>
     </body>
 

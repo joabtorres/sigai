@@ -258,6 +258,19 @@ class usuarioController extends controller {
         }
     }
 
+    public function excluir($id) {
+        if ($this->checkUser() && $this->checkSetor() == 10) {
+            $crudModel = new usuario();
+            if ($crudModel->remove(array('id' => addslashes($id)))) {
+                $url = "location: " . BASE_URL . 'usuario/consultar/';
+                header($url);
+            }
+        } else {
+            $url = "location: " . BASE_URL . "home";
+            header($url);
+        }
+    }
+
     /**
      * Está função verifica se o usuário está cadastrado no sistema, se ele estive será criado uma nova senha e enviado para o respectivo email
      * @return bollean 

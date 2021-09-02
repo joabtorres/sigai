@@ -206,10 +206,10 @@ class usuario extends model {
      * @author Joab Torres <joabtorres1508@gmail.com>
      */
     public function remove($data) {
-        $usuario = $this->read_specific('SELECT * FROM usuario WHERE md5(cod)=:cod', $data);
+        $usuario = $this->read_specific('SELECT * FROM usuario WHERE md5(id)=:id', $data);
         if (!empty($usuario)) {
-            $sql = $this->db->prepare('DELETE FROM usuario WHERE cod=:cod');
-            $sql->bindValue(':cod', $usuario['cod']);
+            $sql = $this->db->prepare('DELETE FROM usuario WHERE id=:id');
+            $sql->bindValue(':id', $usuario['id']);
             $sql->execute();
             $this->delete_image($usuario['imagem']);
             return true;

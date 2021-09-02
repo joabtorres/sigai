@@ -5,8 +5,8 @@
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="<?php echo BASE_URL ?>home"><i class="fa fa-tachometer-alt"></i> Inicial</a></li>
-                    <li class="breadcrumb-item"><a href="#" ><i class="fas fa-angle-double-right"></i> COFISC</a></li>
-                    <li class="breadcrumb-item active" aria-current="page"><a href="<?php echo BASE_URL ?>fisc/consultar_denuncia"><i class="fas fa-tasks"></i> Consultar Denúncias</a></li>
+                    <li class="breadcrumb-item"><a href="#" ><i class="fas fa-angle-double-right"></i> Fiscalização</a></li>
+                    <li class="breadcrumb-item active" aria-current="page"><a href="<?php echo BASE_URL ?>fisc_denuncia/consultar/1"><i class="fas fa-tasks"></i> Consultar Denúncias</a></li>
                 </ol>
             </nav>
         </div>
@@ -24,7 +24,7 @@
                 </header>
                 <div class="collapse" id="collapseExample">
                     <article class="card-body">
-                        <form method="GET" action="<?php echo BASE_URL ?>fisc/consultar_denuncia/1" name="formSearhCofisc">
+                        <form method="GET" action="<?php echo BASE_URL ?>fisc_denuncia/consultar/1" name="formSearhCofisc">
                             <div class="form-row">
                                 <div class="col-md-3 mb-3">
                                     <label for='iTipoProtocolo'>Tipo de Protocolo: </label><br/>
@@ -94,11 +94,11 @@
                                 <div class="col-md-2 mb-3">
                                     <label for='iSelectBuscar'>Por: </label><br/>
                                     <select class="custom-select" name="nSelectBuscar" id="iSelectBuscar" >
-                                        <option value="" selected="selected" disabled="disabled">Selecione</option>
+                                        <option value="" selected="selected">Selecione</option>
                                         <option value="protoco">Nº de Protocolo</option>
                                         <option value="denunciado">Denunciado</option>
                                         <option value="denunciante">Denunciante</option>
-                                        <option value="Descrição">Descrição</option>
+                                        <option value="descricao">Descrição</option>
                                     </select>
                                     <div class="invalid-feedback">Informe o setor</div>
                                 </div>
@@ -159,7 +159,7 @@
                                         <td><?php echo!empty($indice['denunciante']) ? $indice['denunciante'] : 'Anônimo' ?></td>
                                         <td class="table-acao text-center">
                                             <a class="btn btn-success btn-sm" href="<?php echo BASE_URL . 'fisc_denuncia/denuncia/' . md5($indice['id']); ?>" title="Visualizar"><i class="fa fa-eye"></i></a> 
-                                            <?php if ($this->checkSetor() == 10 || ($indice['status_id'] == 1 && $indice['usuario_id'] == $this->getIdUser())): ?>
+                                            <?php if ($this->checkSetor() == 10 || $this->checkSetor() == 4): ?>
                                                 <a class="btn btn-primary btn-sm" href="<?php echo BASE_URL . 'cca/editar/' . md5($indice['id']); ?>" title="Editar"><i class="fa fa-pencil-alt"></i></a> 
                                                 <?php
                                             endif;

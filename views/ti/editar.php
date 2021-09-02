@@ -5,7 +5,7 @@
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="<?php echo BASE_URL ?>home"><i class="fa fa-tachometer-alt"></i> Inicial</a></li>
-                    <li class="breadcrumb-item"><a href="#" ><i class="fas fa-angle-double-right"></i> ASTIGE</a></li>
+                    <li class="breadcrumb-item"><a href="#" ><i class="fas fa-angle-double-right"></i> Suporte Interno</a></li>
                     <li class="breadcrumb-item active" aria-current="page"><a href="<?php echo BASE_URL ?>ti/editar/<?php echo md5($chamado['id']) ?>"><i class="fas fa-edit"></i> Editar Chamado</a></li>
                 </ol>
             </nav>
@@ -72,12 +72,23 @@
                         </div>
                         <!--<div class="row">;;;-->
                         <div class="row">
-                            <div class="col mb-3"
-                                 <label for='iAssunto'>Assunto: *</label><br/>
-                                <input type="text" name="nAssunto"  class="form-control" id="iAssunto" placeholder="Exemplo: Criação de novo usuário" value="<?php echo!empty($chamado['assunto']) ? $chamado['assunto'] : ''; ?>" required>
-                                <div class="invalid-feedback">
-                                    Informe o Assunto
-                                </div>
+                            <div class="col mb-3">
+                                <label for='iAssunto'>Assunto: * </label><br/>
+                                <select class="custom-select" name="nAssunto" id="iAssunto" required>
+                                    <?php
+                                    if (!isset($chamado['assunto_id'])) {
+                                        echo '<option value="" selected = "selected" disabled="disabled">Selecione o assunto </option>';
+                                    }
+                                    foreach ($assuntos as $indice) {
+                                        if (isset($chamado['assunto_id']) && $indice['id'] == $chamado['assunto_id']) {
+                                            echo '<option value = "' . $indice['id'] . '" selected = "selected">' . $indice['assunto'] . '</option>';
+                                        } else {
+                                            echo '<option value = "' . $indice['id'] . '">' . $indice['assunto'] . '</option>';
+                                        }
+                                    }
+                                    ?>
+                                </select>
+                                <div class="invalid-feedback"> Informe o Assunto</div>
                             </div>
                         </div>
                         <!--<div class="row">-->

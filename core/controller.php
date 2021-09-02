@@ -198,5 +198,7 @@ class controller {
     public function getDatatimeNow() {
         return date("Y-m-d H:i:00", (time() - 18000));
     }
-
+    public function getDataNow() {
+        return date("Y-m-d", (time() - 18000));
+    }
 }

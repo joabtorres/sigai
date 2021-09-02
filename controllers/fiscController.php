@@ -43,6 +43,27 @@ class fiscController extends controller {
         }
     }
 
+    public function get_search_tipo_documento() {
+        if (isset($_POST) && is_array($_POST) && !empty($_POST)) {
+            $crudModel = new crud_db();
+            $protocolo_id = addslashes($_POST['protocolo_id']);
+            if (isset($_POST['id_user'])) {
+                $user_id = addslashes($_POST['id_user']);
+            }
+            $usuarios = $crudModel->read("SELECT * FROM fisc_tipo_documento WHERE protocolo_id=:id ORDER BY documento ASC", array('id' => $protocolo_id));
+            if (!isset($user_id)) {
+                echo '<option value="" selected = "selected" >Todos </option>';
+            }
+            foreach ($usuarios as $indice) {
+                if (isset($user_id) && $indice['id'] == $user_id) {
+                    echo '<option value = "' . $indice['id'] . '" selected = "selected">' . $indice['documento'] . '</option>';
+                } else {
+                    echo '<option value = "' . $indice['id'] . '">' . $indice['documento'] . '</option>';
+                }
+            }
+        }
+    }
+
     public function get_bairro() {
         if (isset($_POST) && is_array($_POST) && !empty($_POST)) {
             $crudModel = new crud_db();
@@ -64,7 +85,6 @@ class fiscController extends controller {
             }
         }
     }
-
 
     public function cadastro_solicitacao() {
         if ($this->checkUser() && ($this->checkSetor() == 4 || $this->checkSetor() == 10)) {
@@ -146,4 +166,5 @@ class fiscController extends controller {
             header($url);
         }
     }
+
 }

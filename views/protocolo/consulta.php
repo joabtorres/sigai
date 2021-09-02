@@ -1,12 +1,12 @@
 <div class="container-fluid">
     <div class="row" >
         <div class="col" id="pagina-header">
-            <h5>Consultar Chamados</h5>
+            <h5>Consultar Protocolo</h5>
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="<?php echo BASE_URL ?>home"><i class="fa fa-tachometer-alt"></i> Inicial</a></li>
-                    <li class="breadcrumb-item"><a href="#" ><i class="fas fa-angle-double-right"></i> CCA</a></li>
-                    <li class="breadcrumb-item active" aria-current="page"><a href="<?php echo BASE_URL ?>cca/consultar"><i class="fas fa-tasks"></i> Consultar Chamados</a></li>
+                    <li class="breadcrumb-item"><a href="#" ><i class="fas fa-angle-double-right"></i> Protocolo</a></li>
+                    <li class="breadcrumb-item active" aria-current="page"><a href="<?php echo BASE_URL ?>protocolo/consultar"><i class="fas fa-tasks"></i> Consultar Protocolo</a></li>
                 </ol>
             </nav>
         </div>
@@ -24,34 +24,34 @@
                 </header>
                 <div class="collapse" id="collapseExample">
                     <article class="card-body">
-                        <form method="GET" action="<?php echo BASE_URL ?>cca/consultar/1" name="formCCASearch">
+                        <form method="GET" action="<?php echo BASE_URL ?>protocolo/consultar/1" name="formPROTOCOLOSearch">
                             <div class="form-row">
-                                <div class="col mb-3">
-                                    <label for='iSetor'>Setor: </label><br/>
-                                    <select class="custom-select" name="nSetor" id="iSetor" onchange="selectSetor(this.value)">
-                                        <option value="" selected="selected">Todas</option>
+                                <div class="col-md-2 mb-3">
+                                    <label for='itipo'>Tipo do Protocolo: </label><br/>
+                                    <select class="custom-select" name="nTipo" id="itipo" onchange="selectTipoProtocolo(this.value)">
+                                        <option value="" selected="selected">Todos</option>
                                         <?php
-                                        foreach ($setores as $indice) {
+                                        foreach ($protocolo_tipo as $indice) {
                                             if (isset($chamado['setor_id']) && $indice['id'] == $chamado['setor_id']) {
-                                                echo '<option value = "' . $indice['id'] . '" selected = "selected">' . $indice['nome'] . ' - ' . $indice['abreviacao'] . '</option>';
+                                                echo '<option value = "' . $indice['id'] . '" selected = "selected">' . $indice['tipo'].'</option>';
                                             } else {
-                                                echo '<option value = "' . $indice['id'] . '">' . $indice['nome'] . ' - ' . $indice['abreviacao'] . '</option>';
+                                                echo '<option value = "' . $indice['id'] . '">' . $indice['tipo'].'</option>';
                                             }
                                         }
                                         ?>
                                     </select>
                                     <div class="invalid-feedback">Informe o setor</div>
                                 </div>
-                                <div class="col mb-3">
-                                    <label for='iUsuario'>Solícitante: </label><br/>
-                                    <select class="custom-select" name="nUsuario" id="iUsuario" >
-                                        <option value="" selected="selected">Todas</option>
+                                <div class="col-md-4 mb-3">
+                                    <label for='iObjetivo'> Objetivo do Pedido: </label><br/>
+                                    <select class="custom-select" name="nObjeito" id="iObjetivo" >
+                                        <option value="" selected="selected">Todos</option>
                                         <?php
-                                        foreach ($usuarios as $indice) {
+                                        foreach ($protocolo_objetivo as $indice) {
                                             if (isset($chamado['usuario_id']) && $indice['id'] == $chamado['usuario_id']) {
-                                                echo '<option value = "' . $indice['id'] . '" selected = "selected">' . $indice['nome'] . '</option>';
+                                                echo '<option value = "' . $indice['id'] . '" selected = "selected">' . $indice['objetivo'] . '</option>';
                                             } else {
-                                                echo '<option value = "' . $indice['id'] . '">' . $indice['nome'] . '</option>';
+                                                echo '<option value = "' . $indice['id'] . '">' . $indice['objetivo'] . '</option>';
                                             }
                                         }
                                         ?>
@@ -60,22 +60,21 @@
                                         Informe o usuário solicitante
                                     </div>
                                 </div>
-                                <div class="col mb-3">
-                                    <label for='iUsuario'>Status do chamado: </label><br/>
-                                    <select class="custom-select" name="nStatus" id="iUsuario" >
-                                        <option value="" selected="selected">Todas</option>
-                                        <?php
-                                        foreach ($chamado_status as $indice) {
-                                            if (isset($chamado['status_id']) && $indice['id'] == $chamado['status_id']) {
-                                                echo '<option value = "' . $indice['id'] . '" selected = "selected">' . $indice['nome'] . '</option>';
-                                            } else {
-                                                echo '<option value = "' . $indice['id'] . '">' . $indice['nome'] . '</option>';
-                                            }
-                                        }
-                                        ?>
+                                <div class="col-md-2 mb-3">
+                                    <label for='iSelectBuscar'>Por: </label><br/>
+                                    <select class="custom-select" name="nSelectBuscar" id="iSelectBuscar" >
+                                        <option value="" selected="selected" disabled="disabled">Selecione</option>
+                                        <option value="protoco">Nº de Protocolo</option>
+                                        <option value="interessado">Interessado</option>
+                                        <option value="data">Data</option>
                                     </select>
+                                    <div class="invalid-feedback">Informe o setor</div>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label for="iCampo">Campo:  </label>
+                                    <input type="text" class="form-control" name="nCampo" id="iCampo"/>
                                     <div class="invalid-feedback">
-                                        Informe o usuário solicitante
+                                        Informe nome / email do usuário
                                     </div>
                                 </div>
                             </div>
@@ -100,7 +99,7 @@
     </div>
     <!--<div class="row" id="painel_de_consulta">-->
     <?php
-    if (!empty($chamados)) {
+    if (!empty($protocolagens)) {
         ?>
         <div class="row">
             <div class="col mb-2 mt-2">
@@ -114,28 +113,30 @@
                             <thead class="bg-success">
                                 <tr>
                                     <th scope="col" >#</th>
+                                    <th scope="col">Tipo do Protocolo</th>
+                                    <th scope="col">Número do Protocolo</th>
+                                    <th scope="col">Interessado</th>
                                     <th scope="col">Data</th>
-                                    <th scope="col">Setor</th>
-                                    <th scope="col">Status</th>
-                                    <th scope="col">Solicitante</th>
+                                    <th scope="col">Objetivo do Pedido</th>
                                     <th scope="col">Ação</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php
                                 $qtd = 1;
-                                foreach ($chamados as $indice):
+                                foreach ($protocolagens as $indice):
                                     ?>
                                     <tr>
                                         <td class="text-center"><?php echo $qtd ?></td>
-                                        <td><?php echo $this->formatDateViewComplet($indice['data']) ?></td>
-                                        <td><?php echo $indice['setor'] ?></td>
-                                        <td><?php $this->getStatus($indice['status_id'], $indice['status']); ?></td>
-                                        <td><?php echo $indice['usuario'] ?></td>
+                                        <td><?php echo!empty($indice['tipo_id']) ? $indice['tipo'] : ''; ?></td>
+                                        <td><?php echo!empty($indice['numero_protocolo']) ? $indice['numero_protocolo'] : ''; ?></td>                                      
+                                        <td><?php echo!empty($indice['interessado']) ? $indice['interessado'] : ''; ?></td> 
+                                        <td><?php echo!empty($indice['interessado']) ? $this->formatDateView($indice['data']) : ''; ?></td> 
+                                        <td><?php echo!empty($indice['objetivo']) ? $indice['objetivo'] : ''; ?></td> 
                                         <td class="table-acao text-center">
-                                            <a class="btn btn-success btn-sm" href="<?php echo BASE_URL . 'cca/chamado/' . md5($indice['id']); ?>" title="Visualizar"><i class="fa fa-eye"></i></a> 
-                                            <?php if ($this->checkSetor() == 10 || ($indice['status_id'] == 1 && $indice['usuario_id']==$this->getIdUser())): ?>
-                                                <a class="btn btn-primary btn-sm" href="<?php echo BASE_URL . 'cca/editar/' . md5($indice['id']); ?>" title="Editar"><i class="fa fa-pencil-alt"></i></a> 
+                                            <a class="btn btn-success btn-sm" href="<?php echo BASE_URL . 'protocolo/protocolo/' . md5($indice['id']); ?>" title="Visualizar"><i class="fa fa-eye"></i></a> 
+                                            <?php if ($this->checkSetor() == 10 || $this->checkSetor() == 7 ): ?>
+                                                <a class="btn btn-primary btn-sm" href="<?php echo BASE_URL . 'protocolo/editar/' . md5($indice['id']); ?>" title="Editar"><i class="fa fa-pencil-alt"></i></a> 
                                                 <?php
                                             endif;
                                             if ($this->checkSetor() == 10):
@@ -181,15 +182,15 @@ if (ceil($paginas) > 1) {
                 <nav aria-label="Page navigation example">
                     <ul class = "pagination">
                         <?php
-                        echo "<li class='page-item'><a class='page-link' href='" . BASE_URL . "cca/consultar/1" . $metodo_buscar . "'><span aria-hidden='true'>&laquo;</span></a></li>";
+                        echo "<li class='page-item'><a class='page-link' href='" . BASE_URL . "protocolo/consultar/1" . $metodo_buscar . "'><span aria-hidden='true'>&laquo;</span></a></li>";
                         for ($p = 0; $p < ceil($paginas); $p++) {
                             if ($pagina_atual == ($p + 1)) {
-                                echo "<li class='page-item active'><a class='page-link' href='" . BASE_URL . "cca/consultar/" . ($p + 1) . $metodo_buscar . "'>" . ($p + 1) . "</a></li>";
+                                echo "<li class='page-item active'><a class='page-link' href='" . BASE_URL . "protocolo/consultar/" . ($p + 1) . $metodo_buscar . "'>" . ($p + 1) . "</a></li>";
                             } else {
-                                echo "<li class='page-item'><a class='page-link' href='" . BASE_URL . "cca/consultar/" . ($p + 1) . $metodo_buscar . "'>" . ($p + 1) . "</a></li>";
+                                echo "<li class='page-item'><a class='page-link' href='" . BASE_URL . "protocolo/consultar/" . ($p + 1) . $metodo_buscar . "'>" . ($p + 1) . "</a></li>";
                             }
                         }
-                        echo "<li class='page-item'><a class='page-link' href='" . BASE_URL . "cca/consultar/" . ceil($paginas) . $metodo_buscar . "'>&raquo;</a></li>";
+                        echo "<li class='page-item'><a class='page-link' href='" . BASE_URL . "protocolo/consultar/" . ceil($paginas) . $metodo_buscar . "'>&raquo;</a></li>";
                         ?>
                     </ul>
                 </nav>
@@ -201,8 +202,8 @@ if (ceil($paginas) > 1) {
 <!--fim da paginação-->
 <?php
 if ($this->checkSetor() == 10):
-    if (isset($chamados) && is_array($chamados)) :
-        foreach ($chamados as $indice) :
+    if (isset($protocolagens) && is_array($protocolagens)) :
+        foreach ($protocolagens as $indice) :
             ?>        
             <!--MODAL - ESTRUTURA BÁSICA-->
             <section class="modal fade" id="modal_relatorio_<?php echo md5($indice['id']) ?>" tabindex="-1" role="dialog">

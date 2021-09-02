@@ -56,6 +56,7 @@ class tiController extends controller {
             $dados = array();
             $crudModel = new crud_db();
             $dados['setores'] = $crudModel->read("SELECT * FROM setor");
+            $dados['assuntos'] = $crudModel->read("SELECT * FROM ti_chamado_assunto");
 
             if (isset($_POST['nSalvar']) && !empty($_POST['nSalvar'])) {
                 $chamado = array();
@@ -66,7 +67,7 @@ class tiController extends controller {
                 //status
                 $chamado['status_id'] = '1';
                 //assunto
-                $chamado['assunto'] = addslashes($_POST['nAssunto']);
+                $chamado['assunto_id'] = addslashes($_POST['nAssunto']);
                 //data
                 $chamado['data'] = $this->getDatatimeNow();
                 //descricao
@@ -80,7 +81,7 @@ class tiController extends controller {
                 } else {
                     $chamado['anexo'] = addslashes($_POST['nFileEnviado']);
                 }
-                $resultado = $crudModel->create("INSERT INTO ti_chamado (setor_id, usuario_id, status_id, assunto, data, descricao, anexo) VALUES (:setor_id, :usuario_id, :status_id, :assunto, :data, :descricao, :anexo) ", $chamado);
+                $resultado = $crudModel->create("INSERT INTO ti_chamado (setor_id, usuario_id, status_id, assunto_id, data, descricao, anexo) VALUES (:setor_id, :usuario_id, :status_id, :assunto_id, :data, :descricao, :anexo) ", $chamado);
                 if ($resultado) {
                     $dados['erro'] = array('class' => 'alert-success', 'msg' => '<i class="fa fa-check-circle" aria-hidden="true"></i> Cadastro realizado com sucesso!');
                 } else {
@@ -137,7 +138,7 @@ class tiController extends controller {
                 $dados["paginas"] = $paginas;
                 $dados["pagina_atual"] = $pagina_atual;
                 $dados['metodo_buscar'] = $parametros;
-                $sql .= "  ORDER BY c.id DESC LIMIT $indice,$limite ";
+                $sql .= "  ORDER BY c.id ASC LIMIT $indice,$limite ";
                 $chamados = $crudModel->read($sql, $arrayForm);
             } else {
                 //paginacao
@@ -150,7 +151,7 @@ class tiController extends controller {
                 $dados["paginas"] = $paginas;
                 $dados["pagina_atual"] = $pagina_atual;
                 $dados['metodo_buscar'] = "";
-                $sql .= " ORDER BY c.id DESC LIMIT $indice,$limite";
+                $sql .= " ORDER BY c.id asc LIMIT $indice,$limite";
                 $chamados = $crudModel->read($sql);
             }
             $dados['chamados'] = $chamados;
@@ -194,7 +195,7 @@ class tiController extends controller {
                 }
             }
 
-            $sql = "SELECT C.*, s.nome as setor, s.abreviacao, cs.nome as status, u.nome as usuario, u.portaria, u.imagem FROM ti_chamado AS c INNER JOIN setor as s INNER JOIN ti_chamado_status as cs INNER JOIN usuario as u WHERE c.setor_id=s.id AND c.status_id=cs.id  AND c.usuario_id=u.id AND md5(c.id)=:id";
+            $sql = "SELECT C.*, ca.assunto, s.nome as setor, s.abreviacao, cs.nome as status, u.nome as usuario, u.portaria, u.imagem FROM ti_chamado AS c INNER JOIN ti_chamado_assunto AS ca INNER JOIN setor as s INNER JOIN ti_chamado_status as cs INNER JOIN usuario as u WHERE c.assunto_id=ca.id AND c.setor_id=s.id AND c.status_id=cs.id  AND c.usuario_id=u.id AND md5(c.id)=:id";
             $arraySql = array('id' => $id);
             $chamados = $crudModel->read_specific($sql, $arraySql);
             $dados['chamado'] = $chamados;
@@ -214,6 +215,7 @@ class tiController extends controller {
             $dados = array();
             $crudModel = new crud_db();
             $dados['setores'] = $crudModel->read("SELECT * FROM setor");
+            $dados['assuntos'] = $crudModel->read("SELECT * FROM ti_chamado_assunto");
             $dados['chamado'] = $crudModel->read_specific("SELECT * FROM ti_chamado where md5(id)=:id", array('id' => $id));
             if (isset($_POST['nSalvar']) && !empty($_POST['nSalvar'])) {
                 $chamado = array();
@@ -226,7 +228,7 @@ class tiController extends controller {
                 //status
                 $chamado['status_id'] = $dados['chamado']['status_id'];
                 //assunto
-                $chamado['assunto'] = addslashes($_POST['nAssunto']);
+                $chamado['assunto_id'] = addslashes($_POST['nAssunto']);
                 //descricao
                 $chamado['descricao'] = addslashes($_POST['nDescricao']);
 
@@ -238,7 +240,7 @@ class tiController extends controller {
                 } else {
                     $chamado['anexo'] = addslashes($_POST['nFileEnviado']);
                 }
-                $resultado = $crudModel->update("UPDATE ti_chamado SET setor_id=:setor_id, usuario_id=:usuario_id, status_id=:status_id, assunto=:assunto, descricao=:descricao, anexo=:anexo WHERE id=:id", $chamado);
+                $resultado = $crudModel->update("UPDATE ti_chamado SET setor_id=:setor_id, usuario_id=:usuario_id, status_id=:status_id, assunto_id=:assunto_id, descricao=:descricao, anexo=:anexo WHERE id=:id", $chamado);
                 if ($resultado) {
                     $dados['erro'] = array('class' => 'alert-success', 'msg' => '<i class="fa fa-check-circle" aria-hidden="true"></i> Alteração realizada com sucesso!');
                     $dados['chamado'] = $chamado;

@@ -20,6 +20,27 @@ INSERT INTO ti_chamado_status (id, nome) VALUES
 (3, 'Cancelado'),
 (4, 'Finalizado');
 
+-- -----------------------------------------------------
+-- Table ti_chamado_assunto
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS ti_chamado_assunto ;
+
+CREATE TABLE IF NOT EXISTS ti_chamado_assunto (
+  id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  assunto VARCHAR(45) NULL,
+  PRIMARY KEY (id))
+ENGINE = InnoDB;
+
+INSERT INTO ti_chamado_assunto (assunto) VALUES
+('Instalação, atualização ou remoção da impressora'),
+('Instalação, atualização ou remoção de computador'),
+('Permissão ou restrinção de acesso a arquivos'),
+('Criação, alteração ou desativação de usuário'),
+('Recuperação de arquivo'),
+('Recarga de tinta ou tone da impressora'),
+('Backup de arquivos'),
+('Outros');
+
 --
 -- Estrutura da tabela ti_chamado
 --
@@ -30,7 +51,7 @@ CREATE TABLE IF NOT EXISTS ti_chamado (
   setor_id INT UNSIGNED NOT NULL,
   usuario_id INT UNSIGNED NOT NULL,
   status_id INT UNSIGNED NOT NULL,
-  assunto VARCHAR(255) NULL,
+  assunto_id INT UNSIGNED NOT NULL,
   data DATETIME NULL,
   descricao TEXT NULL,
   anexo VARCHAR(255) NULL,
@@ -49,19 +70,14 @@ CREATE TABLE IF NOT EXISTS ti_chamado (
     FOREIGN KEY (status_id)
     REFERENCES ti_chamado_status (id)
     ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT fk_ti_chamado_ti_chamado_assunto1
+    FOREIGN KEY (assunto_id)
+    REFERENCES ti_chamado_assunto (id)
+    ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
-
---
--- Extraindo dados da tabela ti_chamado
---
-
-INSERT INTO ti_chamado (id, setor_id, usuario_id, status_id, assunto, data, descricao, anexo) VALUES
-(1, 4, 10, 4, 'Lentidão no uso do computador', '2020-08-17 11:14:00', 'Solicito suporte técnico para verificar o motivo de lentidão no uso do computador. ', ''),
-(2, 4, 11, 4, 'Instalação de programa', '2020-08-20 11:38:00', 'Prezado, gostaria de solicitar a instalação do software Corel Draw na maquina que utilizo. ', '');
-
--- --------------------------------------------------------
 
 --
 -- Estrutura da tabela ti_chamado_historico
@@ -96,11 +112,3 @@ CREATE TABLE IF NOT EXISTS ti_chamado_historico (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
---
--- Extraindo dados da tabela ti_chamado_historico
---
-
-INSERT INTO ti_chamado_historico (id, chamado_id, status_id, usuario_id, data, descricao, anexo) VALUES
-(29, 1, 2, 1, '2020-08-17 11:16:54', 'Irei verificar assim que possível', ''),
-(30, 2, 4, 1, '2020-08-17 11:17:15', 'Apos analise técnica foi identificado que o problema de lentidão no acessoa a maquina está relacionada a questão da rede, o computador estava no wifi, foi realizado a mudança para modo de cabeamento.', ''),
-(33, 2, 4, 1, '2020-08-20 11:41:26', 'Foi realizado a instalação do CorelDRAW versão 2018 na máquina cofisc-06.', '');

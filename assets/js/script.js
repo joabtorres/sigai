@@ -3,6 +3,9 @@
  * @description classes para tratamento de preenchimento de campos
  */
 $(document).ready(function () {
+    $('.select2-js').select2({
+        width: '100%'
+    });
     $('.input-data').mask("99/99/9999");
     $('.input-data-complete').mask("99/99/9999 99:99:99");
     $('.input-cpf').mask("999.999.999-99");
@@ -126,6 +129,60 @@ if (document.nFormCCAChamado) {
             form.submit();
         }
 
+    }
+}
+//form do protocolo anexo
+if (document.nFormProtocoloAnexo) {
+    function valida_formChamado() {
+        form = document.nFormProtocoloAnexo;
+        if (null_or_empty("iDescricao")
+                || null_or_empty("iAnexo"))
+        {
+            $(form).addClass('was-validated');
+        } else {
+            form.submit();
+        }
+
+    }
+}
+//form de tramitacao
+if (document.nFormTramitacao) {
+    function valida_formTramitacao() {
+        form = document.nFormTramitacao;
+        if (null_or_empty("iSetorRemetente")
+                || null_or_empty("iUsuarioRemetente")
+                || null_or_empty("iSetorDestinatario")
+                || null_or_empty("iUsuarioDestinatario")
+                || null_or_empty("iData"))
+        {
+            $(form).addClass('was-validated');
+        } else {
+            form.submit();
+        }
+
+    }
+    function selectSetorRemetente(setor_id) {
+        xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                document.getElementById("iUsuarioRemetente").innerHTML = this.responseText;
+            }
+        };
+        xhttp.open("POST", base_url + "tramitacao/getusuarios", true);
+        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhttp.send("setor_id=" + setor_id);
+    }
+
+    function selectSetorDestinatario(setor_id) {
+        xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                document.getElementById("iUsuarioDestinatario").innerHTML = this.responseText;
+            }
+        };
+        xhttp.open("POST", base_url + "tramitacao/getusuarios", true);
+        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhttp.send("setor_id=" + setor_id);
     }
 }
 //form do usuario
@@ -464,7 +521,7 @@ if (document.formSearhCofisc) {
                 document.getElementById("iTipoDocumento").innerHTML = this.responseText;
             }
         };
-        xhttp.open("POST", base_url + "fisc/get_tipo_documento", true);
+        xhttp.open("POST", base_url + "fisc/get_search_tipo_documento", true);
         xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         xhttp.send("protocolo_id=" + tipo_protocolo);
     }
@@ -479,6 +536,137 @@ if (document.formSearhCofisc) {
         xhttp.open("POST", base_url + "fisc/get_bairro", true);
         xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         xhttp.send("cidade_id=" + cidade_id);
+    }
+}
+
+if (document.nFormProtocolo) {
+    function valida_formProtocolo() {
+        form = document.nFormProtocolo;
+        if (null_or_empty("iTipo")
+                || null_or_empty("iObjetivo")
+                || null_or_empty("iNumeroProtocolo")
+                || null_or_empty("iData")
+                || null_or_empty("iInteressado")
+                || null_or_empty("iNFolhas")
+                || null_or_empty("iAssunto"))
+        {
+            $(form).addClass('was-validated');
+
+        } else {
+            form.submit();
+        }
+
+    }
+    function selectTipoProtocolo(tipo_id) {
+        xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                document.getElementById("iObjetivo").innerHTML = this.responseText;
+            }
+        };
+        xhttp.open("POST", base_url + "protocolo/get_tipo_protocolo", true);
+        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhttp.send("tipo_id=" + tipo_id);
+    }
+
+    function selectBairro(cidade_id) {
+        xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                document.getElementById("iBairro").innerHTML = this.responseText;
+            }
+        };
+        xhttp.open("POST", base_url + "protocolo/get_bairro", true);
+        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhttp.send("cidade_id=" + cidade_id);
+    }
+
+    /*
+     * Google mapas
+     */
+    var geocoder;
+    var map;
+    var marker;
+    function initialize() {
+        if (document.getElementById("cLatitude").value != '' && document.getElementById("cLongitude").value != '') {
+            var latlng = new google.maps.LatLng(document.getElementById("cLatitude").value, document.getElementById("cLongitude").value);
+        } else {
+            var latlng = new google.maps.LatLng(-1.2955583054409823, -47.91926629129639);
+        }
+        var options = {
+            zoom: 14,
+            center: latlng,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+        map = new google.maps.Map(document.getElementById("viewMapa"), options);
+        geocoder = new google.maps.Geocoder();
+        marker = new google.maps.Marker({
+            map: map,
+            draggable: true
+        });
+        marker.setPosition(latlng);
+
+        google.maps.event.addListener(marker, 'drag', function () {
+            geocoder.geocode({'latLng': marker.getPosition()}, function (results, status) {
+                if (status == google.maps.GeocoderStatus.OK) {
+                    if (results[0]) {
+                        $('#cEndereco').val(results[0].formatted_address);
+                        $('#cLatitude').val(marker.getPosition().lat());
+                        $('#cLongitude').val(marker.getPosition().lng());
+                    }
+                }
+            });
+        });
+    }
+
+    function loadScriptGoogleMapsAPI() {
+        var script = document.createElement('script');
+        script.type = 'text/javascript';
+        script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyCg1ogHawJGuDbw7nd6qBz9yYxYPoGTWQo&callback=initialize';
+        document.body.appendChild(script);
+    }
+
+    function carregarNoMapa(endereco) {
+        geocoder.geocode({'address': endereco + ', Brasil', 'region': 'BR'}, function (results, status) {
+            if (status == google.maps.GeocoderStatus.OK) {
+                if (results[0]) {
+                    var latitude = results[0].geometry.location.lat();
+                    var longitude = results[0].geometry.location.lng();
+                    $('#cEndereco').val(results[0].formatted_address);
+                    $('#cLatitude').val(latitude);
+                    $('#cLongitude').val(longitude);
+                    var location = new google.maps.LatLng(latitude, longitude);
+                    marker.setPosition(location);
+                    map.setCenter(location);
+                    map.setZoom(16);
+                }
+            }
+        });
+    }
+    loadScriptGoogleMapsAPI();
+    $(document).ready(function () {
+        $("#btnEndereco").click(function () {
+            if ($(this).val() !== "")
+                carregarNoMapa($("#txtEndereco").val());
+        });
+        $("#cEndereco").blur(function () {
+            if ($(this).val() !== "")
+                carregarNoMapa($(this).val());
+        });
+    });
+}
+
+if (document.formPROTOCOLOSearch) {
+    function selectTipoProtocolo(tipo_id) {
+        xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                document.getElementById("iObjetivo").innerHTML = this.responseText;
+            }
+        };
+        xhttp.open("POST", base_url + "protocolo/get_tipo_protocoloSerach", true);
+        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhttp.send("tipo_id=" + tipo_id);
     }
 }
 

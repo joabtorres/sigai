@@ -5,8 +5,8 @@
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="<?php echo BASE_URL ?>home"><i class="fa fa-tachometer-alt"></i> Inicial</a></li>
-                    <li class="breadcrumb-item"><a href="#" ><i class="fas fa-angle-double-right"></i> COFISC</a></li>
-                    <li class="breadcrumb-item active" aria-current="page"><a href="<?php echo BASE_URL ?>fisc/cadastro_denuncia"><i class="fas fa-plus-square"></i> Nova Denúncia</a></li>
+                    <li class="breadcrumb-item"><a href="#" ><i class="fas fa-angle-double-right"></i> Fiscalização</a></li>
+                    <li class="breadcrumb-item active" aria-current="page"><a href="<?php echo BASE_URL ?>fisc_denuncia/cadastro"><i class="fas fa-plus-square"></i> Nova Denúncia</a></li>
                 </ol>
             </nav>
         </div>
@@ -27,6 +27,35 @@
         <div class="col">
             <form method="POST" action="<?php echo BASE_URL ?>fisc_denuncia/cadastro" enctype="multipart/form-data" autocomplete="off"  name="nFormCOFISCDenuncia">
                 <input type="hidden" name="nId" value="<?php echo!empty($arrayCad['denuncia']['id']) ? $arrayCad['denuncia']['id'] : 0; ?>"/>
+                <section class="card bg-light border-success mb-4">
+                    <header class="card-header bg-success">
+                        <h1 class="card-title h5 my-1"><i class="fas fa-file-alt"></i> Tramitação</h1>
+                    </header>
+                    <article class="card-body">
+                        <div class="row">
+                            <div class="col mb-3">
+                                <label for='iVincular'>Vincular protocolo de tramitação: <small class="text-success"> --- Utilize esta opção quando for vincular a denuncia a um protocolo da tramitação</small> </label><br/>
+                                <select class="custom-select select2-js" name="nTramitacao" id="iVincular">
+                                    <?php
+                                    if (!isset($arrayCad['protocolo']['tramitacao'])) {
+                                        echo '<option value="" selected = "selected" disabled="disabled">Selecione um protocolo (ação opcional)</option>';
+                                    }
+                                    echo '<option value="0" >Não vincula a protocolo de tramitação</option>';
+                                    foreach ($protocolos as $indice) {
+                                        if (isset($arrayCad['protocolo']['tramitacao']) && $indice['id'] == $arrayCad['protocolo']['tramitacao']) {
+                                            echo '<option value = "' . $indice['id'] . '" selected = "selected">Protocolo: ' . $indice['numero_protocolo'] . ' - Interessado: ' . $indice['interessado'] . ' - Data: ' . $this->formatDateView($indice['data']) . ' - Objetivo do Pedido: ' . $indice['objetivo'] . '</option>';
+                                        } else {
+                                            echo '<option value = "' . $indice['id'] . '">Protocolo: ' . $indice['numero_protocolo'] . ' - Interessado: ' . $indice['interessado'] . ' - Data: ' . $this->formatDateView($indice['data']) . ' - Objetivo do Pedido: ' . $indice['objetivo'] . '</option>';
+                                        }
+                                    }
+                                    ?>
+                                </select>
+                                <div class="invalid-feedback">Informe o processo a ser vinculado</div>
+                            </div>
+                        </div>
+                    </article>
+                </section>
+
                 <section class="card bg-light border-success">
                     <header class="card-header bg-success">
                         <h1 class="card-title h5 my-1"><i class="fas fa-file-alt"></i> Dados do Protocolo</h1>
@@ -180,7 +209,7 @@
                                 <label for='iStatus'>Status da Denúncia: * </label><br/>
                                 <select class="select-single custom-select" name="nStatus" id="iStatus" required>
                                     <?php
-                                    $status = array(array('id' =>1, 'status'=> 'Em andamento'), array('id' =>2, 'status'=> 'Finalizado'));
+                                    $status = array(array('id' => 1, 'status' => 'Em andamento'), array('id' => 2, 'status' => 'Finalizado'));
                                     if (!isset($arrayCad['denuncia']['status'])) {
                                         echo '<option value="" selected = "selected" disabled="disabled">Selecione o status </option>';
                                     }
