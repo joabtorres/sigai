@@ -131,7 +131,7 @@
                                         <td><?php echo!empty($indice['tipo_id']) ? $indice['tipo'] : ''; ?></td>
                                         <td><?php echo!empty($indice['numero_protocolo']) ? $indice['numero_protocolo'] : ''; ?></td>                                      
                                         <td><?php echo!empty($indice['interessado']) ? $indice['interessado'] : ''; ?></td> 
-                                        <td><?php echo!empty($indice['interessado']) ? $this->formatDateView($indice['data']) : ''; ?></td> 
+                                        <td><?php echo!empty($indice['data']) ? $this->formatDateView($indice['data']) : ''; ?></td> 
                                         <td><?php echo!empty($indice['objetivo']) ? $indice['objetivo'] : ''; ?></td> 
                                         <td class="table-acao text-center">
                                             <a class="btn btn-success btn-sm" href="<?php echo BASE_URL . 'protocolo/protocolo/' . md5($indice['id']); ?>" title="Visualizar"><i class="fa fa-eye"></i></a> 
@@ -217,15 +217,15 @@ if ($this->checkSetor() == 10):
                         </header>
                         <article class="modal-body">
                             <ul class="list-unstyled">
-                                <li><b>Chamado: </b> <?php echo!empty($indice['id']) ? $indice['id'] : '' ?>;</li>
-                                <li><b>Status: </b> <?php echo isset($indice['status']) && !empty($indice['status']) ? $indice['status'] : '0' ?>;</li>
-                                <li><b>Setor: </b> <?php echo isset($indice['setor']) && !empty($indice['setor']) ? $indice['setor'] : '0' ?>;</li>
-                                <li><b>Solicitante: </b> <?php echo isset($indice['usuario']) && !empty($indice['usuario']) ? $indice['usuario'] : '0' ?>;</li>
+                                <li><b>Número do Protocolo: </b> <?php echo!empty($indice['numero_protocolo']) ? $indice['numero_protocolo'] : '' ?>;</li>
+                                <li><b>Interessado: </b> <?php echo isset($indice['interessado']) && !empty($indice['interessado']) ? $indice['interessado'] : '0' ?>;</li>
+                                <li><b>Data: </b> <?php echo !empty($indice['data']) ? $this->formatDateView($indice['data']) : ''; ?>;</li>
+                                <li><b>Objetivo do Pedido: </b> <?php echo!empty($indice['objetivo']) ? $indice['objetivo'] : ''; ?>;</li>
                             </ul>
                             <p class="text-justify text-danger"><span class="font-bold">OBS : </span> Ao clicar em "Excluir", este registro e todos registos relacionados ao mesmo deixaram de existir no sistema.</p>
                         </article>
                         <footer class="modal-footer">
-                            <a class="btn btn-danger pull-left" href="<?php echo BASE_URL . 'cca/excluirchamado/' . md5($indice['id']) ?>"> <i class="fa fa-trash"></i> Excluir</a> 
+                            <a class="btn btn-danger pull-left" href="<?php echo BASE_URL . 'protocolo/excluirprotocolo/' . md5($indice['id']) ?>"> <i class="fa fa-trash"></i> Excluir</a> 
                             <button class="btn btn-default" type="button" data-dismiss="modal"><i class="fa fa-times"></i> Fechar</button>
                         </footer>
                     </section>

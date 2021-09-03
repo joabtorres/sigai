@@ -1,7 +1,7 @@
 <?php
 
 class protocoloController extends controller {
-    
+
     public function index() {
         $this->cadastro();
     }
@@ -85,7 +85,7 @@ class protocoloController extends controller {
             $x = str_pad(++$array[0], 4, '0', STR_PAD_LEFT);
             return $x . '/' . $array[1];
         } else {
-             $x = str_pad(1, 4, '0', STR_PAD_LEFT);
+            $x = str_pad(1, 4, '0', STR_PAD_LEFT);
             return $x . '/' . date('Y');
         }
     }
@@ -275,6 +275,19 @@ class protocoloController extends controller {
         }
     }
 
+    public function excluirprotocolo($id) {
+         if ($this->checkUser()) {
+            $crudModel = new crud_db();
+            if ($crudModel->remove("DELETE FROM protocolo WHERE md5(id)=:cod", array('cod' => addslashes($id)))) {
+                $url = "location: " . BASE_URL . 'protocolo/consultar/1';
+                header($url);
+            }
+        } else {
+            $url = "location: " . BASE_URL . "home";
+            header($url);
+        }
+    }
+
     public function protocolo($id) {
         if ($this->checkUser()) {
             $crudModel = new crud_db();
@@ -361,7 +374,7 @@ class protocoloController extends controller {
             header($url);
         }
     }
-    
+
     /** função responstaval para checar se existe o diretorio e criar caso não tenha */
     private function checkDir($id) {
         if (!is_dir('uploads/protocolo/' . $id)) {
@@ -388,7 +401,6 @@ class protocoloController extends controller {
         }
     }
 
-    
     public function excluiranexo($id) {
         if ($this->checkUser() && $this->checkSetor() == 10) {
             $crudModel = new crud_db();
@@ -403,9 +415,9 @@ class protocoloController extends controller {
             header($url);
         }
     }
-    
+
     public function excluirhistorico($id) {
-       if ($this->checkUser() && $this->checkSetor() == 10) {
+        if ($this->checkUser() && $this->checkSetor() == 10) {
             $crudModel = new crud_db();
             $resultado = $crudModel->read_specific("SELECT * FROM protocolo_historico WHERE md5(id)=:id", array('id' => addslashes($id)));
             if ($crudModel->remove("DELETE FROM protocolo_historico WHERE md5(id)=:cod", array('cod' => addslashes($id)))) {
@@ -419,7 +431,7 @@ class protocoloController extends controller {
     }
 
     public function excluirtramitacao($id) {
-       if ($this->checkUser() && $this->checkSetor() == 10) {
+        if ($this->checkUser() && $this->checkSetor() == 10) {
             $crudModel = new crud_db();
             $resultado = $crudModel->read_specific("SELECT * FROM tramitacao WHERE md5(id)=:id", array('id' => addslashes($id)));
             $crudModel->delete_file($resultado['anexo']);
