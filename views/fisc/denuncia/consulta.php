@@ -160,7 +160,7 @@
                                         <td class="table-acao text-center">
                                             <a class="btn btn-success btn-sm" href="<?php echo BASE_URL . 'fisc_denuncia/denuncia/' . md5($indice['id']); ?>" title="Visualizar"><i class="fa fa-eye"></i></a> 
                                             <?php if ($this->checkSetor() == 10 || $this->checkSetor() == 4): ?>
-                                                <a class="btn btn-primary btn-sm" href="<?php echo BASE_URL . 'cca/editar/' . md5($indice['id']); ?>" title="Editar"><i class="fa fa-pencil-alt"></i></a> 
+                                                <a class="btn btn-primary btn-sm" href="<?php echo BASE_URL . 'fisc_denuncia/editar/' . md5($indice['id']); ?>" title="Editar"><i class="fa fa-pencil-alt"></i></a> 
                                                 <?php
                                             endif;
                                             if ($this->checkSetor() == 10):
@@ -206,15 +206,15 @@ if (ceil($paginas) > 1) {
                 <nav aria-label="Page navigation example">
                     <ul class = "pagination">
                         <?php
-                        echo "<li class='page-item'><a class='page-link' href='" . BASE_URL . "cca/consultar/1" . $metodo_buscar . "'><span aria-hidden='true'>&laquo;</span></a></li>";
+                        echo "<li class='page-item'><a class='page-link' href='" . BASE_URL . "fisc_denuncia/consultar/1" . $metodo_buscar . "'><span aria-hidden='true'>&laquo;</span></a></li>";
                         for ($p = 0; $p < ceil($paginas); $p++) {
                             if ($pagina_atual == ($p + 1)) {
-                                echo "<li class='page-item active'><a class='page-link' href='" . BASE_URL . "cca/consultar/" . ($p + 1) . $metodo_buscar . "'>" . ($p + 1) . "</a></li>";
+                                echo "<li class='page-item active'><a class='page-link' href='" . BASE_URL . "fisc_denuncia/consultar/" . ($p + 1) . $metodo_buscar . "'>" . ($p + 1) . "</a></li>";
                             } else {
-                                echo "<li class='page-item'><a class='page-link' href='" . BASE_URL . "cca/consultar/" . ($p + 1) . $metodo_buscar . "'>" . ($p + 1) . "</a></li>";
+                                echo "<li class='page-item'><a class='page-link' href='" . BASE_URL . "fisc_denuncia/consultar/" . ($p + 1) . $metodo_buscar . "'>" . ($p + 1) . "</a></li>";
                             }
                         }
-                        echo "<li class='page-item'><a class='page-link' href='" . BASE_URL . "cca/consultar/" . ceil($paginas) . $metodo_buscar . "'>&raquo;</a></li>";
+                        echo "<li class='page-item'><a class='page-link' href='" . BASE_URL . "fisc_denuncia/consultar/" . ceil($paginas) . $metodo_buscar . "'>&raquo;</a></li>";
                         ?>
                     </ul>
                 </nav>
@@ -241,15 +241,15 @@ if ($this->checkSetor() == 10):
                         </header>
                         <article class="modal-body">
                             <ul class="list-unstyled">
-                                <li><b>Chamado: </b> <?php echo!empty($indice['id']) ? $indice['id'] : '' ?>;</li>
-                                <li><b>Status: </b> <?php echo isset($indice['status']) && !empty($indice['status']) ? $indice['status'] : '0' ?>;</li>
-                                <li><b>Setor: </b> <?php echo isset($indice['setor']) && !empty($indice['setor']) ? $indice['setor'] : '0' ?>;</li>
-                                <li><b>Solicitante: </b> <?php echo isset($indice['usuario']) && !empty($indice['usuario']) ? $indice['usuario'] : '0' ?>;</li>
+                                <li><b>Data do Protocolo: </b> <?php echo $this->formatDateView($indice['data_protocolo']) ?>;</li>
+                                <li><b>Nº do Protocolo: </b> <?php echo!empty($indice['numero_protocolo']) ? $indice['numero_protocolo'] : '' ?>;</li>
+                                <li><b>Denunciado: </b> <?php echo!empty($indice['denunciado']) ? $indice['denunciado'] : 'Anônimo' ?>;</li>
+                                <li><b>Denunciante: </b> <?php echo!empty($indice['denunciante']) ? $indice['denunciante'] : 'Anônimo' ?>;</li>
                             </ul>
                             <p class="text-justify text-danger"><span class="font-bold">OBS : </span> Ao clicar em "Excluir", este registro e todos registos relacionados ao mesmo deixaram de existir no sistema.</p>
                         </article>
                         <footer class="modal-footer">
-                            <a class="btn btn-danger pull-left" href="<?php echo BASE_URL . 'cca/excluirchamado/' . md5($indice['id']) ?>"> <i class="fa fa-trash"></i> Excluir</a> 
+                            <a class="btn btn-danger pull-left" href="<?php echo BASE_URL . 'fisc_denuncia/excluirdenuncia/' . md5($indice['id']) ?>"> <i class="fa fa-trash"></i> Excluir</a> 
                             <button class="btn btn-default" type="button" data-dismiss="modal"><i class="fa fa-times"></i> Fechar</button>
                         </footer>
                     </section>

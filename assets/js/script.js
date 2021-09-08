@@ -7,6 +7,7 @@ $(document).ready(function () {
         width: '100%'
     });
     $('.input-data').mask("99/99/9999");
+    $('.input-dias').mask("999");
     $('.input-data-complete').mask("99/99/9999 99:99:99");
     $('.input-cpf').mask("999.999.999-99");
 
@@ -64,7 +65,6 @@ if (document.nFormCCA) {
 
     }
 
-
     $(document).ready(function () {
         if (typeof setor_id !== 'undefined') {
             if (setor_id !== null) {
@@ -80,6 +80,7 @@ if (document.nFormCCA) {
     });
 
     function selectSetor(setor_id) {
+        console.log(setor_id);
         xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {

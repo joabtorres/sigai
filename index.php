@@ -1,9 +1,12 @@
 <?php
+
+//nome da sessão diferente para cada usuário
+session_name(md5('seg' . $_SERVER['REMOTE_ADDR'] . $_SERVER['HTTP_USER_AGENT']));
 /* define o limitador de cache para 'private' */
 session_cache_limiter('private');
 $cache_limiter = session_cache_limiter();
 /* define o prazo do cache em 30 minutos */
-session_cache_expire(60);
+session_cache_expire(30);
 $cache_expire = session_cache_expire();
 
 /* inicia a sessão */

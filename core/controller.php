@@ -19,6 +19,11 @@ class controller {
      * @author Joab Torres <joabtorres1508@gmail.com>
      */
     protected function checkUser() {
+        $TokenUsuario = md5('seg' . $_SERVER['REMOTE_ADDR'] . $_SERVER['HTTP_USER_AGENT']);
+        if ($_SESSION['usuario']['sessao'] != $TokenUsuario) {
+            $url = "location: " . BASE_URL . "login";
+            header($url);
+        }
         if (isset($_SESSION['usuario']) && is_array($_SESSION['usuario']) && isset($_SESSION['usuario']['status'])) {
             if ($_SESSION['usuario']['status'] == 1) {
                 return $_SESSION['usuario']['acesso'];
@@ -44,6 +49,7 @@ class controller {
 
     protected function setUser($user) {
         $_SESSION['usuario'] = array();
+        $_SESSION['usuario']['sessao'] = md5('seg' . $_SERVER['REMOTE_ADDR'] . $_SERVER['HTTP_USER_AGENT']);
         //codigo
         $_SESSION['usuario']['id'] = $user['id'];
         $_SESSION['usuario']['setor_id'] = $user['setor_id'];
@@ -198,7 +204,9 @@ class controller {
     public function getDatatimeNow() {
         return date("Y-m-d H:i:00", (time() - 18000));
     }
+
     public function getDataNow() {
         return date("Y-m-d", (time() - 18000));
     }
+
 }

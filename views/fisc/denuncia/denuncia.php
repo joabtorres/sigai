@@ -129,6 +129,21 @@
                                 <?php echo (isset($result) && !empty($result['ano_memorando'])) ? $result['ano_memorando'] : ''; ?>                            
                                 </p>
                             </div>
+                             <div class="col-md-6">
+                                <p class="text-justify"><div class="text-success font-bold">Orgão Solicitante:</div> 
+                                <?php echo (isset($result) && !empty($result['solicitante'])) ? $result['solicitante'] : ''; ?>
+                                </p>
+                            </div>
+                            <div class="col-md-3">
+                                <p class="text-justify"><div class="text-success font-bold">Prazo em dias:</div> 
+                                <?php echo (isset($result) && !empty($result['prazo'])) ? $result['prazo'].' dia(s)' : ''; ?>                            
+                                </p>
+                            </div>
+                            <div class="col-md-3">
+                                <p class="text-justify"><div class="text-success font-bold">Prazo em data:</div> 
+                                <?php echo (isset($result) && !empty($result['prazo'])) ? date('d/m/Y', strtotime('+'.$result['prazo'].' days', strtotime($result['data_protocolo']))) : ''; ?>                            
+                                </p>
+                            </div>
                         </div>
                     </article>
                 </div>
@@ -382,7 +397,11 @@
                                     <th scope="col" >Data</th>
                                     <th scope="col" >Usuário</th>
                                     <th scope="col" >Descrição</th>
-                                    <th scope="col" width="100px">Ação</th>
+                                    <?php
+                                    if ($this->checkSetor() == 10):
+                                        ?>
+                                        <th scope="col" width="100px">Ação</th>
+                                    <?php endif; ?>
                                 </tr>
                             </thead>
                             <tbody>

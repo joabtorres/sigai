@@ -137,7 +137,8 @@ class protocoloController extends controller {
                 }
             }
             $ultimoProtocolo = $crudModel->read_specific('SELECT * FROM protocolo where data like "%' . date('Y') . '%" ORDER BY id DESC LIMIT 0,1');
-            $dados['numero_protocolo'] = $this->novo_numero_protocolo($ultimoProtocolo['numero_protocolo']);
+
+            $dados['numero_protocolo'] = !empty($ultimoProtocolo) ? $this->novo_numero_protocolo($ultimoProtocolo['numero_protocolo']) : $this->novo_numero_protocolo(null);
             $this->loadTemplate($viewName, $dados);
         } else {
             $url = "location: " . BASE_URL . "home";
@@ -276,7 +277,7 @@ class protocoloController extends controller {
     }
 
     public function excluirprotocolo($id) {
-         if ($this->checkUser()) {
+        if ($this->checkUser()) {
             $crudModel = new crud_db();
             if ($crudModel->remove("DELETE FROM protocolo WHERE md5(id)=:cod", array('cod' => addslashes($id)))) {
                 $url = "location: " . BASE_URL . 'protocolo/consultar/1';
@@ -293,10 +294,14 @@ class protocoloController extends controller {
             $crudModel = new crud_db();
             $resultado = $crudModel->read_specific("SELECT p.*, po.objetivo, pt.tipo FROM protocolo AS p INNER JOIN protocolo_objetivo AS po  INNER JOIN protocolo_tipo as pt WHERE p.objetivo_id=po.id AND p.tipo_id=pt.id AND md5(p.id)=:id", array('id' => $id));
             if (!empty($resultado)) {
-                $cidade = $crudModel->read_specific("SELECT cidade FROM cidade WHERE id=:id", array('id' => $resultado['cidade']));
-                $bairro = $crudModel->read_specific("SELECT bairro FROM bairro WHERE id=:id", array('id' => $resultado['bairro']));
-                $resultado['cidade'] = $cidade['cidade'];
-                $resultado['bairro'] = $bairro['bairro'];
+                if (!empty($resultado['cidade'])) {
+                    $cidade = $crudModel->read_specific("SELECT cidade FROM cidade WHERE id=:id", array('id' => $resultado['cidade']));
+                    $resultado['cidade'] = $cidade['cidade'];
+                }
+                if (!empty($resultado['bairro'])) {
+                    $bairro = $crudModel->read_specific("SELECT bairro FROM bairro WHERE id=:id", array('id' => $resultado['bairro']));
+                    $resultado['bairro'] = $bairro['bairro'];
+                }
                 $vinculados = $crudModel->read("SELECT p.*, pt.tipo FROM protocolo as p INNER JOIN protocolo_tipo as pt WHERE p.tipo_id=pt.id AND p.processo=:id UNION SELECT p.*, pt.tipo FROM protocolo as p INNER JOIN protocolo_tipo as pt WHERE p.tipo_id=pt.id AND p.id=:processo", array('id' => $resultado['id'], 'processo' => $resultado['processo']));
                 $historico = $crudModel->read('SELECT h.*, u.nome FROM protocolo_historico AS h INNER JOIN usuario AS u WHERE h.usuario_id=u.id AND h.protocolo_id=:id', array('id' => $resultado['id']));
                 $anexos = $crudModel->read('SELECT * FROM protocolo_anexo where protocolo_id=:id', array('id' => $resultado['id']));

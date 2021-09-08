@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 03-Set-2021 às 18:03
--- Versão do servidor: 10.4.20-MariaDB
--- versão do PHP: 7.3.29
+-- Tempo de geração: 08-Set-2021 às 05:06
+-- Versão do servidor: 10.4.21-MariaDB
+-- versão do PHP: 8.0.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -135,15 +135,6 @@ CREATE TABLE `fisc_anexo_denuncia` (
   `data` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Extraindo dados da tabela `fisc_anexo_denuncia`
---
-
-INSERT INTO `fisc_anexo_denuncia` (`id`, `denuncia_id`, `descricao`, `anexo`, `data`) VALUES
-(7, 5, 'Anexa documento da vistoria', 'uploads/fiscalizacao/denuncia/5/20-01-2021_ed8eef120a558d19aee5fa069ebf0717.xlsx', '2021-01-19'),
-(8, 4, 'documento n 0025', 'uploads/fiscalizacao/denuncia/4/03-09-2021_aae3f11d0db141d4b5e4bf23bafa214e.jpg', '2021-09-03'),
-(9, 4, 'nota técnica ', 'uploads/fiscalizacao/denuncia/4/03-09-2021_f679c07f7da4c1f17c666c6928b1121c.docx', '2021-09-03');
-
 -- --------------------------------------------------------
 
 --
@@ -186,9 +177,8 @@ CREATE TABLE `fisc_denuncia` (
 --
 
 INSERT INTO `fisc_denuncia` (`id`, `protocolo_id`, `usuario_id`, `status`, `tipo_denuncia_id`, `denunciado`, `descricao`, `cidade_id`, `bairro_id`, `endereco`, `latitude`, `longitude`, `denunciante`, `telefone`, `email`) VALUES
-(3, 3, 12, 1, 22, '5555', '', 1, 5, 'R. Beijamim Constante, 8 - Centro, Castanhal - PA, 68745, Brasil', '-1.283716670743343', '-47.963554926550295', '', '', ''),
-(4, 4, 12, 1, 6, '2221', 'sadsadas', 1, 11, '123123', '-1.294442791482435', '-47.91291482034912', '121323', '1232', '213123@gmail.com'),
-(5, 5, 12, 1, 15, 'Empresa X', '', 1, 7, 'Av. Máximino Porpino da Silva, 1206 - Pirapora, Castanhal - PA, 68740-080, Brasil', '-1.297121', '-47.924175', 'joao batista', '093 992047173', 'joao@gmail.com');
+(7, 7, 12, 1, 7, '23112321', '', 1, 11, '', '', '', '', '', ''),
+(8, 8, 12, 2, 13, '22212', '', 1, 4, '', '', '', '', '', '');
 
 -- --------------------------------------------------------
 
@@ -199,7 +189,7 @@ INSERT INTO `fisc_denuncia` (`id`, `protocolo_id`, `usuario_id`, `status`, `tipo
 CREATE TABLE `fisc_historico_denuncia` (
   `id` int(10) UNSIGNED NOT NULL,
   `data` date DEFAULT NULL,
-  `descricao` varchar(255) DEFAULT NULL,
+  `descricao` text DEFAULT NULL,
   `usuario_id` int(10) UNSIGNED NOT NULL,
   `denuncia_id` int(10) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -209,9 +199,8 @@ CREATE TABLE `fisc_historico_denuncia` (
 --
 
 INSERT INTO `fisc_historico_denuncia` (`id`, `data`, `descricao`, `usuario_id`, `denuncia_id`) VALUES
-(2, '2021-01-18', 'Foi realizado o cadastro da denúncia no banco de dados', 1, 3),
-(4, '2021-01-19', 'Foi realizado o cadastro da denúncia no banco de dados', 1, 4),
-(5, '2021-01-19', 'Foi realizado o cadastro da denúncia no banco de dados', 1, 5);
+(8, '2021-09-06', 'Foi realizado o cadastro da denúncia no banco de dados', 1, 7),
+(9, '2021-09-06', 'Foi realizado o cadastro da denúncia no banco de dados', 1, 8);
 
 -- --------------------------------------------------------
 
@@ -222,7 +211,7 @@ INSERT INTO `fisc_historico_denuncia` (`id`, `data`, `descricao`, `usuario_id`, 
 CREATE TABLE `fisc_historico_solicitacao` (
   `id` int(10) UNSIGNED NOT NULL,
   `data` datetime DEFAULT NULL,
-  `descricao` varchar(255) DEFAULT NULL,
+  `descricao` text DEFAULT NULL,
   `usuario_id` int(10) UNSIGNED NOT NULL,
   `solicitacao_id` int(10) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -259,6 +248,7 @@ INSERT INTO `fisc_origem` (`id`, `origem`) VALUES
 
 CREATE TABLE `fisc_protocolo` (
   `id` int(10) UNSIGNED NOT NULL,
+  `tipo` varchar(30) NOT NULL,
   `tramitacao` int(11) NOT NULL,
   `data_protocolo` date DEFAULT NULL,
   `protocolo_id` int(10) UNSIGNED NOT NULL,
@@ -270,19 +260,18 @@ CREATE TABLE `fisc_protocolo` (
   `ano_oficio` varchar(10) DEFAULT NULL,
   `numero_memorando` varchar(45) DEFAULT NULL,
   `ano_memorando` varchar(10) DEFAULT NULL,
-  `hash` varchar(32) DEFAULT NULL,
-  `denuncia_id` int(11) DEFAULT NULL,
-  `solicitacao_id` int(11) DEFAULT NULL
+  `id_solicitante` int(3) UNSIGNED NOT NULL,
+  `prazo` varchar(255) NOT NULL,
+  `hash` varchar(32) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Extraindo dados da tabela `fisc_protocolo`
 --
 
-INSERT INTO `fisc_protocolo` (`id`, `tramitacao`, `data_protocolo`, `protocolo_id`, `tipo_documento_id`, `origem_id`, `numero_protocolo`, `ano_protocolo`, `numero_oficio`, `ano_oficio`, `numero_memorando`, `ano_memorando`, `hash`, `denuncia_id`, `solicitacao_id`) VALUES
-(3, 0, '2021-01-18', 1, 3, 6, '2225', '20221', '', '', '', '', 'b42da884e803cab8c7a381e2e6b0a43d', NULL, NULL),
-(4, 2, '2021-01-20', 2, 6, 4, '2201', '2101', '122', '123', '232', '232', '67dc05fe0d1dccdbb9c0a11df23262e3', NULL, NULL),
-(5, 5, '2021-01-19', 2, 6, 2, '1002/2021', '2021', '111', '2020', '', '', 'b49fa85875c99609e97e3af441c10aad', NULL, NULL);
+INSERT INTO `fisc_protocolo` (`id`, `tipo`, `tramitacao`, `data_protocolo`, `protocolo_id`, `tipo_documento_id`, `origem_id`, `numero_protocolo`, `ano_protocolo`, `numero_oficio`, `ano_oficio`, `numero_memorando`, `ano_memorando`, `id_solicitante`, `prazo`, `hash`) VALUES
+(7, 'denuncia', 0, '2021-09-09', 1, 4, 3, '21312', '312321', '', '', '', '', 2, '015', '2a9771c63aac03167d8af0cddd5f0f8a'),
+(8, 'denuncia', 0, '2021-09-06', 2, 6, 2, 'q2121', '111', '', '', '', '', 2, '030', '7fb7d768a9a299c51e44febab6194a21');
 
 -- --------------------------------------------------------
 
@@ -306,6 +295,25 @@ CREATE TABLE `fisc_solicitacao` (
   `latitude` varchar(45) DEFAULT NULL,
   `longitude` varchar(45) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `fisc_solicitante`
+--
+
+CREATE TABLE `fisc_solicitante` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `solicitante` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Extraindo dados da tabela `fisc_solicitante`
+--
+
+INSERT INTO `fisc_solicitante` (`id`, `solicitante`) VALUES
+(1, 'Prefeitura Municipal de Castanhal'),
+(2, 'Ministério Público do Estado do Pará');
 
 -- --------------------------------------------------------
 
@@ -444,14 +452,6 @@ CREATE TABLE `fisc_vistoria_denuncia` (
   `denuncia_id` int(10) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Extraindo dados da tabela `fisc_vistoria_denuncia`
---
-
-INSERT INTO `fisc_vistoria_denuncia` (`id`, `data`, `descricao`, `instrumento`, `denuncia_id`) VALUES
-(33, '2021-01-20', 'foi realizado a vistoria, teve a participação de fulano e siclano...', 'I – Auto de Infração; II – Termo de Notificação; III  –  Termo de Apreensão, de Depósito, de Embargo ou Interdição, de Incineração, Destruição ou Desfazimento; ', 5),
-(34, '2021-09-03', 'adsasdas', 'I – Auto de Infração; ', 4);
-
 -- --------------------------------------------------------
 
 --
@@ -546,22 +546,22 @@ INSERT INTO `protocolo_objetivo` (`id`, `objetivo`, `tipo_id`) VALUES
 (7, 'Encaminhamento', 1),
 (8, 'Informação', 1),
 (9, 'Informativo', 1),
-(10, 'Juntada De Documento', 1),
+(10, 'Juntada de Documento', 1),
 (11, 'Memorando', 1),
 (12, 'Ofício', 1),
 (13, 'Ofício Circular', 1),
-(14, 'Recurso Auto De Infração', 1),
+(14, 'Recurso Auto de Infração', 1),
 (15, 'Recurso Penalidade Imposta', 1),
 (16, 'Requerimento', 1),
 (17, 'Reunião', 1),
 (18, 'Solicitação', 1),
-(19, 'Autorização De Supressão Vegetal - ASV', 2),
+(19, 'Autorização de Supressão Vegetal - ASV', 2),
 (20, 'Evento Temporário', 2),
 (21, 'Licença Ambiental Rural - LAR', 2),
 (22, 'Licença de Instalação - LI', 2),
 (23, 'Licença de Instalação E Licença De Operação - LIO', 2),
 (24, 'Licença de Operação - LO', 2),
-(25, 'Licença de Prévia E Licença De Instalação - LP/LI', 2),
+(25, 'Licença de Prévia e Licença de Instalação - LP/LI', 2),
 (26, 'Licença Prévia - LP', 2),
 (27, 'Processo Administrativo Punitivo - PAP', 2),
 (28, 'Renovação De Licença De Operação - RLO', 2);
@@ -630,19 +630,6 @@ CREATE TABLE `ti_chamado` (
   `anexo` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Extraindo dados da tabela `ti_chamado`
---
-
-INSERT INTO `ti_chamado` (`id`, `setor_id`, `usuario_id`, `status_id`, `assunto_id`, `data`, `descricao`, `anexo`) VALUES
-(1, 7, 13, 4, 14, '2021-01-18 09:19:00', 'Joab Torres Alencar', 'uploads/chamado/chamado_18-01-2021_c432848c15403bb23424da365031eff1.jpg'),
-(2, 10, 1, 1, 11, '2021-01-18 10:23:00', '1312312', ''),
-(3, 7, 13, 1, 9, '2021-01-18 10:23:00', '21321', ''),
-(4, 4, 12, 1, 13, '2021-01-18 10:23:00', '123131', ''),
-(5, 4, 12, 1, 14, '2021-01-18 10:23:00', '31231231', ''),
-(6, 10, 1, 1, 16, '2021-01-19 09:34:00', '1231231', ''),
-(7, 4, 12, 4, 9, '2021-01-19 21:23:00', 'Minha impressora não está instalada', '');
-
 -- --------------------------------------------------------
 
 --
@@ -683,16 +670,6 @@ CREATE TABLE `ti_chamado_historico` (
   `descricao` text DEFAULT NULL,
   `anexo` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Extraindo dados da tabela `ti_chamado_historico`
---
-
-INSERT INTO `ti_chamado_historico` (`id`, `chamado_id`, `status_id`, `usuario_id`, `data`, `descricao`, `anexo`) VALUES
-(1, 1, 2, 1, '2021-01-18 09:40:37', 'teste', ''),
-(2, 1, 4, 1, '2021-01-18 09:40:44', 'trocado o tone', ''),
-(3, 7, 2, 1, '2021-01-19 21:24:07', 'irei veirificar', ''),
-(4, 7, 4, 1, '2021-01-19 21:24:20', 'problema resolvido, impressora desconectada da rede', '');
 
 -- --------------------------------------------------------
 
@@ -761,7 +738,7 @@ CREATE TABLE `usuario` (
 
 INSERT INTO `usuario` (`id`, `setor_id`, `portaria`, `cargo`, `nome`, `usuario`, `email`, `senha`, `acesso`, `cadastro`, `imagem`, `status`) VALUES
 (1, 10, '1.137/20', 'Assessor', 'Joab T. Alencar', 'joab.alencar', 'joabtorres1508@gmail.com', '47cafbff7d1c4463bbe7ba972a2b56e3', 10, '2020-08-06', 'uploads/usuarios/387eb1c83175517f64b6ccd6bc6a8567.jpg', 1),
-(12, 4, '225454', 'Auxiliar de Coordenador', 'JOAB TORRES COFISC', 'joab.cofisc', 'joab.alencar@gmail.com', '47cafbff7d1c4463bbe7ba972a2b56e3', 1, '2021-01-17', 'uploads/usuarios/user.png', 1),
+(12, 4, '225454', 'Auxiliar de Coordenador', 'JOAB TORRES COFISC', 'joab.cofisc', 'joab.alencar@gmail.com', '1e3be126a341be788765c0acfde946bc', 1, '2021-01-17', 'uploads/usuarios/user.png', 1),
 (13, 7, '225454', 'Administrativo', 'JOAB PROTOCOLO', 'joab.protocolo', 'joab.torres1508@gmail.com', '47cafbff7d1c4463bbe7ba972a2b56e3', 1, '2021-01-17', 'uploads/usuarios/user.png', 1);
 
 --
@@ -839,9 +816,10 @@ ALTER TABLE `fisc_origem`
 --
 ALTER TABLE `fisc_protocolo`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_table1_fisc_protocolo1` (`protocolo_id`),
   ADD KEY `fk_table1_fisc_tipo_documento1` (`tipo_documento_id`),
-  ADD KEY `fk_table1_origem1` (`origem_id`);
+  ADD KEY `fk_table1_origem1` (`origem_id`),
+  ADD KEY `fk_table1_fisc_protocolo1` (`protocolo_id`) USING BTREE,
+  ADD KEY `fk_table_solicitante` (`id_solicitante`);
 
 --
 -- Índices para tabela `fisc_solicitacao`
@@ -853,6 +831,12 @@ ALTER TABLE `fisc_solicitacao`
   ADD KEY `fk_fisc_solicitacao_bairro1` (`bairro_id`),
   ADD KEY `fk_fisc_solicitacao_cidade1` (`cidade_id`),
   ADD KEY `fk_fisc_solicitacao_usuario1` (`usuario_id`);
+
+--
+-- Índices para tabela `fisc_solicitante`
+--
+ALTER TABLE `fisc_solicitante`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Índices para tabela `fisc_tipo_denuncia`
@@ -1013,7 +997,7 @@ ALTER TABLE `empresa`
 -- AUTO_INCREMENT de tabela `fisc_anexo_denuncia`
 --
 ALTER TABLE `fisc_anexo_denuncia`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT de tabela `fisc_anexo_solicitacao`
@@ -1025,13 +1009,13 @@ ALTER TABLE `fisc_anexo_solicitacao`
 -- AUTO_INCREMENT de tabela `fisc_denuncia`
 --
 ALTER TABLE `fisc_denuncia`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de tabela `fisc_historico_denuncia`
 --
 ALTER TABLE `fisc_historico_denuncia`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT de tabela `fisc_historico_solicitacao`
@@ -1049,13 +1033,19 @@ ALTER TABLE `fisc_origem`
 -- AUTO_INCREMENT de tabela `fisc_protocolo`
 --
 ALTER TABLE `fisc_protocolo`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de tabela `fisc_solicitacao`
 --
 ALTER TABLE `fisc_solicitacao`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de tabela `fisc_solicitante`
+--
+ALTER TABLE `fisc_solicitante`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de tabela `fisc_tipo_denuncia`
@@ -1079,7 +1069,7 @@ ALTER TABLE `fisc_tipo_protocolo`
 -- AUTO_INCREMENT de tabela `fisc_vistoria_denuncia`
 --
 ALTER TABLE `fisc_vistoria_denuncia`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT de tabela `fisc_vistoria_solicitacao`
@@ -1097,13 +1087,13 @@ ALTER TABLE `protocolo`
 -- AUTO_INCREMENT de tabela `protocolo_anexo`
 --
 ALTER TABLE `protocolo_anexo`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de tabela `protocolo_historico`
 --
 ALTER TABLE `protocolo_historico`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
 
 --
 -- AUTO_INCREMENT de tabela `protocolo_objetivo`
@@ -1211,7 +1201,8 @@ ALTER TABLE `fisc_historico_solicitacao`
 ALTER TABLE `fisc_protocolo`
   ADD CONSTRAINT `fk_table1_fisc_protocolo1` FOREIGN KEY (`protocolo_id`) REFERENCES `fisc_tipo_protocolo` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_table1_fisc_tipo_documento1` FOREIGN KEY (`tipo_documento_id`) REFERENCES `fisc_tipo_documento` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_table1_origem1` FOREIGN KEY (`origem_id`) REFERENCES `fisc_origem` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `fk_table1_origem1` FOREIGN KEY (`origem_id`) REFERENCES `fisc_origem` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_table_solicitante` FOREIGN KEY (`id_solicitante`) REFERENCES `fisc_solicitante` (`id`);
 
 --
 -- Limitadores para a tabela `fisc_solicitacao`

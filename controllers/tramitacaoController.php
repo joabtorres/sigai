@@ -104,10 +104,14 @@ class tramitacaoController extends controller {
             $crudModel = new crud_db();
             $resultado = $crudModel->read_specific("SELECT p.*, po.objetivo, pt.tipo FROM protocolo AS p INNER JOIN protocolo_objetivo AS po  INNER JOIN protocolo_tipo as pt WHERE p.objetivo_id=po.id AND p.tipo_id=pt.id AND md5(p.id)=:id", array('id' => $id));
             if (!empty($resultado)) {
-                $cidade = $crudModel->read_specific("SELECT cidade FROM cidade WHERE id=:id", array('id' => $resultado['cidade']));
-                $bairro = $crudModel->read_specific("SELECT bairro FROM bairro WHERE id=:id", array('id' => $resultado['bairro']));
-                $resultado['cidade'] = $cidade['cidade'];
-                $resultado['bairro'] = $bairro['bairro'];
+                if (!empty($resultado['cidade'])) {
+                    $cidade = $crudModel->read_specific("SELECT cidade FROM cidade WHERE id=:id", array('id' => $resultado['cidade']));
+                    $resultado['cidade'] = $cidade['cidade'];
+                }
+                if (!empty($resultado['bairro'])) {
+                    $bairro = $crudModel->read_specific("SELECT bairro FROM bairro WHERE id=:id", array('id' => $resultado['bairro']));
+                    $resultado['bairro'] = $bairro['bairro'];
+                }
                 $vinculados = $crudModel->read("SELECT p.*, pt.tipo FROM protocolo as p INNER JOIN protocolo_tipo as pt WHERE p.tipo_id=pt.id AND p.processo=:id UNION SELECT p.*, pt.tipo FROM protocolo as p INNER JOIN protocolo_tipo as pt WHERE p.tipo_id=pt.id AND p.id=:processo", array('id' => $resultado['id'], 'processo' => $resultado['processo']));
                 $historico = $crudModel->read('SELECT h.*, u.nome FROM protocolo_historico AS h INNER JOIN usuario AS u WHERE h.usuario_id=u.id AND h.protocolo_id=:id', array('id' => $resultado['id']));
                 $tramitacao = $crudModel->read("SELECT t.*, ur.nome as usuario_remetente, sr.nome as setor_remetente, ud.nome AS usuario_destinatario, sd.nome AS setor_destinatario FROM tramitacao AS t INNER JOIN setor as sr INNER JOIN usuario AS ur INNER JOIN usuario as ud INNER JOIN setor as sd WHERE t.usuario_remetente_id=ur.id AND t.setor_remetente_id=sr.id AND t.usuario_destinatario_id=ud.id AND t.setor_destinatario_id=sd.id AND t.protocolo_id=:id", array('id' => $resultado['id']));

@@ -7,22 +7,27 @@ class tiController extends controller {
     }
 
     public function getusuarios() {
-        if (isset($_POST) && is_array($_POST) && !empty($_POST)) {
-            $crudModel = new crud_db();
-            $setor_id = addslashes($_POST['setor_id']);
-            if (isset($_POST['id_user'])) {
-                $user_id = addslashes($_POST['id_user']);
-            }
-            if (!isset($user_id)) {
-                echo '<option value="" selected = "selected" disabled="disabled">Selecione o tipo do documento </option>';
-            }
-            $usuarios = $crudModel->read("SELECT * FROM usuario WHERE status=1 AND setor_id=:id", array('id' => $setor_id));
+        if ($this->checkUser()) {
+            if (isset($_POST) && is_array($_POST) && !empty($_POST)) {
+                $crudModel = new crud_db();
+                $setor_id = addslashes($_POST['setor_id']);
+                if (isset($_POST['id_user']) && ($_POST['id_user'] != 'undefined')) {
+                    $user_id = addslashes($_POST['id_user']);
+                    ECHO $user_id;
+                }
+                if (!isset($user_id)) {
+                    echo '<option value="" selected = "selected" disabled="disabled">Selecione o solícitante</option>';
+                }
 
-            foreach ($usuarios as $indice) {
-                if (isset($user_id) && $indice['id'] == $user_id['usuario_id']) {
-                    echo '<option value = "' . $indice['id'] . '" selected = "selected">' . $indice['nome'] . '</option>';
-                } else {
-                    echo '<option value = "' . $indice['id'] . '">' . $indice['nome'] . '</option>';
+                $usuarios = $crudModel->read("SELECT * FROM usuario WHERE status=1 AND setor_id=:id", array('id' => $setor_id));
+                if (!empty($usuarios) && is_array($usuarios)) {
+                    foreach ($usuarios as $indice) {
+                        if (isset($user_id) && $indice['id'] == $user_id) {
+                            echo '<option value = "' . $indice['id'] . '" selected = "selected">' . $indice['nome'] . '</option>';
+                        } else {
+                            echo '<option value = "' . $indice['id'] . '">' . $indice['nome'] . '</option>';
+                        }
+                    }
                 }
             }
         }
@@ -38,10 +43,11 @@ class tiController extends controller {
             if (!isset($user_id)) {
                 echo '<option value="" selected = "selected" >Todos </option>';
             }
+
             $usuarios = $crudModel->read("SELECT * FROM usuario WHERE status=1 AND setor_id=:id", array('id' => $setor_id));
 
             foreach ($usuarios as $indice) {
-                if (isset($user_id) && $indice['id'] == $user_id['usuario_id']) {
+                if (isset($user_id) && $indice['id'] == $user_id) {
                     echo '<option value = "' . $indice['id'] . '" selected = "selected">' . $indice['nome'] . '</option>';
                 } else {
                     echo '<option value = "' . $indice['id'] . '">' . $indice['nome'] . '</option>';

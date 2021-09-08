@@ -163,12 +163,10 @@ class crud_db extends model {
 
             list($larguraOriginal, $alturaOriginal) = getimagesize($imagem['temp']);
 
-
             $ratio = max($largura / $larguraOriginal, $altura / $alturaOriginal);
             $alturaOriginal = $altura / $ratio;
             $x = ($larguraOriginal - $largura / $ratio) / 2;
             $larguraOriginal = $largura / $ratio;
-
 
             $imagem_final = imagecreatetruecolor($largura, $altura);
 
@@ -199,7 +197,7 @@ class crud_db extends model {
             if (move_uploaded_file($arquivo['temp'], $arquivo['arquivo'])) {
                 return $arquivo['arquivo'];
             } else {
-                 return null;
+                return null;
             }
         } else {
             return null;
@@ -215,7 +213,13 @@ class crud_db extends model {
      */
     public function delete_file($url_image) {
         if (file_exists($url_image)) {
-            unlink($url_image);
+            unlink($url_image); //arquivo removido 
+            $arrayDir = explode('/', $url_image);
+            array_pop($arrayDir);
+            $diretorio = implode("/", $arrayDir);
+            if ((count(glob("$diretorio/*")) === 0)) { //verifica se o diretorio esta vazio
+                rmdir($diretorio); //remover diretorio
+            }
             return true;
         } else {
             FALSE;
