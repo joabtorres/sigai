@@ -22,6 +22,32 @@ class fiscController extends controller {
         }
     }
 
+    function verificar_alteracoes($array1, $array2) {
+        $array_de = array_diff($array2, $array1);
+        $array_para = array_diff($array1, $array2);
+        $msg .= 'Foi realizado as seguintes alterações no banco de dados';
+        if (is_array($array_para)) {
+            $msg .= '</br></br>';
+            $msg .= '<b>ANTES:</b></br>';
+            $msg .= '------------------------------</br>';
+            foreach ($array_de as $key => $valeu) {
+                $msg .= $key . ': ' . $valeu;
+            }
+            $msg .= '</br>';
+            $msg .= '</br>';
+            $msg .= '<b>ATUALIZADO(S) PARA:</b></br>';
+            $msg .= '------------------------------</br>';
+            foreach ($array_para as $key => $valeu) {
+                $msg .= $key . ': ' . $valeu;
+            }
+        }else{
+            $msg .= '</br>';
+            $msg .= '<b>Nenhuma modificação relizada:</b></br>';
+            $msg .= '------------------------------';
+        }
+        return $msg;
+    }
+
     public function get_tipo_documento() {
         if (isset($_POST) && is_array($_POST) && !empty($_POST)) {
             $crudModel = new crud_db();

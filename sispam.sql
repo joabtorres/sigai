@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 08-Set-2021 às 05:06
--- Versão do servidor: 10.4.21-MariaDB
--- versão do PHP: 8.0.10
+-- Tempo de geração: 20-Set-2021 às 16:53
+-- Versão do servidor: 10.4.20-MariaDB
+-- versão do PHP: 7.3.29
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -177,8 +177,9 @@ CREATE TABLE `fisc_denuncia` (
 --
 
 INSERT INTO `fisc_denuncia` (`id`, `protocolo_id`, `usuario_id`, `status`, `tipo_denuncia_id`, `denunciado`, `descricao`, `cidade_id`, `bairro_id`, `endereco`, `latitude`, `longitude`, `denunciante`, `telefone`, `email`) VALUES
-(7, 7, 12, 1, 7, '23112321', '', 1, 11, '', '', '', '', '', ''),
-(8, 8, 12, 2, 13, '22212', '', 1, 4, '', '', '', '', '', '');
+(7, 7, 12, 1, 7, 'empresa x', '', 1, 1, '', '', '', 'joab o denunciante', '2111', 'email@email'),
+(8, 8, 12, 2, 13, '22212', '', 1, 4, '', '', '', '', '', ''),
+(9, 9, 12, 1, 7, '23112321', '', 1, 1, '', '', '', 'joab o denunciante', '2111', 'email@email');
 
 -- --------------------------------------------------------
 
@@ -200,7 +201,9 @@ CREATE TABLE `fisc_historico_denuncia` (
 
 INSERT INTO `fisc_historico_denuncia` (`id`, `data`, `descricao`, `usuario_id`, `denuncia_id`) VALUES
 (8, '2021-09-06', 'Foi realizado o cadastro da denúncia no banco de dados', 1, 7),
-(9, '2021-09-06', 'Foi realizado o cadastro da denúncia no banco de dados', 1, 8);
+(9, '2021-09-06', 'Foi realizado o cadastro da denúncia no banco de dados', 1, 8),
+(10, '2021-09-16', 'Foi realizado o cadastro da denúncia no banco de dados', 1, 9),
+(13, '2021-09-20', 'Alteração realizada com sucesso!', 1, 7);
 
 -- --------------------------------------------------------
 
@@ -270,8 +273,9 @@ CREATE TABLE `fisc_protocolo` (
 --
 
 INSERT INTO `fisc_protocolo` (`id`, `tipo`, `tramitacao`, `data_protocolo`, `protocolo_id`, `tipo_documento_id`, `origem_id`, `numero_protocolo`, `ano_protocolo`, `numero_oficio`, `ano_oficio`, `numero_memorando`, `ano_memorando`, `id_solicitante`, `prazo`, `hash`) VALUES
-(7, 'denuncia', 0, '2021-09-09', 1, 4, 3, '21312', '312321', '', '', '', '', 2, '015', '2a9771c63aac03167d8af0cddd5f0f8a'),
-(8, 'denuncia', 0, '2021-09-06', 2, 6, 2, 'q2121', '111', '', '', '', '', 2, '030', '7fb7d768a9a299c51e44febab6194a21');
+(7, 'denuncia', 1, '2021-09-09', 1, 4, 3, '21312333', '2015', '', '', '', '', 2, '015', '2a9771c63aac03167d8af0cddd5f0f8a'),
+(8, 'denuncia', 0, '2021-09-06', 2, 6, 2, 'q2121', '111', '', '', '', '', 2, '030', '7fb7d768a9a299c51e44febab6194a21'),
+(9, 'denuncia', 0, '2021-09-09', 1, 4, 3, '21312', '312321', '', '', '', '', 2, '015', '13449417cc5cdc8b93e3cf5eb7d058cb');
 
 -- --------------------------------------------------------
 
@@ -492,6 +496,13 @@ CREATE TABLE `protocolo` (
   `longitude` varchar(45) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Extraindo dados da tabela `protocolo`
+--
+
+INSERT INTO `protocolo` (`id`, `tipo_id`, `objetivo_id`, `numero_protocolo`, `data`, `interessado`, `processo`, `contato`, `protocolista_id`, `numero_folhas`, `assunto`, `descricao`, `cidade`, `bairro`, `endereco`, `numero`, `latitude`, `longitude`) VALUES
+(1, 1, 2, '0001/2021', '2021-09-20', '51515', 0, '', 1, '20', 'fgyvhbujnkml,ç', '', 0, 0, '', '', '', '');
+
 -- --------------------------------------------------------
 
 --
@@ -519,6 +530,13 @@ CREATE TABLE `protocolo_historico` (
   `usuario_id` int(10) UNSIGNED NOT NULL,
   `protocolo_id` int(10) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Extraindo dados da tabela `protocolo_historico`
+--
+
+INSERT INTO `protocolo_historico` (`id`, `data`, `descricao`, `usuario_id`, `protocolo_id`) VALUES
+(47, '2021-09-20', 'Realizado o cadastro deste protocolo no banco de dados', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -1009,13 +1027,13 @@ ALTER TABLE `fisc_anexo_solicitacao`
 -- AUTO_INCREMENT de tabela `fisc_denuncia`
 --
 ALTER TABLE `fisc_denuncia`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT de tabela `fisc_historico_denuncia`
 --
 ALTER TABLE `fisc_historico_denuncia`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT de tabela `fisc_historico_solicitacao`
@@ -1033,7 +1051,7 @@ ALTER TABLE `fisc_origem`
 -- AUTO_INCREMENT de tabela `fisc_protocolo`
 --
 ALTER TABLE `fisc_protocolo`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT de tabela `fisc_solicitacao`
@@ -1093,7 +1111,7 @@ ALTER TABLE `protocolo_anexo`
 -- AUTO_INCREMENT de tabela `protocolo_historico`
 --
 ALTER TABLE `protocolo_historico`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
 
 --
 -- AUTO_INCREMENT de tabela `protocolo_objetivo`
@@ -1117,7 +1135,7 @@ ALTER TABLE `setor`
 -- AUTO_INCREMENT de tabela `ti_chamado`
 --
 ALTER TABLE `ti_chamado`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de tabela `ti_chamado_assunto`

@@ -131,11 +131,13 @@ class fisc_denunciaController extends fiscController {
             $dados['bairro'] = $crud->read("SELECT * FROM bairro WHERE cidade_id=1 ORDER BY bairro ASC");
             $dados['solicitante'] = $crud->read("SELECT * FROM fisc_solicitante ORDER BY solicitante ASC");
             $dados['protocolos'] = $crud->read("SELECT p.*, po.objetivo FROM protocolo as p INNER JOIN  protocolo_objetivo as po where po.id=p.objetivo_id");
-            $cadForm = array();
-            $cadForm['denuncia'] = $crud->read_specific("SELECT * FROM fisc_denuncia WHERE md5(id)=:id", array('id' => $id));
-            $cadForm['protocolo'] = $crud->read_specific("SELECT * FROM fisc_protocolo WHERE id=:id", array('id' => $cadForm['denuncia']['protocolo_id']));
+            $dados['arrayCad']['denuncia'] = $crud->read_specific("SELECT * FROM fisc_denuncia WHERE md5(id)=:id", array('id' => $id));
+            $dados['arrayCad']['protocolo'] = $crud->read_specific("SELECT * FROM fisc_protocolo WHERE id=:id", array('id' => $dados['arrayCad']['denuncia']['protocolo_id']));
             // cadastro
             if (isset($_POST['nSalvar']) && !empty($_POST['nSalvar'])) {
+                $cadForm = array();
+                //salva os 
+                $lastArray = $dados['arrayCad'];
                 //id
                 if (!empty($_POST['nId'])) {
                     $cadForm['protocolo']['id'] = addslashes($_POST['nId']);
@@ -165,10 +167,12 @@ class fisc_denunciaController extends fiscController {
                 $cadForm['protocolo']['ano_memorando'] = addslashes($_POST['nAnoMemorando']);
                 $cadForm['protocolo']['id_solicitante'] = isset($_POST['nOrgaoSolicitante']) && !empty($_POST['nOrgaoSolicitante']) ? $_POST['nOrgaoSolicitante'] : 0;
                 $cadForm['protocolo']['prazo'] = addslashes($_POST['nPrazoResposta']);
-                $cadForm['protocolo']['hash'] = $this->hash_md5();
                 /*                 * *********************
                  * Denuncia
                  * ******************** */
+                // id
+                $cadForm['denuncia']['id'] = $dados['arrayCad']['denuncia']['id'];
+                $cadForm['denuncia']['protocolo_id'] = $cadForm['protocolo']['id'];
                 //tipo da denuncia
                 $cadForm['denuncia']['usuario_id'] = addslashes($_POST['nTecnico']);
                 $cadForm['denuncia']['status'] = addslashes($_POST['nStatus']);
@@ -187,24 +191,22 @@ class fisc_denunciaController extends fiscController {
                 $cadForm['denuncia']['denunciante'] = addslashes($_POST['nDenunciante']);
                 $cadForm['denuncia']['telefone'] = addslashes($_POST['nTelefone']);
                 $cadForm['denuncia']['email'] = addslashes($_POST['nEmail']);
-                $resultado = $crud->create("INSERT INTO fisc_protocolo (tipo, tramitacao, data_protocolo, protocolo_id, tipo_documento_id, origem_id, numero_protocolo, ano_protocolo, numero_oficio, ano_oficio, numero_memorando, ano_memorando, id_solicitante, prazo, hash) VALUES (:tipo, :tramitacao, :data_protocolo, :protocolo_id, :tipo_documento_id, :origem_id, :numero_protocolo, :ano_protocolo, :numero_oficio, :ano_oficio, :numero_memorando, :ano_memorando, :id_solicitante, :prazo, :hash)", $cadForm['protocolo']);
+                $resultado = $crud->update("UPDATE fisc_protocolo SET tipo=:tipo, tramitacao=:tramitacao, data_protocolo=:data_protocolo, protocolo_id=:protocolo_id, tipo_documento_id=:tipo_documento_id, origem_id=:origem_id, numero_protocolo=:numero_protocolo, ano_protocolo=:ano_protocolo, numero_oficio=:numero_oficio, ano_oficio=:ano_oficio, numero_memorando=:numero_memorando, ano_memorando=:ano_memorando, id_solicitante=:id_solicitante, prazo=:prazo WHERE id=:id", $cadForm['protocolo']);
                 if ($resultado) {
-                    $protocolo = $crud->read_specific("SELECT * FROM fisc_protocolo WHERE hash=:hash", array('hash' => $cadForm['protocolo']['hash']));
-                    $cadForm['denuncia']['protocolo_id'] = $protocolo['id'];
-                    $resultado = $crud->create("INSERT INTO fisc_denuncia (protocolo_id, usuario_id, status, tipo_denuncia_id, denunciado, descricao, cidade_id, bairro_id, endereco, latitude, longitude, denunciante, telefone, email) VALUES (:protocolo_id, :usuario_id, :status, :tipo_denuncia_id, :denunciado, :descricao, :cidade_id, :bairro_id, :endereco, :latitude, :longitude, :denunciante, :telefone, :email)", $cadForm['denuncia']);
+                    $resultado = $crud->update("UPDATE fisc_denuncia SET protocolo_id=:protocolo_id, usuario_id=:usuario_id, status=:status, tipo_denuncia_id=:tipo_denuncia_id, denunciado=:denunciado, descricao=:descricao, cidade_id=:cidade_id, bairro_id=:bairro_id, endereco=:endereco, latitude=:latitude, longitude=:longitude, denunciante=:denunciante, telefone=:telefone, email=:email where id=:id", $cadForm['denuncia']);
                     if ($resultado) {
-                        $denuncia = $crud->read_specific("SELECT * FROM fisc_denuncia WHERE protocolo_id=:id", array('id' => $protocolo['id']));
+                        $denuncia = $crud->read_specific("SELECT * FROM fisc_denuncia WHERE protocolo_id=:id", array('id' => $cadForm['protocolo']['id']));
+                        $dados['arrayCad'] = $cadForm;
                         $historico = array();
                         $historico['data'] = $this->getDatatimeNow();
-                        $historico['descricao'] = "Foi realizado o cadastro da denúncia no banco de dados";
+                        $historico['descricao'] = "Alteração realizada com sucesso!";
                         $historico['usuario_id'] = $this->getIdUser();
                         $historico['denuncia_id'] = $denuncia['id'];
                         $crud->create("INSERT INTO fisc_historico_denuncia (data, descricao, usuario_id, denuncia_id) VALUES (:data, :descricao, :usuario_id, :denuncia_id) ", $historico);
-                        $dados['erro'] = array('class' => 'alert-success', 'msg' => '<i class="fa fa-check-circle" aria-hidden="true"></i> Cadastro realizado com sucesso!');
+                        $dados['erro'] = array('class' => 'alert-success', 'msg' => '<i class="fa fa-check-circle" aria-hidden="true"></i> Alteração realizada com sucesso!');
                     }
                 }
             }
-            $dados['arrayCad'] = $cadForm;
             $this->loadTemplate($viewName, $dados);
         } else {
             $url = "location: " . BASE_URL . "home";

@@ -26,6 +26,34 @@
     <div class="row">
         <div class="col">
             <form method="POST" action="<?php echo BASE_URL ?>cofisc/cadastro_solicitacao" enctype="multipart/form-data" autocomplete="off"  name="nFormCOFISCSolicitacao">
+                <section class="card bg-light border-success mb-4">
+                    <header class="card-header bg-success">
+                        <h1 class="card-title h5 my-1"><i class="fas fa-file-alt"></i> Tramitação</h1>
+                    </header>
+                    <article class="card-body">
+                        <div class="row">
+                            <div class="col mb-3">
+                                <label for='iVincular'>Vincular protocolo de tramitação: <small class="text-success"> --- Utilize esta opção quando for vincular a denuncia a um protocolo da tramitação</small> </label><br/>
+                                <select class="custom-select select2-js" name="nTramitacao" id="iVincular">
+                                    <?php
+                                    if (!isset($arrayCad['protocolo']['tramitacao'])) {
+                                        echo '<option value="" selected = "selected" disabled="disabled">Selecione um protocolo (ação opcional)</option>';
+                                    }
+                                    echo '<option value="0" >Não vincula a protocolo de tramitação</option>';
+                                    foreach ($protocolos as $indice) {
+                                        if (isset($arrayCad['protocolo']['tramitacao']) && $indice['id'] == $arrayCad['protocolo']['tramitacao']) {
+                                            echo '<option value = "' . $indice['id'] . '" selected = "selected">Protocolo: ' . $indice['numero_protocolo'] . ' - Interessado: ' . $indice['interessado'] . ' - Data: ' . $this->formatDateView($indice['data']) . ' - Objetivo do Pedido: ' . $indice['objetivo'] . '</option>';
+                                        } else {
+                                            echo '<option value = "' . $indice['id'] . '">Protocolo: ' . $indice['numero_protocolo'] . ' - Interessado: ' . $indice['interessado'] . ' - Data: ' . $this->formatDateView($indice['data']) . ' - Objetivo do Pedido: ' . $indice['objetivo'] . '</option>';
+                                        }
+                                    }
+                                    ?>
+                                </select>
+                                <div class="invalid-feedback">Informe o processo a ser vinculado</div>
+                            </div>
+                        </div>
+                    </article>
+                </section>
                 <input type="hidden" name="nId" value="<?php echo!empty($arrayCad['solicitacao']['id']) ? $arrayCad['solicitacao']['id'] : 0; ?>"/>
                 <section class="card bg-light border-success">
                     <header class="card-header bg-success">
@@ -142,6 +170,37 @@
                                     <div class="col mb-3"
                                          <label for='iAnoMemorando'>Ano do Memorando: </label><br/>
                                         <input type="text" name="nAnoMemorando"  class="form-control mt-2" id="iAnoMemorando" placeholder="Exemplo: 2019" value="<?php echo!empty($arrayCad['protocolo']['ano_memorando']) ? $arrayCad['protocolo']['ano_memorando'] : ''; ?>" >
+                                        <div class="invalid-feedback">
+                                            Informe o ano do memorando
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-row">
+                                    <div class="col mb-3">
+                                        <label for='iOrgaoSolicitante'>Orgão Solicitante: </label><br/>
+                                        <select class="select-single custom-select " name="nOrgaoSolicitante" id="iOrgaoSolicitante"">
+                                            <?php
+                                            if (!isset($arrayCad['protocolo']['id_solicitante'])) {
+                                                echo '<option value="" selected = "selected" disabled="disabled">Selecione o tipo de protocolo </option>';
+                                            }
+                                            foreach ($solicitante as $indice) {
+                                                if (isset($arrayCad['protocolo']['id_solicitante']) && $indice['id'] == $arrayCad['protocolo']['id_solicitante']) {
+                                                    echo '<option value = "' . $indice['id'] . '" selected = "selected">' . $indice['solicitante'] . '</option>';
+                                                } else {
+                                                    echo '<option value = "' . $indice['id'] . '">' . $indice['solicitante'] . '</option>';
+                                                }
+                                            }
+                                            ?>
+                                        </select>
+                                        <div class="invalid-feedback">Informe o tipo do protocolo</div>
+                                    </div>
+                                    <div class="col mb-3">
+                                        <label for='iPrazoResposta'>Prazo de resposta: <small class="text-success">- Em dias</small></label><br/>
+                                        <input type="text" name="nPrazoResposta"  class="form-control  input-dias" id="iPrazoResposta" placeholder="Exemplo: 015 / 030 / 120" value="<?php echo!empty($arrayCad['protocolo']['prazo']) ? $arrayCad['protocolo']['prazo'] : ''; ?>" >
                                         <div class="invalid-feedback">
                                             Informe o ano do memorando
                                         </div>

@@ -1,12 +1,13 @@
 <div class="container-fluid">
     <div class="row" >
         <div class="col" id="pagina-header">
-            <h5>Nova Denúncia</h5>
+            <h5>Editar Denúncia</h5>
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="<?php echo BASE_URL ?>home"><i class="fa fa-tachometer-alt"></i> Inicial</a></li>
                     <li class="breadcrumb-item"><a href="#" ><i class="fas fa-angle-double-right"></i> Fiscalização</a></li>
-                    <li class="breadcrumb-item active" aria-current="page"><a href="<?php echo BASE_URL ?>fisc_denuncia/cadastro"><i class="fas fa-plus-square"></i> Nova Denúncia</a></li>
+                    <li class="breadcrumb-item"><a href="<?php echo BASE_URL ?>fisc_denuncia/consultar/1"><i class="fas fa-tasks"></i> Consultar Denúncias</a></li>
+                    <li class="breadcrumb-item active" aria-current="page"><a href="<?php echo BASE_URL ?>fisc_denuncia/cadastro"><i class="fas fa-edit"></i>  Editar Denúncia</a></li>
                 </ol>
             </nav>
         </div>
@@ -25,8 +26,8 @@
     <!--fim row-->
     <div class="row">
         <div class="col">
-            <form method="POST" action="<?php echo BASE_URL ?>fisc_denuncia/cadastro" enctype="multipart/form-data" autocomplete="off"  name="nFormCOFISCDenuncia">
-                <input type="hidden" name="nId" value="<?php echo!empty($arrayCad['denuncia']['id']) ? $arrayCad['denuncia']['id'] : 0; ?>"/>
+            <form method="POST" action="<?php echo BASE_URL ?>fisc_denuncia/editar/<?php echo isset($arrayCad['denuncia']['id']) && !empty($arrayCad['denuncia']['id']) ? md5($arrayCad['denuncia']['id']) : 0; ?>" enctype="multipart/form-data" autocomplete="off"  name="nFormCOFISCDenuncia">
+                <input type="hidden" name="nId" value="<?php echo!empty($arrayCad['protocolo']['id']) ? $arrayCad['protocolo']['id'] : 0; ?>"/>
                 <section class="card bg-light border-success mb-4">
                     <header class="card-header bg-success">
                         <h1 class="card-title h5 my-1"><i class="fas fa-file-alt"></i> Tramitação</h1>
@@ -222,7 +223,7 @@
                                 <label for='iTecnico'>Técnico Responsável: * </label><br/>
                                 <select class="select-single custom-select" name="nTecnico" id="iTecnico" required>
                                     <?php
-                                     if (!isset($arrayCad['denuncia']['usuario_id'])) {
+                                    if (!isset($arrayCad['denuncia']['usuario_id'])) {
                                         echo '<option value="" selected = "selected" disabled="disabled">Selecione o técnico responsável</option>';
                                     }
                                     foreach ($tecnicos as $indice) {
