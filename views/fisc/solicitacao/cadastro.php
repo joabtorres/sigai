@@ -25,7 +25,7 @@
     <!--fim row-->
     <div class="row">
         <div class="col">
-            <form method="POST" action="<?php echo BASE_URL ?>cofisc/cadastro_solicitacao" enctype="multipart/form-data" autocomplete="off"  name="nFormCOFISCSolicitacao">
+            <form method="POST" action="<?php echo BASE_URL ?>fisc_solicitacao/cadastro" enctype="multipart/form-data" autocomplete="off"  name="nFormCOFISCSolicitacao">
                 <section class="card bg-light border-success mb-4">
                     <header class="card-header bg-success">
                         <h1 class="card-title h5 my-1"><i class="fas fa-file-alt"></i> Tramitação</h1>
@@ -124,16 +124,16 @@
                             </div>
                         </div>
                         <div class="form-row">
-                            <div class="col mb-3"
+                            <div class="col mb-3">
                                  <label for='iNumeroProtocolo'>Número de Protocolo: *</label><br/>
-                                <input type="text" name="nNumeroProtocolo"  class="form-control mt-2" id="iNumeroProtocolo" placeholder="Exemplo: 12344" value="<?php echo!empty($arrayCad['protocolo']['numero_protocolo']) ? $arrayCad['protocolo']['numero_protocolo'] : ''; ?>" required>
+                                <input type="text" name="nNumeroProtocolo"  class="form-control" id="iNumeroProtocolo" placeholder="Exemplo: 12344" value="<?php echo!empty($arrayCad['protocolo']['numero_protocolo']) ? $arrayCad['protocolo']['numero_protocolo'] : ''; ?>" required>
                                 <div class="invalid-feedback">
                                     Informe número do protocolo
                                 </div>
                             </div>
-                            <div class="col mb-3"
+                            <div class="col mb-3">
                                  <label for='iAnoProtocolo'>Ano do Protocolo : *</label><br/>
-                                <input type="text" name="nAnoProtocolo"  class="form-control mt-2" id="iAnoProtocolo" placeholder="Exemplo: 2019" value="<?php echo!empty($arrayCad['protocolo']['ano_protocolo']) ? $arrayCad['protocolo']['ano_protocolo'] : ''; ?>" required>
+                                <input type="text" name="nAnoProtocolo"  class="form-control" id="iAnoProtocolo" placeholder="Exemplo: 2019" value="<?php echo!empty($arrayCad['protocolo']['ano_protocolo']) ? $arrayCad['protocolo']['ano_protocolo'] : ''; ?>" required>
                                 <div class="invalid-feedback">
                                     Informe o ano do protocolo 
                                 </div>
@@ -142,16 +142,16 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-row">
-                                    <div class="col mb-3"
+                                    <div class="col mb-3">
                                          <label for='iNumeroOficio'>Número de Ofício: </label><br/>
-                                        <input type="text" name="nNumeroOficio"  class="form-control mt-2" id="iNumeroOficio" placeholder="Exemplo: 444" value="<?php echo!empty($arrayCad['protocolo']['numero_oficio']) ? $arrayCad['protocolo']['numero_oficio'] : ''; ?>" >
+                                        <input type="text" name="nNumeroOficio"  class="form-control" id="iNumeroOficio" placeholder="Exemplo: 444" value="<?php echo!empty($arrayCad['protocolo']['numero_oficio']) ? $arrayCad['protocolo']['numero_oficio'] : ''; ?>" >
                                         <div class="invalid-feedback">
                                             Informe o número do oficio
                                         </div>
                                     </div>
-                                    <div class="col mb-3"
+                                    <div class="col mb-3">
                                          <label for='iAnoOficio'>Ano do Ofício:</label><br/>
-                                        <input type="text" name="nAnoOficio"  class="form-control mt-2" id="iAnoOficio" placeholder="Exemplo: 2019" value="<?php echo!empty($arrayCad['protocolo']['ano_oficio']) ? $arrayCad['protocolo']['ano_oficio'] : ''; ?>" >
+                                        <input type="text" name="nAnoOficio"  class="form-control" id="iAnoOficio" placeholder="Exemplo: 2019" value="<?php echo!empty($arrayCad['protocolo']['ano_oficio']) ? $arrayCad['protocolo']['ano_oficio'] : ''; ?>" >
                                         <div class="invalid-feedback">
                                             Informe o ano do ofício 
                                         </div>
@@ -160,16 +160,16 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-row">
-                                    <div class="col mb-3"
+                                    <div class="col mb-3">
                                          <label for='iNumeroMemorando'>Número de Memorando: </label><br/>
-                                        <input type="text" name="nNumeroMemorando"  class="form-control mt-2" id="iNumeroMemorando" placeholder="Exemplo: 5544" value="<?php echo!empty($arrayCad['protocolo']['numero_memorando']) ? $arrayCad['protocolo']['numero_memorando'] : ''; ?>" >
+                                        <input type="text" name="nNumeroMemorando"  class="form-control" id="iNumeroMemorando" placeholder="Exemplo: 5544" value="<?php echo!empty($arrayCad['protocolo']['numero_memorando']) ? $arrayCad['protocolo']['numero_memorando'] : ''; ?>" >
                                         <div class="invalid-feedback">
                                             Informe o Assunto
                                         </div>
                                     </div>
-                                    <div class="col mb-3"
+                                    <div class="col mb-3">
                                          <label for='iAnoMemorando'>Ano do Memorando: </label><br/>
-                                        <input type="text" name="nAnoMemorando"  class="form-control mt-2" id="iAnoMemorando" placeholder="Exemplo: 2019" value="<?php echo!empty($arrayCad['protocolo']['ano_memorando']) ? $arrayCad['protocolo']['ano_memorando'] : ''; ?>" >
+                                        <input type="text" name="nAnoMemorando"  class="form-control" id="iAnoMemorando" placeholder="Exemplo: 2019" value="<?php echo!empty($arrayCad['protocolo']['ano_memorando']) ? $arrayCad['protocolo']['ano_memorando'] : ''; ?>" >
                                         <div class="invalid-feedback">
                                             Informe o ano do memorando
                                         </div>
@@ -181,8 +181,8 @@
                             <div class="col-md-12">
                                 <div class="form-row">
                                     <div class="col mb-3">
-                                        <label for='iOrgaoSolicitante'>Orgão Solicitante: </label><br/>
-                                        <select class="select-single custom-select " name="nOrgaoSolicitante" id="iOrgaoSolicitante"">
+                                        <label for='iOrgaoSolicitante'>Orgão Solicitante: *</label><br/>
+                                        <select class="select-single custom-select " name="nOrgaoSolicitante" id="iOrgaoSolicitante" required>
                                             <?php
                                             if (!isset($arrayCad['protocolo']['id_solicitante'])) {
                                                 echo '<option value="" selected = "selected" disabled="disabled">Selecione o tipo de protocolo </option>';
@@ -196,7 +196,7 @@
                                             }
                                             ?>
                                         </select>
-                                        <div class="invalid-feedback">Informe o tipo do protocolo</div>
+                                       <div class="invalid-feedback">Informe o Orgão Solicitante</div>
                                     </div>
                                     <div class="col mb-3">
                                         <label for='iPrazoResposta'>Prazo de resposta: <small class="text-success">- Em dias</small></label><br/>
@@ -217,7 +217,44 @@
                     </header>
                     <article class="card-body">
                         <div class="form-row">
-                            <div class="col-md-3 mb-3">
+                            <div class="col-md-4 mb-3">
+                                <label for='iTecnico'>Técnico Responsável: * </label><br/>
+                                <select class="select-single custom-select" name="nTecnico" id="iTecnico" required>
+                                    <?php
+                                     if (!isset($arrayCad['solicitacao']['usuario_id'])) {
+                                        echo '<option value="" selected = "selected" disabled="disabled">Selecione o técnico responsável</option>';
+                                    }
+                                    foreach ($tecnicos as $indice) {
+                                        if (isset($arrayCad['solicitacao']['usuario_id']) && $indice['id'] == $arrayCad['solicitacao']['usuario_id']) {
+                                            echo '<option value = "' . $indice['id'] . '" selected = "selected">' . $indice['nome'] . '</option>';
+                                        } else {
+                                            echo '<option value = "' . $indice['id'] . '">' . $indice['nome'] . '</option>';
+                                        }
+                                    }
+                                    ?>
+                                </select>
+                                <div class="invalid-feedback">Informe o técnico responsável</div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for='iStatus'>Status da Solicitacao: * </label><br/>
+                                <select class="select-single custom-select" name="nStatus" id="iStatus" required>
+                                    <?php
+                                    $status = array(array('id' => 1, 'status' => 'Em andamento'), array('id' => 2, 'status' => 'Finalizado'));
+                                    if (!isset($arrayCad['solicitacao']['status'])) {
+                                        echo '<option value="" selected = "selected" disabled="disabled">Selecione o status </option>';
+                                    }
+                                    foreach ($status as $indice) {
+                                        if (isset($arrayCad['solicitacao']['status']) && $indice['id'] == $arrayCad['solicitacao']['status']) {
+                                            echo '<option value = "' . $indice['id'] . '" selected = "selected">' . $indice['status'] . '</option>';
+                                        } else {
+                                            echo '<option value = "' . $indice['id'] . '">' . $indice['status'] . '</option>';
+                                        }
+                                    }
+                                    ?>
+                                </select>
+                                <div class="invalid-feedback">Informe status da solicitação</div>
+                            </div>
+                            <div class="col-md-4 mb-3">
                                 <label for='iTipoSolicitacao'>Tipo da Solicitação: * </label><br/>
                                 <select class="select-single custom-select" name="nTipoSolicitacao" id="iTipoSolicitacao" required>
                                     <?php
@@ -235,32 +272,32 @@
                                 </select>
                                 <div class="invalid-feedback">Informe o tipo da solicitação</div>
                             </div>
-                            <div class="col-md-9 mb-3"
+                            <div class="col-md-6 mb-3">
                                  <label for='iSolicitante'>Solicitante: * </label><br/>
-                                <input type="text" name="nDenunciado"  class="form-control mt-2" id="iSolicitante" placeholder="Exemplo: Empresa X" value="<?php echo!empty($arrayCad['solicitacao']['solicitante']) ? $arrayCad['solicitacao']['solicitante'] : ''; ?>" required>
+                                <input type="text" name="nsolicitante"  class="form-control" id="iSolicitante" placeholder="Exemplo: Empresa X" value="<?php echo!empty($arrayCad['solicitacao']['solicitante']) ? $arrayCad['solicitacao']['solicitante'] : ''; ?>" required>
                                 <div class="invalid-feedback">
                                     Informe o Denunciado
                                 </div>
                             </div>
-                            <div class="col-md-6 mb-3"
+                            <div class="col-md-3 mb-3">
                                  <label for='iTelefone'>Telefone:  </label><br/>
-                                <input type="text" name="nTelefone"  class="form-control mt-2" id="iTelefone" placeholder="Exemplo: (99) 99999-9999 / (98) 99999-9999" value="<?php echo!empty($arrayCad['solicitacao']['telefone']) ? $arrayCad['solicitacao']['telefone'] : ''; ?>" >
+                                <input type="text" name="nTelefone"  class="form-control" id="iTelefone" placeholder="Exemplo: (99) 99999-9999 / (98) 99999-9999" value="<?php echo!empty($arrayCad['solicitacao']['telefone']) ? $arrayCad['solicitacao']['telefone'] : ''; ?>" >
                                 <div class="invalid-feedback">
                                     Informe o telefone
                                 </div>
                             </div>
-                            <div class="col-md-6 mb-3"
+                            <div class="col-md-3 mb-3">
                                  <label for='iEmail'>Email:  </label><br/>
-                                <input type="email" name="nEmail"  class="form-control mt-2" id="iEmail" placeholder="Exemplo: joab@gmail.com" value="<?php echo!empty($arrayCad['solicitacao']['email']) ? $arrayCad['solicitacao']['email'] : ''; ?>" >
+                                <input type="email" name="nEmail"  class="form-control" id="iEmail" placeholder="Exemplo: joab@gmail.com" value="<?php echo!empty($arrayCad['solicitacao']['email']) ? $arrayCad['solicitacao']['email'] : ''; ?>" >
                                 <div class="invalid-feedback">
                                     Informe o email
                                 </div>
                             </div>
                         </div>
                         <div class="form-row">
-                            <div class="col mb-3"
+                            <div class="col mb-3">
                                  <label for='iDescricao'>Descrição: </label><br/>
-                                <textarea rows="5" name="nDescricao"  class="form-control mt-2" id="iDescricao" placeholder="Descreva informações adicionais sobre a denúncia (opcional)" ><?php echo!empty($arrayCad['solicitacao']['descricao']) ? $arrayCad['solicitacao']['descricao'] : ''; ?></textarea>
+                                <textarea rows="5" name="nDescricao"  class="form-control" id="iDescricao" placeholder="Descreva informações adicionais sobre a denúncia (opcional)" ><?php echo!empty($arrayCad['solicitacao']['descricao']) ? $arrayCad['solicitacao']['descricao'] : ''; ?></textarea>
                                 <div class="invalid-feedback">
                                     Informe uma descrição
                                 </div>
@@ -303,9 +340,9 @@
                                 </select>
                                 <div class="invalid-feedback">Informe o bairro</div>
                             </div>
-                            <div class="col-md-6 mb-3"
+                            <div class="col-md-6 mb-3">
                                  <label for='iEndereco'>Endereço / Complemento:  </label><br/>
-                                <input type="text" name="nEndereco"  class="form-control mt-2" id="iEndereco" placeholder="Exemplo: Próximo a Praça do Estrela" value="<?php echo!empty($arrayCad['solicitacao']['endereco']) ? $arrayCad['solicitacao']['endereco'] : ''; ?>">
+                                <input type="text" name="nEndereco"  class="form-control" id="iEndereco" placeholder="Exemplo: Próximo a Praça do Estrela" value="<?php echo!empty($arrayCad['solicitacao']['endereco']) ? $arrayCad['solicitacao']['endereco'] : ''; ?>">
                                 <div class="invalid-feedback">
                                     Informe o endereço
                                 </div>
@@ -320,16 +357,16 @@
                             </div>
                         </div>
                         <div class="form-row">
-                            <div class="col-md-6 mb-3"
+                            <div class="col-md-6 mb-3">
                                  <label for='cLatitude'>Latitude:  </label><br/>
-                                <input type="text" name="nLatitude"  class="form-control mt-2" id="cLatitude" placeholder="Exemplo: -1.2955583054409823" value="<?php echo!empty($arrayCad['solicitacao']['latitude']) ? $arrayCad['solicitacao']['latitude'] : ''; ?>">
+                                <input type="text" name="nLatitude"  class="form-control" id="cLatitude" placeholder="Exemplo: -1.2955583054409823" value="<?php echo!empty($arrayCad['solicitacao']['latitude']) ? $arrayCad['solicitacao']['latitude'] : ''; ?>">
                                 <div class="invalid-feedback">
                                     Informe o Assunto
                                 </div>
                             </div>
-                            <div class="col-md-6 mb-3"
+                            <div class="col-md-6 mb-3">
                                  <label for='cLongitude'>Longitude:  </label><br/>
-                                <input type="text" name="nLongitude"  class="form-control mt-2" id="cLongitude" placeholder="Exemplo: -47.91926629129639" value="<?php echo!empty($arrayCad['solicitacao']['longitude']) ? $arrayCad['solicitacao']['longitude'] : ''; ?>" >
+                                <input type="text" name="nLongitude"  class="form-control" id="cLongitude" placeholder="Exemplo: -47.91926629129639" value="<?php echo!empty($arrayCad['solicitacao']['longitude']) ? $arrayCad['solicitacao']['longitude'] : ''; ?>" >
                                 <div class="invalid-feedback">
                                     Informe o Assunto
                                 </div>

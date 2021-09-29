@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 20-Set-2021 às 16:53
--- Versão do servidor: 10.4.20-MariaDB
--- versão do PHP: 7.3.29
+-- Tempo de geração: 29-Set-2021 às 17:19
+-- Versão do servidor: 10.4.21-MariaDB
+-- versão do PHP: 8.0.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -144,8 +144,9 @@ CREATE TABLE `fisc_anexo_denuncia` (
 CREATE TABLE `fisc_anexo_solicitacao` (
   `id` int(10) UNSIGNED NOT NULL,
   `solicitacao_id` int(10) UNSIGNED NOT NULL,
-  `nome` varchar(255) DEFAULT NULL,
-  `anexo` varchar(255) DEFAULT NULL
+  `descricao` varchar(255) DEFAULT NULL,
+  `anexo` varchar(255) DEFAULT NULL,
+  `data` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -219,6 +220,15 @@ CREATE TABLE `fisc_historico_solicitacao` (
   `solicitacao_id` int(10) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Extraindo dados da tabela `fisc_historico_solicitacao`
+--
+
+INSERT INTO `fisc_historico_solicitacao` (`id`, `data`, `descricao`, `usuario_id`, `solicitacao_id`) VALUES
+(3, '2021-09-28 09:59:00', 'Alteração realizada com sucesso!', 1, 1),
+(4, '2021-09-28 09:59:00', 'Alteração realizada com sucesso!', 1, 1),
+(5, '2021-09-28 10:00:00', 'Alteração realizada com sucesso!', 1, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -275,7 +285,8 @@ CREATE TABLE `fisc_protocolo` (
 INSERT INTO `fisc_protocolo` (`id`, `tipo`, `tramitacao`, `data_protocolo`, `protocolo_id`, `tipo_documento_id`, `origem_id`, `numero_protocolo`, `ano_protocolo`, `numero_oficio`, `ano_oficio`, `numero_memorando`, `ano_memorando`, `id_solicitante`, `prazo`, `hash`) VALUES
 (7, 'denuncia', 1, '2021-09-09', 1, 4, 3, '21312333', '2015', '', '', '', '', 2, '015', '2a9771c63aac03167d8af0cddd5f0f8a'),
 (8, 'denuncia', 0, '2021-09-06', 2, 6, 2, 'q2121', '111', '', '', '', '', 2, '030', '7fb7d768a9a299c51e44febab6194a21'),
-(9, 'denuncia', 0, '2021-09-09', 1, 4, 3, '21312', '312321', '', '', '', '', 2, '015', '13449417cc5cdc8b93e3cf5eb7d058cb');
+(9, 'denuncia', 0, '2021-09-09', 1, 4, 3, '21312', '312321', '', '', '', '', 2, '015', '13449417cc5cdc8b93e3cf5eb7d058cb'),
+(13, 'solicitacao', 0, '2021-09-15', 2, 6, 2, 'asdasd', 'asdsadsa', '', '', '', '', 3, '', '1f45c68fb04908d5b13197cbc38cafe6');
 
 -- --------------------------------------------------------
 
@@ -300,6 +311,13 @@ CREATE TABLE `fisc_solicitacao` (
   `longitude` varchar(45) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Extraindo dados da tabela `fisc_solicitacao`
+--
+
+INSERT INTO `fisc_solicitacao` (`id`, `protocolo_id`, `usuario_id`, `status`, `tipo_solicitacao_id`, `solicitante`, `telefone`, `email`, `descricao`, `endereco`, `cidade_id`, `bairro_id`, `latitude`, `longitude`) VALUES
+(1, 13, 12, 1, 3, '1231', '', '', '', '', 1, 15, '', '');
+
 -- --------------------------------------------------------
 
 --
@@ -317,7 +335,8 @@ CREATE TABLE `fisc_solicitante` (
 
 INSERT INTO `fisc_solicitante` (`id`, `solicitante`) VALUES
 (1, 'Prefeitura Municipal de Castanhal'),
-(2, 'Ministério Público do Estado do Pará');
+(2, 'Ministério Público do Estado do Pará'),
+(3, 'Externo');
 
 -- --------------------------------------------------------
 
@@ -466,6 +485,7 @@ CREATE TABLE `fisc_vistoria_solicitacao` (
   `id` int(10) UNSIGNED NOT NULL,
   `data` date DEFAULT NULL,
   `descricao` text DEFAULT NULL,
+  `instrumento` text NOT NULL,
   `solicitacao_id` int(10) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -501,7 +521,7 @@ CREATE TABLE `protocolo` (
 --
 
 INSERT INTO `protocolo` (`id`, `tipo_id`, `objetivo_id`, `numero_protocolo`, `data`, `interessado`, `processo`, `contato`, `protocolista_id`, `numero_folhas`, `assunto`, `descricao`, `cidade`, `bairro`, `endereco`, `numero`, `latitude`, `longitude`) VALUES
-(1, 1, 2, '0001/2021', '2021-09-20', '51515', 0, '', 1, '20', 'fgyvhbujnkml,ç', '', 0, 0, '', '', '', '');
+(2, 2, 24, '00210/2021', '2021-09-28', 'ppf com. serv. eireli', 0, '', 16, '47', 'licença de operação -lo', '', 0, 0, '', '', '', '');
 
 -- --------------------------------------------------------
 
@@ -536,7 +556,7 @@ CREATE TABLE `protocolo_historico` (
 --
 
 INSERT INTO `protocolo_historico` (`id`, `data`, `descricao`, `usuario_id`, `protocolo_id`) VALUES
-(47, '2021-09-20', 'Realizado o cadastro deste protocolo no banco de dados', 1, 1);
+(48, '2021-09-28', 'Realizado o cadastro deste protocolo no banco de dados', 16, 2);
 
 -- --------------------------------------------------------
 
@@ -729,6 +749,14 @@ CREATE TABLE `tramitacao` (
   `status` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Extraindo dados da tabela `tramitacao`
+--
+
+INSERT INTO `tramitacao` (`id`, `protocolo_id`, `setor_remetente_id`, `usuario_remetente_id`, `setor_destinatario_id`, `usuario_destinatario_id`, `data`, `descricao`, `anexo`, `status`) VALUES
+(11, 2, 7, 16, 10, 1, '2021-09-28', '', '', NULL),
+(14, 2, 10, 1, 4, 12, '2021-09-28', 'dffg\\\\dfgdf', '', NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -745,7 +773,9 @@ CREATE TABLE `usuario` (
   `email` varchar(255) NOT NULL,
   `senha` varchar(255) NOT NULL,
   `acesso` int(11) DEFAULT NULL,
-  `cadastro` date DEFAULT NULL,
+  `data_cadastro` date DEFAULT NULL,
+  `data_finalizacao` date DEFAULT NULL,
+  `observacao` varchar(255) DEFAULT NULL,
   `imagem` varchar(255) DEFAULT NULL,
   `status` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -754,10 +784,16 @@ CREATE TABLE `usuario` (
 -- Extraindo dados da tabela `usuario`
 --
 
-INSERT INTO `usuario` (`id`, `setor_id`, `portaria`, `cargo`, `nome`, `usuario`, `email`, `senha`, `acesso`, `cadastro`, `imagem`, `status`) VALUES
-(1, 10, '1.137/20', 'Assessor', 'Joab T. Alencar', 'joab.alencar', 'joabtorres1508@gmail.com', '47cafbff7d1c4463bbe7ba972a2b56e3', 10, '2020-08-06', 'uploads/usuarios/387eb1c83175517f64b6ccd6bc6a8567.jpg', 1),
-(12, 4, '225454', 'Auxiliar de Coordenador', 'JOAB TORRES COFISC', 'joab.cofisc', 'joab.alencar@gmail.com', '1e3be126a341be788765c0acfde946bc', 1, '2021-01-17', 'uploads/usuarios/user.png', 1),
-(13, 7, '225454', 'Administrativo', 'JOAB PROTOCOLO', 'joab.protocolo', 'joab.torres1508@gmail.com', '47cafbff7d1c4463bbe7ba972a2b56e3', 1, '2021-01-17', 'uploads/usuarios/user.png', 1);
+INSERT INTO `usuario` (`id`, `setor_id`, `portaria`, `cargo`, `nome`, `usuario`, `email`, `senha`, `acesso`, `data_cadastro`, `data_finalizacao`, `observacao`, `imagem`, `status`) VALUES
+(1, 10, '1.137/20', 'Assessor', 'Joab T. Alencar', 'joab.alencar', 'joabtorres1508@gmail.com', '47cafbff7d1c4463bbe7ba972a2b56e3', 10, '2020-08-06', NULL, '', 'uploads/usuarios/387eb1c83175517f64b6ccd6bc6a8567.jpg', 1),
+(12, 4, '225454', 'Auxiliar de Coordenador', 'JOAB TORRES COFISC', 'joab.cofisc', 'joab.alencar@gmail.com', '47cafbff7d1c4463bbe7ba972a2b56e3', 1, '2021-01-17', NULL, '', 'uploads/usuarios/user.png', 1),
+(13, 7, '225454', 'Administrativo', 'JOAB PROTOCOLO', 'joab.protocolo', 'joab.torres1508@gmail.com', '6116afedcb0bc31083935c1c262ff4c9', 1, '2021-01-17', NULL, '', 'uploads/usuarios/user.png', 1),
+(14, 4, '', 'Assessor Técnico', 'DAVI SILVA COSTALAT', 'davi.costalat', 'dsc@ufpa.br', '1e3be126a341be788765c0acfde946bc', 1, '2021-09-28', NULL, '', 'uploads/usuarios/user.png', 1),
+(15, 10, '', 'Agente Administrativo', 'Wilken Kimy Oliveira Alves', 'wilken.kimy', 'wilkenkimyalves@gmail.com', '1e3be126a341be788765c0acfde946bc', 10, '2021-09-28', NULL, '', 'uploads/usuarios/user.png', 1),
+(16, 7, '', 'Agente Administrativo', 'Elane Danile Monteiro dos Santos', 'elane.daniele', 'danisantos30360@gmail.com', '1e3be126a341be788765c0acfde946bc', 1, '2021-09-28', NULL, '', 'uploads/usuarios/user.png', 1),
+(17, 3, '', 'zelador', 'RUYDERLAN DA CRUZ PANTOJA', 'pantoja', 'ruyderlan2@gmail.com', 'c243341b5a6c0e3a82fa10a3d7c77f19', 1, '2021-09-28', NULL, '', 'uploads/usuarios/user.png', 1),
+(18, 1, '', 'Agente Administrativa', 'LUISA PAIXAO DOS SANTOS', 'luisa.santos', 'luisadossantos5636@gmail.com', '547d2cfa9bccac842790ad7d9d7bd17d', 1, '2021-09-28', NULL, '', 'uploads/usuarios/user.png', 1),
+(19, 8, '1.890/2021', 'Assessor', 'Gabriel Holanda Pereira de Medeiros', 'gabriel.medeiros', 'hpm.gabriel@gmail.com', '1e3be126a341be788765c0acfde946bc', 1, '2021-09-15', '2021-09-29', '', 'uploads/usuarios/user.png', 1);
 
 --
 -- Índices para tabelas despejadas
@@ -1021,7 +1057,7 @@ ALTER TABLE `fisc_anexo_denuncia`
 -- AUTO_INCREMENT de tabela `fisc_anexo_solicitacao`
 --
 ALTER TABLE `fisc_anexo_solicitacao`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de tabela `fisc_denuncia`
@@ -1039,7 +1075,7 @@ ALTER TABLE `fisc_historico_denuncia`
 -- AUTO_INCREMENT de tabela `fisc_historico_solicitacao`
 --
 ALTER TABLE `fisc_historico_solicitacao`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de tabela `fisc_origem`
@@ -1051,19 +1087,19 @@ ALTER TABLE `fisc_origem`
 -- AUTO_INCREMENT de tabela `fisc_protocolo`
 --
 ALTER TABLE `fisc_protocolo`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT de tabela `fisc_solicitacao`
 --
 ALTER TABLE `fisc_solicitacao`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de tabela `fisc_solicitante`
 --
 ALTER TABLE `fisc_solicitante`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de tabela `fisc_tipo_denuncia`
@@ -1093,7 +1129,7 @@ ALTER TABLE `fisc_vistoria_denuncia`
 -- AUTO_INCREMENT de tabela `fisc_vistoria_solicitacao`
 --
 ALTER TABLE `fisc_vistoria_solicitacao`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de tabela `protocolo`
@@ -1105,13 +1141,13 @@ ALTER TABLE `protocolo`
 -- AUTO_INCREMENT de tabela `protocolo_anexo`
 --
 ALTER TABLE `protocolo_anexo`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de tabela `protocolo_historico`
 --
 ALTER TABLE `protocolo_historico`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
 
 --
 -- AUTO_INCREMENT de tabela `protocolo_objetivo`
@@ -1159,13 +1195,13 @@ ALTER TABLE `ti_chamado_status`
 -- AUTO_INCREMENT de tabela `tramitacao`
 --
 ALTER TABLE `tramitacao`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT de tabela `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- Restrições para despejos de tabelas

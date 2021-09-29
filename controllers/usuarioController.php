@@ -19,6 +19,8 @@ class usuarioController extends controller {
                 $erro = array();
                 //setor
                 $arrayCad['setor_id'] = addslashes($_POST['nSetor']);
+                //cargo
+                $arrayCad['acesso'] = addslashes($_POST['nAcesso']);
                 //portaria
                 $arrayCad['portaria'] = addslashes($_POST['nMatricula']);
                 //cargo
@@ -57,17 +59,18 @@ class usuarioController extends controller {
                         $arrayErro['senha']['class'] = 'is-invalid';
                     }
                 }
-                //cargo
-                $arrayCad['acesso'] = addslashes($_POST['nAcesso']);
-                //data
-                $arrayCad['cadastro'] = date('Y-m-d');
+                //data de cadastro da conta
+                $arrayCad['data_cadastro'] = addslashes($_POST['nDataCadastro']);
+                //data de finalizacao de conta
+                $arrayCad['data_finalizacao'] = addslashes($_POST['nDataFinalizacao']);
+                //observacao
+                $arrayCad['observacao'] = addslashes($_POST['nObservacao']);
                 //imagem
                 if (isset($_FILES['tImagem-1']) && $_FILES['tImagem-1']['error'] == 0) {
                     $arrayCad['imagem'] = $_FILES['tImagem-1'];
                 }
                 //status
                 $arrayCad['status'] = !empty($_POST['nStatus']) ? 1 : 0;
-
                 $dados['arrayCad'] = $arrayCad;
                 $dados['arrayErro'] = $arrayErro;
 
@@ -99,96 +102,151 @@ class usuarioController extends controller {
             }
             $dados['setores'] = $setor;
             $dados['arrayCad'] = $usuario;
-            if (isset($_POST['nSalvar']) && !empty($_POST['nSalvar'])) {
-                $arrayCad = array();
-                $arrayErro = array();
-                $erro = array();
-                //id
-                $arrayCad['id'] = addslashes($_POST['nId']);
-                //setor
-                $arrayCad['setor_id'] = addslashes($_POST['nSetor']);
-                //portaria
-                $arrayCad['portaria'] = addslashes($_POST['nMatricula']);
-                //cargo
-                $arrayCad['cargo'] = addslashes($_POST['nCargo']);
-                //portaria
-                $arrayCad['nome'] = addslashes($_POST['nNome']);
-                //usuario
-                if (!empty($_POST['nUsuario'])) {
-                    $arrayCad['usuario'] = addslashes($_POST['nUsuario']);
-                    if ($usuarioModel->read_specific('SELECT * FROM usuario WHERE usuario=:usuario AND id!=:id', array('usuario' => $arrayCad['usuario'], 'id' => $arrayCad['id']))) {
-                        $arrayErro['usuario']['msg'] = 'usuário já cadastrado';
-                        $arrayErro['usuario']['class'] = 'is-invalid';
-                        $erro['msg'] = '<i class="fa fa-info-circle" aria-hidden="true"></i> Não é possível cadastrar um usuario já cadastrado, por favor informe outro nome de usuário';
-                        $erro['class'] = 'alert-danger';
-                        $arrayCad['usuario'] = null;
+            if ($this->checkUser() >= 10) {
+
+                if (isset($_POST['nSalvar']) && !empty($_POST['nSalvar'])) {
+                    $arrayCad = array();
+                    $arrayErro = array();
+                    $erro = array();
+                    //id
+                    $arrayCad['id'] = addslashes($_POST['nId']);
+                    //setor
+                    $arrayCad['setor_id'] = addslashes($_POST['nSetor']);
+                    //portaria
+                    $arrayCad['portaria'] = addslashes($_POST['nMatricula']);
+                    //cargo
+                    $arrayCad['cargo'] = addslashes($_POST['nCargo']);
+                    //portaria
+                    $arrayCad['nome'] = addslashes($_POST['nNome']);
+                    //usuario
+                    if (!empty($_POST['nUsuario'])) {
+                        $arrayCad['usuario'] = addslashes($_POST['nUsuario']);
+                        if ($usuarioModel->read_specific('SELECT * FROM usuario WHERE usuario=:usuario AND id!=:id', array('usuario' => $arrayCad['usuario'], 'id' => $arrayCad['id']))) {
+                            $arrayErro['usuario']['msg'] = 'usuário já cadastrado';
+                            $arrayErro['usuario']['class'] = 'is-invalid';
+                            $erro['msg'] = '<i class="fa fa-info-circle" aria-hidden="true"></i> Não é possível cadastrar um usuario já cadastrado, por favor informe outro nome de usuário';
+                            $erro['class'] = 'alert-danger';
+                            $arrayCad['usuario'] = null;
+                        }
                     }
-                }
-                //email
-                if (!empty($_POST['nEmail'])) {
-                    $arrayCad['email'] = addslashes($_POST['nEmail']);
-                    if ($usuarioModel->read_specific('SELECT * FROM usuario WHERE email=:email AND id!=:id', array('email' => $arrayCad['email'], 'id' => $arrayCad['id']))) {
-                        $arrayErro['email']['msg'] = 'E-mail já cadastrado';
-                        $arrayErro['email']['class'] = 'is-invalid';
-                        $dados['erro']['msg'] = '<i class="fa fa-info-circle" aria-hidden="true"></i> Não é possível cadastrar um e-mail já cadastrado, por favor informe outro endereço de e-mail';
-                        $dados['erro']['class'] = 'alert-danger';
-                        $arrayCad['email'] = null;
+                    //email
+                    if (!empty($_POST['nEmail'])) {
+                        $arrayCad['email'] = addslashes($_POST['nEmail']);
+                        if ($usuarioModel->read_specific('SELECT * FROM usuario WHERE email=:email AND id!=:id', array('email' => $arrayCad['email'], 'id' => $arrayCad['id']))) {
+                            $arrayErro['email']['msg'] = 'E-mail já cadastrado';
+                            $arrayErro['email']['class'] = 'is-invalid';
+                            $dados['erro']['msg'] = '<i class="fa fa-info-circle" aria-hidden="true"></i> Não é possível cadastrar um e-mail já cadastrado, por favor informe outro endereço de e-mail';
+                            $dados['erro']['class'] = 'alert-danger';
+                            $arrayCad['email'] = null;
+                        }
                     }
-                }
-                //senha
-                if (!empty($_POST['nSenha']) && !empty($_POST['nRepetirSenha'])) {
                     //senha
-                    if ($_POST['nSenha'] == $_POST['nRepetirSenha']) {
-                        $arrayCad['senha'] = $_POST['nSenha'];
+                    if (!empty($_POST['nSenha']) && !empty($_POST['nRepetirSenha'])) {
+                        //senha
+                        if ($_POST['nSenha'] == $_POST['nRepetirSenha']) {
+                            $arrayCad['senha'] = $_POST['nSenha'];
+                        } else {
+                            $arrayErro['senha']['msg'] = "Os campos 'Senha' e 'Repetir Senha' não estão iguais! ";
+                            $arrayErro['senha']['class'] = 'is-invalid';
+                        }
+                    }
+
+                    //data de cadastro da conta
+                    $arrayCad['data_cadastro'] = addslashes($_POST['nDataCadastro']);
+                    //data de finalizacao de conta
+                    $arrayCad['data_finalizacao'] = addslashes($_POST['nDataFinalizacao']);
+                    //observacao
+                    $arrayCad['observacao'] = addslashes($_POST['nObservacao']);
+
+                    //acesso
+                    if (isset($_POST['nAcesso']) && !empty($_POST['nAcesso'])) {
+                        $arrayCad['acesso'] = addslashes($_POST['nAcesso']);
                     } else {
-                        $arrayErro['senha']['msg'] = "Os campos 'Senha' e 'Repetir Senha' não estão iguais! ";
-                        $arrayErro['senha']['class'] = 'is-invalid';
+                        $arrayCad['acesso'] = $dados['arrayCad']['acesso'];
                     }
-                }
-                //acesso
-                if (isset($_POST['nAcesso']) && !empty($_POST['nAcesso'])) {
-                    $arrayCad['acesso'] = addslashes($_POST['nAcesso']);
-                } else {
-                    $arrayCad['acesso'] = $dados['arrayCad']['acesso'];
-                }
-                //imagem
-                if (isset($_FILES['tImagem-1']) && $_FILES['tImagem-1']['error'] == 0) {
-                    $arrayCad['imagem'] = $_FILES['tImagem-1'];
-                }
+                    //imagem
+                    if (isset($_FILES['tImagem-1']) && $_FILES['tImagem-1']['error'] == 0) {
+                        $arrayCad['imagem'] = $_FILES['tImagem-1'];
+                    }
 
-                //imagem
-                if (isset($_FILES['tImagem-1']) && $_FILES['tImagem-1']['error'] == 0) {
-                    $arrayCad['imagem'] = $_FILES['tImagem-1'];
-                    $arrayCad['img_atual'] = $_POST['nImagem'];
-                } else if (!empty($_POST['nImagem'])) {
-                    $arrayCad['imagem'] = $_POST['nImagem'];
-                } else {
-                    $arrayCad['imagem'] = $dados['arrayCad']['imagem'];
-                    $arrayCad['delete_img'] = true;
-                }
-                //status
-                if (isset($_POST['nStatus']) && !empty($_POST['nStatus'])) {
+                    //imagem
+                    if (isset($_FILES['tImagem-1']) && $_FILES['tImagem-1']['error'] == 0) {
+                        $arrayCad['imagem'] = $_FILES['tImagem-1'];
+                        $arrayCad['img_atual'] = $_POST['nImagem'];
+                    } else if (!empty($_POST['nImagem'])) {
+                        $arrayCad['imagem'] = $_POST['nImagem'];
+                    } else {
+                        $arrayCad['imagem'] = $dados['arrayCad']['imagem'];
+                        $arrayCad['delete_img'] = true;
+                    }
+                    //status
                     $arrayCad['status'] = !empty($_POST['nStatus']) ? 1 : 0;
-                }
-                $dados['arrayCad'] = $arrayCad;
-                $dados['arrayErro'] = $arrayErro;
+                    $dados['arrayCad'] = $arrayCad;
+                    $dados['arrayErro'] = $arrayErro;
 
-                if (empty($arrayErro)) {
-                    $dados['arrayCad'] = $usuarioModel->update($arrayCad);
-                    $dados['erro']['msg'] = '<i class="fa fa-check" aria-hidden="true"></i> Alteração realizada com sucesso!';
-                    $dados['erro']['class'] = 'alert-success';
-                    if ($arrayCad['id'] == $this->getIdUser()) {
-                        $this->setUser($arrayCad);
+                    if (empty($arrayErro)) {
+                        $dados['arrayCad'] = $usuarioModel->update($arrayCad);
+                        $dados['erro']['msg'] = '<i class="fa fa-check" aria-hidden="true"></i> Alteração realizada com sucesso!';
+                        $dados['erro']['class'] = 'alert-success';
+                        if ($arrayCad['id'] == $this->getIdUser()) {
+                            $this->setUser($arrayCad);
+                        }
+
+                        $_POST = array();
+                    } else {
+                        if (empty($dados['erro'])) {
+                            $dados['erro']['msg'] = '<i class="fa fa-info-circle" aria-hidden="true"></i> Preencha todos os campos obrigatórios (*).';
+                            $dados['erro']['class'] = 'alert-danger';
+                        }
+                    }
+                }
+            } else {
+                if (isset($_POST['nSalvar']) && !empty($_POST['nSalvar'])) {
+                    $arrayCad = array();
+                    $arrayErro = array();
+                    $erro = array();
+
+                    $arrayCad['id'] = addslashes($_POST['nId']);
+                    //senha
+                    if (!empty($_POST['nSenha']) && !empty($_POST['nRepetirSenha'])) {
+                        //senha
+                        if ($_POST['nSenha'] == $_POST['nRepetirSenha']) {
+                            $arrayCad['senha'] = $_POST['nSenha'];
+                        } else {
+                            $arrayErro['senha']['msg'] = "Os campos 'Senha' e 'Repetir Senha' não estão iguais! ";
+                            $arrayErro['senha']['class'] = 'is-invalid';
+                        }
+                    }
+                    //imagem
+                    if (isset($_FILES['tImagem-1']) && $_FILES['tImagem-1']['error'] == 0) {
+                        $arrayCad['imagem'] = $_FILES['tImagem-1'];
                     }
 
-                    $_POST = array();
-                } else {
-                    if (empty($dados['erro'])) {
-                        $dados['erro']['msg'] = '<i class="fa fa-info-circle" aria-hidden="true"></i> Preencha todos os campos obrigatórios (*).';
-                        $dados['erro']['class'] = 'alert-danger';
+                    //imagem
+                    if (isset($_FILES['tImagem-1']) && $_FILES['tImagem-1']['error'] == 0) {
+                        $arrayCad['imagem'] = $_FILES['tImagem-1'];
+                        $arrayCad['img_atual'] = $_POST['nImagem'];
+                    } else if (!empty($_POST['nImagem'])) {
+                        $arrayCad['imagem'] = $_POST['nImagem'];
+                    } else {
+                        $arrayCad['imagem'] = $dados['arrayCad']['imagem'];
+                        $arrayCad['delete_img'] = true;
+                    }
+                    $dados['arrayErro'] = $arrayErro;
+                    if (empty($arrayErro)) {
+                        $dados['arrayCad'] = $usuarioModel->updatesimples($arrayCad);
+                        $dados['erro']['msg'] = '<i class="fa fa-check" aria-hidden="true"></i> Alteração realizada com sucesso!';
+                        $dados['erro']['class'] = 'alert-success';
+                        $_POST = array();
+                    } else {
+                        if (empty($dados['erro'])) {
+                            $dados['erro']['msg'] = '<i class="fa fa-info-circle" aria-hidden="true"></i> Preencha todos os campos obrigatórios (*).';
+                            $dados['erro']['class'] = 'alert-danger';
+                        }
                     }
                 }
             }
+
             $this->loadTemplate($viewName, $dados);
         } else {
             $url = "location: " . BASE_URL . "home";

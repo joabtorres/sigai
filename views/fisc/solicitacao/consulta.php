@@ -1,12 +1,12 @@
 <div class="container-fluid">
     <div class="row" >
         <div class="col" id="pagina-header">
-            <h5>Consultar Denúncias</h5>
+            <h5>Consultar Solicitações</h5>
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="<?php echo BASE_URL ?>home"><i class="fa fa-tachometer-alt"></i> Inicial</a></li>
                     <li class="breadcrumb-item"><a href="#" ><i class="fas fa-angle-double-right"></i> Fiscalização</a></li>
-                    <li class="breadcrumb-item active" aria-current="page"><a href="<?php echo BASE_URL ?>fisc_denuncia/consultar/1"><i class="fas fa-tasks"></i> Consultar Denúncias</a></li>
+                    <li class="breadcrumb-item active" aria-current="page"><a href="<?php echo BASE_URL ?>fisc_solicitacao/consultar/1"><i class="fas fa-tasks"></i> Consultar Solicitações</a></li>
                 </ol>
             </nav>
         </div>
@@ -24,7 +24,7 @@
                 </header>
                 <div class="collapse" id="collapseExample">
                     <article class="card-body">
-                        <form method="GET" action="<?php echo BASE_URL ?>fisc_denuncia/consultar/1" name="formSearhCofisc">
+                        <form method="GET" action="<?php echo BASE_URL ?>fisc_solicitacao/consultar/1" name="formSearhCofisc">
                             <div class="form-row">
                                 <div class="col-md-3 mb-3">
                                     <label for='iTipoProtocolo'>Tipo de Protocolo: </label><br/>
@@ -62,7 +62,7 @@
                                         ?>
                                     </select>
                                     <div class="invalid-feedback">Informe a origem</div>
-                                </div>          
+                                </div>
                                 <div class="col-md-3 mb-3">
                                     <label for='isolicitante'>Orgão Solicitante:  </label><br/>
                                     <select class="select-single custom-select" name="nSolicitante" id="isolicitante">
@@ -74,20 +74,20 @@
                                         ?>
                                     </select>
                                     <div class="invalid-feedback">Informe o orgão solicitante</div>
-                                </div>         
+                                </div>                               
                             </div>
                             <div class="form-row">
-                                <div class="col-md-3 mb-3">
-                                    <label for='iTipoDenuncia'>Tipo de Denúncia:  </label><br/>
-                                    <select class="select-single custom-select" name="nTipoDenuncia" id="iTipoDenuncia" >
+                                 <div class="col-md-3 mb-3">
+                                    <label for='iTipoDenuncia'>Tipo de Solicitação:  </label><br/>
+                                    <select class="select-single custom-select" name="nTipoSolicitacao" id="iTipoDenuncia" >
                                         <option value="" selected = "selected" >Todos </option>
                                         <?php
-                                        foreach ($tipo_denuncia as $indice) {
-                                            echo '<option value = "' . $indice['id'] . '">' . $indice['tipo_denuncia'] . '</option>';
+                                        foreach ($tipo_solicitacao as $indice) {
+                                            echo '<option value = "' . $indice['id'] . '">' . $indice['tipo_solicitacao'] . '</option>';
                                         }
                                         ?>
                                     </select>
-                                    <div class="invalid-feedback">Informe o tipo da denúncia</div>
+                                    <div class="invalid-feedback">Informe o tipo da solicitação</div>
                                 </div>
                                 <div class="col-md-3 mb-3">
                                     <label for='iTecnico'>Técnico Responsável:  </label><br/>
@@ -114,7 +114,8 @@
                                     <div class="invalid-feedback">
                                         Informe a data final do protocolo
                                     </div>
-                                </div>                                
+                                </div>
+
                             </div>
                             <div class="form-row">
                                 <div class="col-md-3 mb-3">
@@ -122,8 +123,7 @@
                                     <select class="custom-select" name="nSelectBuscar" id="iSelectBuscar" >
                                         <option value="" selected="selected">Selecione</option>
                                         <option value="protoco">Nº de Protocolo</option>
-                                        <option value="denunciado">Denunciado</option>
-                                        <option value="denunciante">Denunciante</option>
+                                        <option value="solicitante">Solicitante</option>
                                         <option value="descricao">Descrição</option>
                                     </select>
                                     <div class="invalid-feedback">Informe o por</div>
@@ -132,7 +132,7 @@
                                     <label for="iCampo">Campo:  </label>
                                     <input type="text" class="form-control" name="nCampo" id="iCampo"/>
                                     <div class="invalid-feedback">
-                                        Informe o campo
+                                       Informe o campo
                                     </div>
                                 </div>
                             </div>
@@ -166,8 +166,7 @@
                                     <th scope="col">Data do Protocolo</th>
                                     <th scope="col">Nº do Protocolo</th>
                                     <th scope="col">Ano do Protocolo</th>
-                                    <th scope="col">Denunciado</th>
-                                    <th scope="col">Denunciante</th>
+                                    <th scope="col">Solicitante</th>
                                     <th scope="col">Ação</th>
                                 </tr>
                             </thead>
@@ -181,12 +180,11 @@
                                         <td><?php echo $this->formatDateView($indice['data_protocolo']) ?></td>
                                         <td><?php echo!empty($indice['numero_protocolo']) ? $indice['numero_protocolo'] : '' ?></td>
                                         <td><?php echo!empty($indice['ano_protocolo']) ? $indice['ano_protocolo'] : '' ?></td>
-                                        <td><?php echo!empty($indice['denunciado']) ? $indice['denunciado'] : 'Anônimo' ?></td>
-                                        <td><?php echo!empty($indice['denunciante']) ? $indice['denunciante'] : 'Anônimo' ?></td>
+                                        <td><?php echo!empty($indice['solicitante']) ? $indice['solicitante'] : 'Anônimo' ?></td>
                                         <td class="table-acao text-center">
-                                            <a class="btn btn-success btn-sm" href="<?php echo BASE_URL . 'fisc_denuncia/denuncia/' . md5($indice['id']); ?>" title="Visualizar"><i class="fa fa-eye"></i></a> 
+                                            <a class="btn btn-success btn-sm" href="<?php echo BASE_URL . 'fisc_solicitacao/solicitacao/' . md5($indice['id']); ?>" title="Visualizar"><i class="fa fa-eye"></i></a> 
                                             <?php if ($this->checkSetor() == 10 || $this->checkSetor() == 4): ?>
-                                                <a class="btn btn-primary btn-sm" href="<?php echo BASE_URL . 'fisc_denuncia/editar/' . md5($indice['id']); ?>" title="Editar"><i class="fa fa-pencil-alt"></i></a> 
+                                                <a class="btn btn-primary btn-sm" href="<?php echo BASE_URL . 'fisc_solicitacao/editar/' . md5($indice['id']); ?>" title="Editar"><i class="fa fa-pencil-alt"></i></a> 
                                                 <?php
                                             endif;
                                             if ($this->checkSetor() == 10):
@@ -269,13 +267,12 @@ if ($this->checkSetor() == 10):
                             <ul class="list-unstyled">
                                 <li><b>Data do Protocolo: </b> <?php echo $this->formatDateView($indice['data_protocolo']) ?>;</li>
                                 <li><b>Nº do Protocolo: </b> <?php echo!empty($indice['numero_protocolo']) ? $indice['numero_protocolo'] : '' ?>;</li>
-                                <li><b>Denunciado: </b> <?php echo!empty($indice['denunciado']) ? $indice['denunciado'] : 'Anônimo' ?>;</li>
-                                <li><b>Denunciante: </b> <?php echo!empty($indice['denunciante']) ? $indice['denunciante'] : 'Anônimo' ?>;</li>
+                                <li><b>Solicitante: </b> <?php echo!empty($indice['solicitante']) ? $indice['solicitante'] : 'Anônimo' ?>;</li>
                             </ul>
                             <p class="text-justify text-danger"><span class="font-bold">OBS : </span> Ao clicar em "Excluir", este registro e todos registos relacionados ao mesmo deixaram de existir no sistema.</p>
                         </article>
                         <footer class="modal-footer">
-                            <a class="btn btn-danger pull-left" href="<?php echo BASE_URL . 'fisc_denuncia/excluirdenuncia/' . md5($indice['id']) ?>"> <i class="fa fa-trash"></i> Excluir</a> 
+                            <a class="btn btn-danger pull-left" href="<?php echo BASE_URL . 'fisc_solicitacao/excluirsolicitacao/' . md5($indice['id']) ?>"> <i class="fa fa-trash"></i> Excluir</a> 
                             <button class="btn btn-default" type="button" data-dismiss="modal"><i class="fa fa-times"></i> Fechar</button>
                         </footer>
                     </section>

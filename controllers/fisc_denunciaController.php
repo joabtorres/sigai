@@ -14,7 +14,7 @@
 class fisc_denunciaController extends fiscController {
 
     public function index() {
-        if ($this->checkUser() && ($this->checkSetor() == 4 || $this->checkSetor() == 10)) {
+        if ($this->checkUser() == 10 || ($this->checkSetor() == 4 || $this->checkSetor() == 10)) {
             $this->loadView('404');
         } else {
             $url = "location: " . BASE_URL . "home";
@@ -23,11 +23,10 @@ class fisc_denunciaController extends fiscController {
     }
 
     public function cadastro() {
-        if ($this->checkUser() && ($this->checkSetor() == 4 || $this->checkSetor() == 10)) {
+        if ($this->checkUser() == 10 || ($this->checkSetor() == 4 || $this->checkSetor() == 10)) {
             $viewName = 'fisc/denuncia/cadastro';
             $dados = array();
             $crud = new fisc_model();
-            $dados['tipo_protocolo'] = $crud->read("SELECT * FROM fisc_tipo_protocolo ORDER BY tipo_protocolo ASC");
             $dados['tipo_protocolo'] = $crud->read("SELECT * FROM fisc_tipo_protocolo ORDER BY tipo_protocolo ASC");
             $dados['documento'] = $crud->read("SELECT * FROM fisc_tipo_documento ORDER BY documento ASC");
             $dados['origem'] = $crud->read("SELECT * FROM fisc_origem ORDER BY origem ASC");
@@ -117,10 +116,17 @@ class fisc_denunciaController extends fiscController {
     }
 
     public function editar($id) {
-        if ($this->checkUser() && ($this->checkSetor() == 4 || $this->checkSetor() == 10)) {
+        if ($this->checkUser() == 10 || ($this->checkSetor() == 4 || $this->checkSetor() == 10)) {
             $viewName = 'fisc/denuncia/editar';
             $dados = array();
             $crud = new fisc_model();
+            $dados['arrayCad']['denuncia'] = $crud->read_specific("SELECT * FROM fisc_denuncia WHERE md5(id)=:id", array('id' => $id));
+            if (!is_array($dados['arrayCad']['denuncia']) && empty($dados['arrayCad']['denuncia'])) {
+                $url = "location: " . BASE_URL . "home";
+                header($url);
+            }
+            $dados['arrayCad']['protocolo'] = $crud->read_specific("SELECT * FROM fisc_protocolo WHERE id=:id", array('id' => $dados['arrayCad']['denuncia']['protocolo_id']));
+            
             $dados['tipo_protocolo'] = $crud->read("SELECT * FROM fisc_tipo_protocolo ORDER BY tipo_protocolo ASC");
             $dados['tipo_protocolo'] = $crud->read("SELECT * FROM fisc_tipo_protocolo ORDER BY tipo_protocolo ASC");
             $dados['documento'] = $crud->read("SELECT * FROM fisc_tipo_documento ORDER BY documento ASC");
@@ -131,8 +137,7 @@ class fisc_denunciaController extends fiscController {
             $dados['bairro'] = $crud->read("SELECT * FROM bairro WHERE cidade_id=1 ORDER BY bairro ASC");
             $dados['solicitante'] = $crud->read("SELECT * FROM fisc_solicitante ORDER BY solicitante ASC");
             $dados['protocolos'] = $crud->read("SELECT p.*, po.objetivo FROM protocolo as p INNER JOIN  protocolo_objetivo as po where po.id=p.objetivo_id");
-            $dados['arrayCad']['denuncia'] = $crud->read_specific("SELECT * FROM fisc_denuncia WHERE md5(id)=:id", array('id' => $id));
-            $dados['arrayCad']['protocolo'] = $crud->read_specific("SELECT * FROM fisc_protocolo WHERE id=:id", array('id' => $dados['arrayCad']['denuncia']['protocolo_id']));
+
             // cadastro
             if (isset($_POST['nSalvar']) && !empty($_POST['nSalvar'])) {
                 $cadForm = array();
@@ -185,7 +190,7 @@ class fisc_denunciaController extends fiscController {
                 $cadForm['denuncia']['endereco'] = addslashes($_POST['nEndereco']); //endereco
                 $cadForm['denuncia']['latitude'] = addslashes($_POST['nLatitude']); // latitude
                 $cadForm['denuncia']['longitude'] = addslashes($_POST['nLongitude']); // longitude
-                /*                 * *********************
+                /* * *********************
                  * denunciante
                  * ******************** */
                 $cadForm['denuncia']['denunciante'] = addslashes($_POST['nDenunciante']);
@@ -195,13 +200,12 @@ class fisc_denunciaController extends fiscController {
                 if ($resultado) {
                     $resultado = $crud->update("UPDATE fisc_denuncia SET protocolo_id=:protocolo_id, usuario_id=:usuario_id, status=:status, tipo_denuncia_id=:tipo_denuncia_id, denunciado=:denunciado, descricao=:descricao, cidade_id=:cidade_id, bairro_id=:bairro_id, endereco=:endereco, latitude=:latitude, longitude=:longitude, denunciante=:denunciante, telefone=:telefone, email=:email where id=:id", $cadForm['denuncia']);
                     if ($resultado) {
-                        $denuncia = $crud->read_specific("SELECT * FROM fisc_denuncia WHERE protocolo_id=:id", array('id' => $cadForm['protocolo']['id']));
                         $dados['arrayCad'] = $cadForm;
                         $historico = array();
                         $historico['data'] = $this->getDatatimeNow();
                         $historico['descricao'] = "Alteração realizada com sucesso!";
                         $historico['usuario_id'] = $this->getIdUser();
-                        $historico['denuncia_id'] = $denuncia['id'];
+                        $historico['denuncia_id'] = $cadForm['denuncia']['id'];
                         $crud->create("INSERT INTO fisc_historico_denuncia (data, descricao, usuario_id, denuncia_id) VALUES (:data, :descricao, :usuario_id, :denuncia_id) ", $historico);
                         $dados['erro'] = array('class' => 'alert-success', 'msg' => '<i class="fa fa-check-circle" aria-hidden="true"></i> Alteração realizada com sucesso!');
                     }
@@ -215,13 +219,15 @@ class fisc_denunciaController extends fiscController {
     }
 
     public function consultar($page = 1) {
-        if ($this->checkUser() && ($this->checkSetor() == 4 || $this->checkSetor() == 10)) {
+        if ($this->checkUser() == 10 || ($this->checkSetor() == 4 || $this->checkSetor() == 10)) {
             $view = "fisc/denuncia/consulta";
             $dados = array();
             $crudModel = new crud_db();
             $dados['tipo_protocolo'] = $crudModel->read("SELECT * FROM fisc_tipo_protocolo ORDER BY tipo_protocolo ASC");
             $dados['documento'] = $crudModel->read("SELECT * FROM fisc_tipo_documento ORDER BY documento ASC");
             $dados['origem'] = $crudModel->read("SELECT * FROM fisc_origem ORDER BY origem ASC");
+            $dados['solicitante'] = $crudModel->read("SELECT * FROM fisc_solicitante ORDER BY solicitante ASC");
+            $dados['tecnicos'] = $crudModel->read("SELECT * FROM usuario WHERE setor_id=4 ORDER BY nome ASC");
             $dados['tipo_denuncia'] = $crudModel->read("SELECT * FROM fisc_tipo_denuncia ORDER BY tipo_denuncia ASC");
             $dados['cidade'] = $crudModel->read("SELECT * FROM cidade");
             $dados['bairro'] = $crudModel->read("SELECT * FROM bairro WHERE cidade_id=1 ORDER BY bairro ASC");
@@ -229,7 +235,7 @@ class fisc_denunciaController extends fiscController {
             $sql = "SELECT p.data_protocolo, p.numero_protocolo, p.ano_protocolo, d.* FROM fisc_protocolo as p INNER JOIN fisc_denuncia as d WHERE d.protocolo_id=p.id";
             $arrayForm = array();
             if (isset($_GET['nBuscarBT'])) {
-                $parametros = "?nTipoProtocolo=" . $_GET['nTipoProtocolo'] . "&nTipoDocumento=" . $_GET['nTipoDocumento'] . "&nOrigem=" . $_GET['nOrigem'] . "&nTipoDenuncia=" . $_GET['nTipoDenuncia'] . "&nDataInicial=" . $_GET['nDataInicial'] . "&nDataFinal=" . $_GET['nDataFinal'] . "&nSelectBuscar=" . $_GET['nSelectBuscar'] . "&nCampo=" . $_GET['nCampo'] . "&nBuscarBT=BuscarBT";
+                $parametros = "?nTipoProtocolo=" . $_GET['nTipoProtocolo'] . "&nTipoDocumento=" . $_GET['nTipoDocumento'] . "&nOrigem=" . $_GET['nOrigem'] . "&nSolicitante=" . $_GET['nSolicitante'] . "&nTipoDenuncia=" . $_GET['nTipoDenuncia'] . "&nUsuario=" . $_GET['nUsuario'] . "&nDataInicial=" . $_GET['nDataInicial'] . "&nDataFinal=" . $_GET['nDataFinal'] . "&nSelectBuscar=" . $_GET['nSelectBuscar'] . "&nCampo=" . $_GET['nCampo'] . "&nBuscarBT=BuscarBT";
                 //TipoProtocolo
                 if (!empty($_GET['nTipoProtocolo'])) {
                     $sql .= " AND p.protocolo_id=:protocolo_id ";
@@ -245,18 +251,28 @@ class fisc_denunciaController extends fiscController {
                     $sql .= " AND p.origem_id=:origem_id ";
                     $arrayForm['origem_id'] = addslashes($_GET['nOrigem']);
                 }
+                //nSolicitante
+                if (!empty($_GET['nSolicitante'])) {
+                    $sql .= " AND p.id_solicitante=:id_solicitante ";
+                    $arrayForm['id_solicitante'] = addslashes($_GET['nSolicitante']);
+                }
                 //nOrigem
                 if (!empty($_GET['nTipoDenuncia'])) {
                     $sql .= " AND d.tipo_denuncia_id=:tipo_denuncia_id ";
                     $arrayForm['tipo_denuncia_id'] = addslashes($_GET['nTipoDenuncia']);
                 }
-                //nOrigem
+                //nUsuario
+                if (!empty($_GET['nUsuario'])) {
+                    $sql .= " AND d.usuario_id=:usuario_id ";
+                    $arrayForm['usuario_id'] = addslashes($_GET['nUsuario']);
+                }
+                //nDataInicial e nDataFinal
                 if (!empty($_GET['nDataInicial']) && !empty($_GET['nDataFinal'])) {
                     $data_inicial = $this->formatDateBD($_GET['nDataInicial']);
                     $data_final = $this->formatDateBD($_GET['nDataFinal']);
                     $sql .= " AND p.data_protocolo BETWEEN '" . $data_inicial . "' AND '" . $data_final . "' ";
                 }
-                //nOrigem
+                //nSelectBuscar
                 if (!empty($_GET['nSelectBuscar'])) {
                     $opcaoSelecionada = $_GET['nSelectBuscar'];
                     $campo = $_GET['nCampo'];
@@ -311,7 +327,7 @@ class fisc_denunciaController extends fiscController {
     }
 
     public function excluirdenuncia($id) {
-        if ($this->checkUser() && ($this->checkSetor() == 4 || $this->checkSetor() == 10)) {
+        if ($this->checkUser() == 10 || ($this->checkSetor() == 4 || $this->checkSetor() == 10)) {
             $crudModel = new crud_db();
             $resultado = $crudModel->read_specific("SELECT * FROM fisc_denuncia WHERE md5(id)=:id", array('id' => addslashes($id)));
             if (!empty($resultado)) {
@@ -329,7 +345,7 @@ class fisc_denunciaController extends fiscController {
     }
 
     public function denuncia($id) {
-        if ($this->checkUser() && ($this->checkSetor() == 4 || $this->checkSetor() == 10)) {
+        if ($this->checkUser() == 10 || ($this->checkSetor() == 4 || $this->checkSetor() == 10)) {
             $crudModel = new crud_db();
             $resultado = $crudModel->read_specific("SELECT p.tramitacao, p.data_protocolo, p.numero_protocolo, p.ano_protocolo, p.numero_oficio, p.ano_oficio, p.numero_memorando, p.ano_memorando,p.prazo, so.solicitante, tp.tipo_protocolo, td.documento, o.origem, d.*, tds.tipo_denuncia, c.cidade, b.bairro, u.nome as tecnico FROM fisc_protocolo AS p INNER JOIN fisc_solicitante as so INNER JOIN fisc_tipo_protocolo AS tp INNER JOIN fisc_tipo_documento AS td INNER JOIN fisc_origem AS o INNER JOIN fisc_denuncia AS d INNER JOIN fisc_tipo_denuncia AS tds INNER JOIN cidade AS c INNER JOIN bairro AS b INNER JOIN usuario as u WHERE p.protocolo_id = tp.id AND p.tipo_documento_id = td.id AND p.origem_id = o.id AND d.protocolo_id = p.id AND p.id_solicitante=so.id AND d.tipo_denuncia_id = tds.id AND d.cidade_id = c.id AND d.bairro_id = b.id AND d.usuario_id = u.id AND md5(d.id)=:id", array('id' => $id));
 
@@ -435,7 +451,7 @@ class fisc_denunciaController extends fiscController {
     }
 
     public function excluirvistoria($id) {
-        if ($this->checkUser() && ($this->checkSetor() == 4 || $this->checkSetor() == 10)) {
+        if ($this->checkUser() == 10 || ($this->checkSetor() == 4 || $this->checkSetor() == 10)) {
             $crudModel = new crud_db();
             $resultado = $crudModel->read_specific("SELECT * FROM fisc_vistoria_denuncia WHERE md5(id)=:id", array('id' => addslashes($id)));
             if ($crudModel->remove("DELETE FROM fisc_vistoria_denuncia WHERE md5(id)=:cod", array('cod' => addslashes($id)))) {
@@ -449,7 +465,7 @@ class fisc_denunciaController extends fiscController {
     }
 
     public function excluiranexo($id) {
-        if ($this->checkUser() && ($this->checkSetor() == 4 || $this->checkSetor() == 10)) {
+        if ($this->checkUser() == 10 || ($this->checkSetor() == 4 || $this->checkSetor() == 10)) {
             $crudModel = new crud_db();
             $resultado = $crudModel->read_specific("SELECT * FROM fisc_anexo_denuncia WHERE md5(id)=:id", array('id' => addslashes($id)));
             $crudModel->delete_file($resultado['anexo']);
@@ -464,7 +480,7 @@ class fisc_denunciaController extends fiscController {
     }
 
     public function excluirhistorico($id) {
-        if ($this->checkUser() && ($this->checkSetor() == 4 || $this->checkSetor() == 10)) {
+        if ($this->checkUser() == 10 || ($this->checkSetor() == 4 || $this->checkSetor() == 10)) {
             $crudModel = new crud_db();
             $resultado = $crudModel->read_specific("SELECT * FROM fisc_historico_denuncia WHERE md5(id)=:id", array('id' => addslashes($id)));
             if ($crudModel->remove("DELETE FROM fisc_historico_denuncia WHERE md5(id)=:cod", array('cod' => addslashes($id)))) {

@@ -101,19 +101,19 @@
                         </div>
                     </a>
                 </div>
-                <div class="card-body collapse show" id="collapseTI">
+                <div class="card-body collapse " id="collapseTI">
                     <canvas id="grafico_tipo_suporte_interno" width="100%" class="mt-2 mb-2"></canvas>
                 </div>
 
             </div>
         </div>
-        <div class="col-6 mb-3">
+        <div class="col-md-6 mb-3">
             <div class="card mb border-secondary">
                 <div class="card-header bg-dark text-while">
                     <a data-toggle="collapse" data-toggle="collapse" href="#collapseTI" role="button" aria-expanded="false">
                         <div class="row">
                             <div class="ml-1">
-                                <i class="fa fa-chart-pie fa-3x pull-right" ></i>
+                                <i class="fa fa-chart-pie fa-3x pull-right"></i>
                             </div>
                             <div class="col">
                                 <h4 class="card-title h6 mb-1 mt-1"> Tramitação</h4>
@@ -122,7 +122,7 @@
                         </div>
                     </a>
                 </div>
-                <div class="card-body collapse show" id="collapseTI">
+                <div class="card-body collapse " id="collapseTI">
                     <canvas id="grafico_tipo_protocolo" width="100%" class="mt-2 mb-2"></canvas>
                 </div>
             </div>
@@ -146,7 +146,7 @@
                         </div>
                     </a>
                 </div>
-                <div class="card-body collapse show" id="collapseTI">
+                <div class="card-body collapse" id="collapseTI">
                     <canvas id="grafico_protocolo_objetivo"  height="80vh" ></canvas>
                 </div>
             </div>

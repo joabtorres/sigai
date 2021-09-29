@@ -8,7 +8,7 @@ require 'environment.php';
 $config = array();
 if (ENVIRONMENT == 'development') {
     //Raiz
-    define("BASE_URL", "http://localhost/sispam/");
+    define("BASE_URL", "http://192.168.1.55/sispam/");
     //nome do projeto
     define("NAME_PROJECT", "SISPAM - Sistema de Procedimentos Ambientais");
     //Nome do banco

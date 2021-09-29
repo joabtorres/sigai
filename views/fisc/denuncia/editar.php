@@ -7,7 +7,7 @@
                     <li class="breadcrumb-item"><a href="<?php echo BASE_URL ?>home"><i class="fa fa-tachometer-alt"></i> Inicial</a></li>
                     <li class="breadcrumb-item"><a href="#" ><i class="fas fa-angle-double-right"></i> Fiscalização</a></li>
                     <li class="breadcrumb-item"><a href="<?php echo BASE_URL ?>fisc_denuncia/consultar/1"><i class="fas fa-tasks"></i> Consultar Denúncias</a></li>
-                    <li class="breadcrumb-item active" aria-current="page"><a href="<?php echo BASE_URL ?>fisc_denuncia/cadastro"><i class="fas fa-edit"></i>  Editar Denúncia</a></li>
+                    <li class="breadcrumb-item active" aria-current="page"><a href="<?php echo BASE_URL ?>fisc_denuncia/editar/<?php echo isset($arrayCad['denuncia']['id']) && !empty($arrayCad['denuncia']['id']) ? md5($arrayCad['denuncia']['id']) : 0; ?>"><i class="fas fa-edit"></i>  Editar Denúncia</a></li>
                 </ol>
             </nav>
         </div>

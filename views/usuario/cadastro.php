@@ -48,54 +48,66 @@
                                         ?>
                                     </select>
                                     <div class="invalid-feedback">Informe o setor</div>
+                                </div>                                
+                                <div class="mb-3">
+                                    <label for='iAssunto'>Cargo: </label><br/>
+                                    <input type="text" name="nCargo"  class="form-control  mt-2" id="iAssunto" placeholder="Exemplo: Coordenador" value="<?php echo!empty($arrayCad['cargo']) ? $arrayCad['cargo'] : ''; ?>" >
                                 </div>
-                                <div class="mb-3"
-                                     <label for='iMatricula'>Portaria: </label><br/>
+                                <div class="mb-3">
+                                    <label for='iMatricula'>Portaria: </label><br/>
                                     <input type="text" name="nMatricula"  class="form-control mt-2" id="iMatricula" placeholder="Exemplo: 1.122/19" value="<?php echo!empty($arrayCad['portaria']) ? $arrayCad['portaria'] : ''; ?>">
                                 </div>
-                                <div class="mb-3"
-                                     <label for='iNome'>Nome: *</label><br/>
+                                <div class="mb-3">
+                                    <label for='iNome'>Nome: *</label><br/>
                                     <input type="text" name="nNome"  class="form-control mt-2" id="iNome" placeholder="Exemplo: Joab Torres Alencar" value="<?php echo!empty($arrayCad['nome']) ? $arrayCad['nome'] : ''; ?>" required>
                                     <div class="invalid-feedback">
                                         Informe o nome completo
                                     </div>
                                 </div>
-                                <div class="mb-3"
-                                     <label for='iUsuario'>Usuário: *</label><br/>
-                                    <input type="text" name="nUsuario"  class="form-control  mt-2 <?php echo !empty($arrayErro['usuario']) ? $arrayErro['usuario']['class'] : ''; ?>" id="iUsuario" placeholder="Exemplo: joab.torres" value="<?php echo!empty($arrayCad['usuario']) ? $arrayCad['usuario'] : ''; ?>" required>
+                                <div class="mb-3">
+                                    <label for='iUsuario'>Usuário: *</label><br/>
+                                    <input type="text" name="nUsuario"  class="form-control  mt-2 <?php echo!empty($arrayErro['usuario']) ? $arrayErro['usuario']['class'] : ''; ?>" id="iUsuario" placeholder="Exemplo: joab.torres" value="<?php echo!empty($arrayCad['usuario']) ? $arrayCad['usuario'] : ''; ?>" required>
                                     <div class="invalid-feedback">
-                                        <?php echo !empty($arrayErro['usuario']) ? $arrayErro['usuario']['msg'] : 'Informe o usuário'; ?>
+                                        <?php echo!empty($arrayErro['usuario']) ? $arrayErro['usuario']['msg'] : 'Informe o usuário'; ?>
                                     </div>
                                 </div>
-                                <div class="mb-3"
-                                     <label for='iEmail'>Email: *</label><br/>
+                                <div class="mb-3">
+                                    <label for='iEmail'>Email: *</label><br/>
                                     <input type="email" name="nEmail"  class="form-control  mt-2 <?php echo!empty($arrayErro['email']) ? $arrayErro['email']['class'] : ''; ?>" id="iEmail" placeholder="Exemplo: joab.alencar@hotmail.com" value="<?php echo!empty($arrayCad['email']) ? $arrayCad['email'] : ''; ?>" required>
                                     <div class="invalid-feedback">
-                                        <?php echo !empty($arrayErro['email']) ? $arrayErro['email']['msg'] : 'Informe o email'; ?>
+                                        <?php echo!empty($arrayErro['email']) ? $arrayErro['email']['msg'] : 'Informe o email'; ?>
                                     </div>
                                 </div>
-                                <div class="mb-3"
-                                     <label for='iSenha'>Senha: *</label><br/>
-                                    <input type="password" name="nSenha"  class="form-control  mt-2 <?php echo !empty($arrayErro['senha']) ? $arrayErro['senha']['class'] : ''; ?>" id="iSenha"  required>
+                                <div class="mb-3">
+                                    <label for='iSenha'>Senha: *</label><br/>
+                                    <input type="password" name="nSenha"  class="form-control  mt-2 <?php echo!empty($arrayErro['senha']) ? $arrayErro['senha']['class'] : ''; ?>" id="iSenha"  required>
                                     <div class="invalid-feedback">
-                                        <?php echo !empty($arrayErro['senha']) ? $arrayErro['senha']['msg'] : 'Informe o senha'; ?>
+                                        <?php echo!empty($arrayErro['senha']) ? $arrayErro['senha']['msg'] : 'Informe o senha'; ?>
                                     </div>
                                 </div>
-                                <div class="mb-3"
-                                     <label for='iRepetirSenha'>Repetir Senha: *</label><br/>
-                                    <input type="password" name="nRepetirSenha"  class="form-control  mt-2 <?php echo !empty($arrayErro['senha']) ? $arrayErro['senha']['class'] : ''; ?>" id="iRepetirSenha" required>
+                                <div class="mb-3">
+                                    <label for='iRepetirSenha'>Repetir Senha: *</label><br/>
+                                    <input type="password" name="nRepetirSenha"  class="form-control  mt-2 <?php echo!empty($arrayErro['senha']) ? $arrayErro['senha']['class'] : ''; ?>" id="iRepetirSenha" required>
                                     <div class="invalid-feedback">
-                                        <?php echo !empty($arrayErro['senha']) ? $arrayErro['senha']['msg'] : "Os campos 'Senha' e 'Repetir Senha' devem ser preenchidos"; ?>
+                                        <?php echo!empty($arrayErro['senha']) ? $arrayErro['senha']['msg'] : "Os campos 'Senha' e 'Repetir Senha' devem ser preenchidos"; ?>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <div class="mb-3"
-                                     <label for='iAssunto'>Cargo: </label><br/>
-                                    <input type="text" name="nCargo"  class="form-control  mt-2" id="iAssunto" placeholder="Exemplo: Coordenador" value="<?php echo!empty($arrayCad['cargo']) ? $arrayCad['cargo'] : ''; ?>" >
+                                <div class="mb-3">
+                                    <label for='idatacadastro'>Data de cadastro : </label>
+                                    <input type="text" name="nDataCadastro"  class="form-control  mt-2 input-data date_serach" id="idatacadastro" placeholder="Exemplo: 25/01/2021" value="<?php echo!empty($arrayCad['acesso']) ? $arrayCad['acesso'] : ''; ?>">
                                 </div>
-                                <div class="mb-3"
-                                     <label for='iAcesso'>Nivel de Acesso: </label><br/>
+                                <div class="mb-3">
+                                    <label for='idatafinalizacao'>Data de finalização: </label>
+                                    <input type="text" name="nDataFinalizacao"  class="form-control  mt-2  input-data date_serach" id="idatafinalizacao" placeholder="Exemplo: 05/06/2021" value="<?php echo!empty($arrayCad['acesso']) ? $arrayCad['acesso'] : ''; ?>">
+                                </div>
+                                <div class="mb-3">
+                                    <label for='iOBS'>Observação: </label>
+                                    <input type="text" name="nObservacao"  class="form-control  mt-2" id="iOBS" placeholder="Exemplo: Mudança de setor / Exonerado" value="<?php echo!empty($arrayCad['acesso']) ? $arrayCad['acesso'] : ''; ?>">
+                                </div>
+                                <div class="mb-3">
+                                    <label for='iAcesso'>Nivel de Acesso: </label>
                                     <input type="text" name="nAcesso"  class="form-control  mt-2" id="iAcesso" placeholder="Exemplo: 1" value="<?php echo!empty($arrayCad['acesso']) ? $arrayCad['acesso'] : ''; ?>">
                                 </div>
                                 <div class="mb-3">

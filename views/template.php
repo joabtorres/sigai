@@ -64,7 +64,7 @@
                     <li>
                         <a href="<?php echo BASE_URL ?>tramitacao/consultar"><i class="fas fa-copy"></i> Tramitação</a>
                     </li>
-                    <?php if (1 == 1) { ?>
+                    <?php if (($this->checkSetor() == 4 || $this->checkSetor() == 10)) { ?>
                         <li>
                             <a href="#fiscSubmenu" data-toggle="collapse" aria-expanded="false"><i class="fas fa-angle-double-right"></i> Fiscalização</a>
                             <ul class="collapse list-unstyled" id="fiscSubmenu">
@@ -72,13 +72,13 @@
                                     <a href="<?php echo BASE_URL ?>fisc_denuncia/cadastro"><i class="fas fa-plus-square"></i> Nova Denúncia</a>
                                 </li>
                                 <li>
-                                    <a href="<?php echo BASE_URL ?>fisc/cadastro_solicitacao"><i class="fas fa-plus-square"></i> Nova Solicitação</a>
+                                    <a href="<?php echo BASE_URL ?>fisc_solicitacao/cadastro"><i class="fas fa-plus-square"></i> Nova Solicitação</a>
                                 </li>
                                 <li>
                                     <a href="<?php echo BASE_URL ?>fisc_denuncia/consultar"><i class="fas fa-tasks"></i> Consultar Denuncias</a>
                                 </li>
                                 <li>
-                                    <a href="<?php echo BASE_URL ?>cca/consultar"><i class="fas fa-tasks"></i> Consultar Denuncias</a>
+                                    <a href="<?php echo BASE_URL ?>fisc_solicitacao/consultar"><i class="fas fa-tasks"></i> Consultar Solicitações</a>
                                 </li>
                             </ul>
                         </li>
@@ -94,24 +94,25 @@
                             </li>
                         </ul>
                     </li>
-                    <li>                        
-                        <a href="#userSubmenu" data-toggle="collapse" aria-expanded="false"> <i class="fas fa-angle-double-right"></i>  Usuários</a>
-                        <ul class="collapse list-unstyled" id="userSubmenu">
-                            <?php if ($this->checkUser() == 10) : ?>
-                                <li>
-                                    <a href="<?php echo BASE_URL . 'usuario/cadastro' ?>"><i class="fas fa-user-plus"></i> Novo Usuário</a>
-                                </li>
-                                <li>
-                                    <a href="<?php echo BASE_URL . 'usuario/consultar' ?>"><i class="fa fa-users"></i> Consultar Usuários</a>
-                                </li>
-                            <?php endif; ?>
-                            <li>
-                                <a href="<?php echo BASE_URL . 'usuario/editar/' . md5($_SESSION['usuario']['id']) ?>"><i class="fas fa-user-edit"></i> Editar Usuário</a>
-                            </li>
-                        </ul>
-                    </li>
-
                     <?php if ($this->checkSetor() == 10) : ?>
+                        <li>                        
+                            <a href="#userSubmenu" data-toggle="collapse" aria-expanded="false"> <i class="fas fa-angle-double-right"></i>  Usuários</a>
+                            <ul class="collapse list-unstyled" id="userSubmenu">
+                                <?php if ($this->checkUser() == 10) : ?>
+                                    <li>
+                                        <a href="<?php echo BASE_URL . 'usuario/cadastro' ?>"><i class="fas fa-user-plus"></i> Novo Usuário</a>
+                                    </li>
+                                    <li>
+                                        <a href="<?php echo BASE_URL . 'usuario/consultar' ?>"><i class="fa fa-users"></i> Consultar Usuários</a>
+                                    </li>
+                                <?php endif; ?>
+                                <li>
+                                    <a href="<?php echo BASE_URL . 'usuario/editar/' . md5($_SESSION['usuario']['id']) ?>"><i class="fas fa-user-edit"></i> Editar Usuário</a>
+                                </li>
+                            </ul>
+                        </li>
+
+
                         <li>                        
                             <a href="#userConfig" data-toggle="collapse" aria-expanded="false"> <i class="fas fa-angle-double-right"></i> Semma</a>
                             <ul class="collapse list-unstyled" id="userConfig">

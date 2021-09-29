@@ -38,7 +38,7 @@ class usuario extends model {
      * @author Joab Torres <joabtorres1508@gmail.com>
      */
     public function create($data) {
-        $sql = $this->db->prepare('INSERT INTO usuario(setor_id, portaria, cargo, nome, usuario, email, senha, acesso, cadastro, imagem, status) VALUES (:setor_id, :portaria, :cargo, :nome, :usuario, :email, :senha, :acesso, :cadastro, :imagem, :status)');
+        $sql = $this->db->prepare('INSERT INTO usuario(setor_id, portaria, cargo, nome, usuario, email, senha, acesso, data_cadastro, data_finalizacao, observacao, imagem, status) VALUES (:setor_id, :portaria, :cargo, :nome, :usuario, :email, :senha, :acesso, :data_cadastro, :data_finalizacao, :observacao, :imagem, :status)');
         $sql->bindValue(':setor_id', $data['setor_id']);
         $sql->bindValue(':portaria', $data['portaria']);
         $sql->bindValue(':cargo', $data['cargo']);
@@ -47,7 +47,9 @@ class usuario extends model {
         $sql->bindValue(':email', $data['email']);
         $sql->bindValue(':senha', md5(sha1($data['senha'])));
         $sql->bindValue(':acesso', $data['acesso']);
-        $sql->bindValue(':cadastro', $data['cadastro']);
+        $sql->bindValue(':data_cadastro', $data['data_cadastro']);
+        $sql->bindValue(':data_finalizacao', $data['data_finalizacao']);
+        $sql->bindValue(':observacao', $data['observacao']);
         if (!empty($data['imagem'])) {
             $sql->bindValue(':imagem', $this->save_image($data['imagem']));
         } else {
@@ -170,6 +172,49 @@ class usuario extends model {
     }
 
     /**
+     * Está função é responsável para altera um registro específico;
+     * @param String $sql_command  - Comando SQL;
+     * @param Array $data - Dados salvo em array para seres setados por um foreach;
+     * @access public
+     * @return bollean TRUE ou FALSE
+     * @author Joab Torres <joabtorres1508@gmail.com>
+     */
+    public function updatesimples($data) {
+        try {
+            if (isset($data['senha']) && !empty($data['senha'])) {
+                $sql = "UPDATE usuario SET senha=:senha, imagem=:imagem WHERE id=:id";
+            } else {
+                $sql = "UPDATE usuario SET imagem=:imagem WHERE id=:id";
+            }
+            $sql = $this->db->prepare($sql);
+            //verifica se foi setado a nova senha
+            if (isset($data['senha']) && !empty($data['senha'])) {
+                $sql->bindValue(':senha', md5(sha1($data['senha'])));
+            }
+            //selecionando imagem
+            //se ela é um array $_FILE
+            if (is_array($data['imagem'])) {
+                $sql->bindValue(':imagem', $this->save_image($data['imagem']));
+                $this->delete_image($data['img_atual']);
+                //se não mudou de foto
+            } else if (!isset($data['delete_img']) && !is_array($data['imagem'])) {
+                $sql->bindValue(':imagem', $data['imagem']);
+                //se mudou para foto padrão
+            } else if (isset($data['delete_img'])) {
+                $this->delete_image($data['imagem']);
+                $sql->bindValue(':imagem', 'uploads/usuarios/user.png');
+            }
+            $sql->bindValue(':id', $data['id']);
+            $sql->execute();
+
+            return $this->read_specific("SELECT * FROM usuario WHERE id=:id", array('id' => $data['id']));
+        } catch (PDOException $ex) {
+            echo $ex->getMessage();
+            return null;
+        }
+    }
+
+    /**
      * Está é responsável adiciona uma nova senha ao usuário
      * @param String $email - E-mail cadastrado no banco de dados;
      * @access public
@@ -237,12 +282,10 @@ class usuario extends model {
 
             list($larguraOriginal, $alturaOriginal) = getimagesize($imagem['temp']);
 
-
             $ratio = max($largura / $larguraOriginal, $altura / $alturaOriginal);
             $alturaOriginal = $altura / $ratio;
             $x = ($larguraOriginal - $largura / $ratio) / 2;
             $larguraOriginal = $largura / $ratio;
-
 
             $imagem_final = imagecreatetruecolor($largura, $altura);
 
