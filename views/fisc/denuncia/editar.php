@@ -237,7 +237,7 @@
                                 </select>
                                 <div class="invalid-feedback">Informe o técnico responsável</div>
                             </div>
-                            <div class="col-md-4 mb-3">
+                            <div class="col-md-3 mb-3">
                                 <label for='iStatus'>Status da Denúncia: * </label><br/>
                                 <select class="select-single custom-select" name="nStatus" id="iStatus" required>
                                     <?php
@@ -256,7 +256,7 @@
                                 </select>
                                 <div class="invalid-feedback">Informe status da denúncia</div>
                             </div>
-                            <div class="col-md-4 mb-3">
+                            <div class="col-md-5 mb-3">
                                 <label for='iTipoDenuncia'>Tipo de Denúncia: * </label><br/>
                                 <select class="select-single custom-select" name="nTipoDenuncia" id="iTipoDenuncia" required>
                                     <?php

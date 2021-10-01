@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 29-Set-2021 às 17:19
+-- Tempo de geração: 01-Out-2021 às 17:16
 -- Versão do servidor: 10.4.21-MariaDB
 -- versão do PHP: 8.0.10
 
@@ -161,6 +161,8 @@ CREATE TABLE `fisc_denuncia` (
   `usuario_id` int(10) UNSIGNED NOT NULL,
   `status` int(11) DEFAULT NULL,
   `tipo_denuncia_id` int(10) UNSIGNED NOT NULL,
+  `infracao_id` int(10) UNSIGNED NOT NULL,
+  `classificacao_id` int(10) UNSIGNED NOT NULL,
   `denunciado` varchar(255) DEFAULT NULL,
   `descricao` varchar(255) DEFAULT NULL,
   `cidade_id` int(10) UNSIGNED NOT NULL,
@@ -177,10 +179,8 @@ CREATE TABLE `fisc_denuncia` (
 -- Extraindo dados da tabela `fisc_denuncia`
 --
 
-INSERT INTO `fisc_denuncia` (`id`, `protocolo_id`, `usuario_id`, `status`, `tipo_denuncia_id`, `denunciado`, `descricao`, `cidade_id`, `bairro_id`, `endereco`, `latitude`, `longitude`, `denunciante`, `telefone`, `email`) VALUES
-(7, 7, 12, 1, 7, 'empresa x', '', 1, 1, '', '', '', 'joab o denunciante', '2111', 'email@email'),
-(8, 8, 12, 2, 13, '22212', '', 1, 4, '', '', '', '', '', ''),
-(9, 9, 12, 1, 7, '23112321', '', 1, 1, '', '', '', 'joab o denunciante', '2111', 'email@email');
+INSERT INTO `fisc_denuncia` (`id`, `protocolo_id`, `usuario_id`, `status`, `tipo_denuncia_id`, `infracao_id`, `classificacao_id`, `denunciado`, `descricao`, `cidade_id`, `bairro_id`, `endereco`, `latitude`, `longitude`, `denunciante`, `telefone`, `email`) VALUES
+(10, 14, 12, 1, 1, 1, 1, '12321321', '', 1, 6, '', '-1.2956441141866817', '-47.94965035501709', '', '', '');
 
 -- --------------------------------------------------------
 
@@ -201,10 +201,7 @@ CREATE TABLE `fisc_historico_denuncia` (
 --
 
 INSERT INTO `fisc_historico_denuncia` (`id`, `data`, `descricao`, `usuario_id`, `denuncia_id`) VALUES
-(8, '2021-09-06', 'Foi realizado o cadastro da denúncia no banco de dados', 1, 7),
-(9, '2021-09-06', 'Foi realizado o cadastro da denúncia no banco de dados', 1, 8),
-(10, '2021-09-16', 'Foi realizado o cadastro da denúncia no banco de dados', 1, 9),
-(13, '2021-09-20', 'Alteração realizada com sucesso!', 1, 7);
+(18, '2021-10-01', 'Foi realizado o cadastro da denúncia no banco de dados', 1, 10);
 
 -- --------------------------------------------------------
 
@@ -283,10 +280,8 @@ CREATE TABLE `fisc_protocolo` (
 --
 
 INSERT INTO `fisc_protocolo` (`id`, `tipo`, `tramitacao`, `data_protocolo`, `protocolo_id`, `tipo_documento_id`, `origem_id`, `numero_protocolo`, `ano_protocolo`, `numero_oficio`, `ano_oficio`, `numero_memorando`, `ano_memorando`, `id_solicitante`, `prazo`, `hash`) VALUES
-(7, 'denuncia', 1, '2021-09-09', 1, 4, 3, '21312333', '2015', '', '', '', '', 2, '015', '2a9771c63aac03167d8af0cddd5f0f8a'),
-(8, 'denuncia', 0, '2021-09-06', 2, 6, 2, 'q2121', '111', '', '', '', '', 2, '030', '7fb7d768a9a299c51e44febab6194a21'),
-(9, 'denuncia', 0, '2021-09-09', 1, 4, 3, '21312', '312321', '', '', '', '', 2, '015', '13449417cc5cdc8b93e3cf5eb7d058cb'),
-(13, 'solicitacao', 0, '2021-09-15', 2, 6, 2, 'asdasd', 'asdsadsa', '', '', '', '', 3, '', '1f45c68fb04908d5b13197cbc38cafe6');
+(13, 'solicitacao', 0, '2021-09-15', 2, 6, 2, 'asdasd', 'asdsadsa', '', '', '', '', 3, '', '1f45c68fb04908d5b13197cbc38cafe6'),
+(14, 'denuncia', 0, '2021-10-14', 1, 2, 3, '1231', '1232', '', '', '', '', 3, '', '33e5033cdb43cd9e11a8edafaf72eaec');
 
 -- --------------------------------------------------------
 
@@ -341,6 +336,41 @@ INSERT INTO `fisc_solicitante` (`id`, `solicitante`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Estrutura da tabela `fisc_tipo_classificao`
+--
+
+CREATE TABLE `fisc_tipo_classificao` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `infracao_id` int(10) UNSIGNED NOT NULL,
+  `classificacao` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Extraindo dados da tabela `fisc_tipo_classificao`
+--
+
+INSERT INTO `fisc_tipo_classificao` (`id`, `infracao_id`, `classificacao`) VALUES
+(1, 1, 'Animais Domésticos'),
+(2, 1, 'Animais Sinantrópicos'),
+(3, 1, 'Animais Silvestres'),
+(4, 7, 'Em Área de APP'),
+(5, 7, 'Em Terreno Particular'),
+(6, 7, 'Em Terreno Próprio'),
+(7, 7, 'Em Terreno Público'),
+(8, 9, 'Em Área de APP'),
+(9, 9, 'Em Terreno Particular'),
+(10, 9, 'Em Terreno Próprio'),
+(11, 9, 'Em Via Pública'),
+(12, 12, 'Em Corpo Hídrico'),
+(13, 12, 'De Origem Domésticos'),
+(14, 12, 'De Origem Industriais'),
+(15, 12, 'Em Via Pública'),
+(16, 13, 'Em Via Pública'),
+(17, 13, 'Em Terreno Particular');
+
+-- --------------------------------------------------------
+
+--
 -- Estrutura da tabela `fisc_tipo_denuncia`
 --
 
@@ -354,31 +384,14 @@ CREATE TABLE `fisc_tipo_denuncia` (
 --
 
 INSERT INTO `fisc_tipo_denuncia` (`id`, `tipo_denuncia`) VALUES
-(1, 'Animais Domésticos'),
-(2, 'Animais Silvestres'),
-(3, 'Apreensão de Madeira'),
-(4, 'Animais Sinantrópicos'),
-(5, 'Corpo Hídrico'),
-(6, 'Cumprimento de condicionantes intempestivo'),
-(7, 'Desmatamento'),
-(8, 'Efluente Doméstico'),
-(9, 'Efluente Industrial'),
-(10, 'Indeferimento de Licenciamento Ambiental'),
-(11, 'Indeferimento de processo de licenciamento'),
-(12, 'Indeferimento ou Suspensão de Licença'),
-(13, 'Não cumprimento de condicionante'),
-(14, 'Outros'),
-(15, 'Poda de Indivíduo Arbóreo'),
-(16, 'Poluição Atmosférica'),
-(17, 'Poluição Sonora'),
-(18, 'Poluição Visual'),
-(19, 'Queimadas'),
-(20, 'Renovação de licença fora do prazo'),
-(21, 'Resíduos sólidos'),
-(22, 'Sem Licença'),
-(23, 'Supressão de Indivíduo Arbóreo'),
-(24, 'Suspensão de licença'),
-(25, 'Terreno Baldio');
+(1, 'Fauna'),
+(2, 'Flora'),
+(3, 'Degradação / Poluição'),
+(4, 'Efluentes'),
+(5, 'Resíduos Sólidos'),
+(6, 'Poluição Sonora'),
+(7, 'Poluição Atmosférica'),
+(8, 'Administrativa');
 
 -- --------------------------------------------------------
 
@@ -404,6 +417,51 @@ INSERT INTO `fisc_tipo_documento` (`id`, `documento`, `protocolo_id`) VALUES
 (5, 'Outros', 1),
 (6, 'Processo Administrativo Punitivo', 2),
 (7, 'Requerimento', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `fisc_tipo_infracao`
+--
+
+CREATE TABLE `fisc_tipo_infracao` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `tipo_denuncia_id` int(10) UNSIGNED NOT NULL,
+  `infracao` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Extraindo dados da tabela `fisc_tipo_infracao`
+--
+
+INSERT INTO `fisc_tipo_infracao` (`id`, `tipo_denuncia_id`, `infracao`) VALUES
+(1, 1, 'Maus Tratos Contra Animais'),
+(2, 1, 'Tráfico de Animais '),
+(3, 1, 'Caça'),
+(4, 1, 'Animal em Cativeiro sem Registro'),
+(5, 1, 'Pesca Ilegal'),
+(6, 1, 'Outros'),
+(7, 2, 'Desmatamento'),
+(8, 2, 'Queima Ilegal de Vegetação'),
+(9, 2, 'Supressão Vegetal sem Autorização de Orgão Ambiental'),
+(10, 3, 'Construção em Área de Preservação Permanente (APP)'),
+(11, 3, 'Extração de Mineral Sem Autorização de Orgão Ambiental'),
+(12, 4, 'Lançamentos Irregular de Efluentes'),
+(13, 5, 'Descarte Irregular'),
+(14, 6, 'Fonte: Estabelecimentos Comerciais '),
+(15, 6, 'Fonte: Residências'),
+(16, 6, 'Fonte: Bar'),
+(17, 6, 'Fonte: Casa de Show'),
+(18, 6, 'Fonte: Carro Som'),
+(19, 6, 'Fonte: Construção '),
+(20, 7, 'Fonte: Residências'),
+(21, 7, 'Fonte: Estabelecimentos Comerciais '),
+(22, 7, 'Fonte: Estabelecimentos Industriais'),
+(23, 7, 'Fonte: Queima de Resíduos Domésticos'),
+(24, 7, 'Fonte: Emissão de Fumaça'),
+(25, 8, 'Cumprimento de Condicionantes Intepestivo'),
+(26, 8, 'Indeferimento de Processo de Licenciamento'),
+(27, 8, 'Funcionamento de Empreendimento sem Licença Ambiental');
 
 -- --------------------------------------------------------
 
@@ -841,7 +899,8 @@ ALTER TABLE `fisc_denuncia`
   ADD KEY `fk_fisc_denuncia_cidade1` (`cidade_id`),
   ADD KEY `fk_fisc_denuncia_bairro1` (`bairro_id`),
   ADD KEY `fk_fisc_denuncia_fisc_protocolo1` (`protocolo_id`),
-  ADD KEY `fk_fisc_denuncia_usuario1` (`usuario_id`);
+  ADD KEY `fk_fisc_denuncia_usuario1` (`usuario_id`),
+  ADD KEY `infracao_id` (`infracao_id`);
 
 --
 -- Índices para tabela `fisc_historico_denuncia`
@@ -893,6 +952,13 @@ ALTER TABLE `fisc_solicitante`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Índices para tabela `fisc_tipo_classificao`
+--
+ALTER TABLE `fisc_tipo_classificao`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `infracao_id` (`infracao_id`);
+
+--
 -- Índices para tabela `fisc_tipo_denuncia`
 --
 ALTER TABLE `fisc_tipo_denuncia`
@@ -904,6 +970,13 @@ ALTER TABLE `fisc_tipo_denuncia`
 ALTER TABLE `fisc_tipo_documento`
   ADD PRIMARY KEY (`id`),
   ADD KEY `fk_fisc_tipo_documento_fisc_protocolo1` (`protocolo_id`);
+
+--
+-- Índices para tabela `fisc_tipo_infracao`
+--
+ALTER TABLE `fisc_tipo_infracao`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `tipo_denuncia_id` (`tipo_denuncia_id`);
 
 --
 -- Índices para tabela `fisc_tipo_protocolo`
@@ -1063,13 +1136,13 @@ ALTER TABLE `fisc_anexo_solicitacao`
 -- AUTO_INCREMENT de tabela `fisc_denuncia`
 --
 ALTER TABLE `fisc_denuncia`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT de tabela `fisc_historico_denuncia`
 --
 ALTER TABLE `fisc_historico_denuncia`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT de tabela `fisc_historico_solicitacao`
@@ -1087,7 +1160,7 @@ ALTER TABLE `fisc_origem`
 -- AUTO_INCREMENT de tabela `fisc_protocolo`
 --
 ALTER TABLE `fisc_protocolo`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT de tabela `fisc_solicitacao`
@@ -1102,16 +1175,28 @@ ALTER TABLE `fisc_solicitante`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
+-- AUTO_INCREMENT de tabela `fisc_tipo_classificao`
+--
+ALTER TABLE `fisc_tipo_classificao`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+
+--
 -- AUTO_INCREMENT de tabela `fisc_tipo_denuncia`
 --
 ALTER TABLE `fisc_tipo_denuncia`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
 -- AUTO_INCREMENT de tabela `fisc_tipo_documento`
 --
 ALTER TABLE `fisc_tipo_documento`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT de tabela `fisc_tipo_infracao`
+--
+ALTER TABLE `fisc_tipo_infracao`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT de tabela `fisc_tipo_protocolo`
@@ -1229,6 +1314,7 @@ ALTER TABLE `fisc_anexo_solicitacao`
 -- Limitadores para a tabela `fisc_denuncia`
 --
 ALTER TABLE `fisc_denuncia`
+  ADD CONSTRAINT `fisc_denuncia_ibfk_1` FOREIGN KEY (`infracao_id`) REFERENCES `fisc_tipo_infracao` (`id`),
   ADD CONSTRAINT `fk_fisc_denuncia_bairro1` FOREIGN KEY (`bairro_id`) REFERENCES `bairro` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_fisc_denuncia_cidade1` FOREIGN KEY (`cidade_id`) REFERENCES `cidade` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_fisc_denuncia_fisc_protocolo1` FOREIGN KEY (`protocolo_id`) REFERENCES `fisc_protocolo` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
@@ -1269,10 +1355,22 @@ ALTER TABLE `fisc_solicitacao`
   ADD CONSTRAINT `fk_fisc_solicitacao_usuario1` FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
+-- Limitadores para a tabela `fisc_tipo_classificao`
+--
+ALTER TABLE `fisc_tipo_classificao`
+  ADD CONSTRAINT `fisc_tipo_classificao_ibfk_1` FOREIGN KEY (`infracao_id`) REFERENCES `fisc_tipo_infracao` (`id`);
+
+--
 -- Limitadores para a tabela `fisc_tipo_documento`
 --
 ALTER TABLE `fisc_tipo_documento`
   ADD CONSTRAINT `fk_fisc_tipo_documento_fisc_protocolo1` FOREIGN KEY (`protocolo_id`) REFERENCES `fisc_tipo_protocolo` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Limitadores para a tabela `fisc_tipo_infracao`
+--
+ALTER TABLE `fisc_tipo_infracao`
+  ADD CONSTRAINT `fisc_tipo_infracao_ibfk_1` FOREIGN KEY (`tipo_denuncia_id`) REFERENCES `fisc_tipo_denuncia` (`id`);
 
 --
 -- Limitadores para a tabela `fisc_vistoria_denuncia`

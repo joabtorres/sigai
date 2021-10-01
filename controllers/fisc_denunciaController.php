@@ -32,6 +32,8 @@ class fisc_denunciaController extends fiscController {
             $dados['origem'] = $crud->read("SELECT * FROM fisc_origem ORDER BY origem ASC");
             $dados['tecnicos'] = $crud->read("SELECT * FROM usuario WHERE setor_id=4 ORDER BY nome ASC");
             $dados['tipo_denuncia'] = $crud->read("SELECT * FROM fisc_tipo_denuncia ORDER BY tipo_denuncia ASC");
+            $dados['tipo_infracao'] = $crud->read("SELECT * FROM fisc_tipo_infracao ORDER BY infracao ASC");
+            $dados['tipo_classificacao'] = $crud->read("SELECT * FROM fisc_tipo_classificao ORDER BY classificacao ASC");
             $dados['cidade'] = $crud->read("SELECT * FROM cidade");
             $dados['bairro'] = $crud->read("SELECT * FROM bairro WHERE cidade_id=1 ORDER BY bairro ASC");
             $dados['solicitante'] = $crud->read("SELECT * FROM fisc_solicitante ORDER BY solicitante ASC");
@@ -77,6 +79,8 @@ class fisc_denunciaController extends fiscController {
                 $cadForm['denuncia']['usuario_id'] = addslashes($_POST['nTecnico']);
                 $cadForm['denuncia']['status'] = addslashes($_POST['nStatus']);
                 $cadForm['denuncia']['tipo_denuncia_id'] = addslashes($_POST['nTipoDenuncia']);
+                $cadForm['denuncia']['infracao_id'] = addslashes($_POST['nTipoInfracao']);
+                $cadForm['denuncia']['classificacao_id'] = addslashes($_POST['nTipoClassificacao']);
                 //denunciante
                 $cadForm['denuncia']['denunciado'] = addslashes($_POST['nDenunciado']);
                 $cadForm['denuncia']['descricao'] = addslashes($_POST['nDescricao']); //descricao
@@ -95,7 +99,7 @@ class fisc_denunciaController extends fiscController {
                 if ($resultado) {
                     $protocolo = $crud->read_specific("SELECT * FROM fisc_protocolo WHERE hash=:hash", array('hash' => $cadForm['protocolo']['hash']));
                     $cadForm['denuncia']['protocolo_id'] = $protocolo['id'];
-                    $resultado = $crud->create("INSERT INTO fisc_denuncia (protocolo_id, usuario_id, status, tipo_denuncia_id, denunciado, descricao, cidade_id, bairro_id, endereco, latitude, longitude, denunciante, telefone, email) VALUES (:protocolo_id, :usuario_id, :status, :tipo_denuncia_id, :denunciado, :descricao, :cidade_id, :bairro_id, :endereco, :latitude, :longitude, :denunciante, :telefone, :email)", $cadForm['denuncia']);
+                    $resultado = $crud->create("INSERT INTO fisc_denuncia (protocolo_id, usuario_id, status, tipo_denuncia_id, infracao_id, classificacao_id, denunciado, descricao, cidade_id, bairro_id, endereco, latitude, longitude, denunciante, telefone, email) VALUES (:protocolo_id, :usuario_id, :status, :tipo_denuncia_id, :infracao_id, :classificacao_id, :denunciado, :descricao, :cidade_id, :bairro_id, :endereco, :latitude, :longitude, :denunciante, :telefone, :email)", $cadForm['denuncia']);
                     if ($resultado) {
                         $denuncia = $crud->read_specific("SELECT * FROM fisc_denuncia WHERE protocolo_id=:id", array('id' => $protocolo['id']));
                         $historico = array();
@@ -182,6 +186,8 @@ class fisc_denunciaController extends fiscController {
                 $cadForm['denuncia']['usuario_id'] = addslashes($_POST['nTecnico']);
                 $cadForm['denuncia']['status'] = addslashes($_POST['nStatus']);
                 $cadForm['denuncia']['tipo_denuncia_id'] = addslashes($_POST['nTipoDenuncia']);
+                $cadForm['denuncia']['infracao_id'] = addslashes($_POST['nTipoInfracao']);
+                $cadForm['denuncia']['classificacao_id'] = addslashes($_POST['nTipoClassificacao']);
                 //denunciante
                 $cadForm['denuncia']['denunciado'] = addslashes($_POST['nDenunciado']);
                 $cadForm['denuncia']['descricao'] = addslashes($_POST['nDescricao']); //descricao

@@ -374,6 +374,30 @@ if (document.nFormCOFISCDenuncia) {
         xhttp.send("cidade_id=" + cidade_id);
     }
 
+    function selectInfracao(tipo_denuncia_id) {
+        xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                document.getElementById("iTipoInfracao").innerHTML = this.responseText;
+            }
+        };
+        xhttp.open("POST", base_url + "fisc/get_infracao", true);
+        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhttp.send("tipo_denuncia_id=" + tipo_denuncia_id);
+    }
+    
+    function selectClassificacao(infracao_id) {
+        xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                document.getElementById("iTipoClassificao").innerHTML = this.responseText;
+            }
+        };
+        xhttp.open("POST", base_url + "fisc/get_classificacao", true);
+        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhttp.send("infracao_id=" + infracao_id);
+    }
+
     function validarFormCOFISCDenuncia() {
         var form = document.nFormCOFISCDenuncia;
         if (null_or_empty("iData")
