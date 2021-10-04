@@ -137,6 +137,8 @@ class fisc_denunciaController extends fiscController {
             $dados['origem'] = $crud->read("SELECT * FROM fisc_origem ORDER BY origem ASC");
             $dados['tecnicos'] = $crud->read("SELECT * FROM usuario WHERE setor_id=4 ORDER BY nome ASC");
             $dados['tipo_denuncia'] = $crud->read("SELECT * FROM fisc_tipo_denuncia ORDER BY tipo_denuncia ASC");
+            $dados['tipo_infracao'] = $crud->read("SELECT * FROM fisc_tipo_infracao ORDER BY infracao ASC");
+            $dados['tipo_classificacao'] = $crud->read("SELECT * FROM fisc_tipo_classificao ORDER BY classificacao ASC");
             $dados['cidade'] = $crud->read("SELECT * FROM cidade");
             $dados['bairro'] = $crud->read("SELECT * FROM bairro WHERE cidade_id=1 ORDER BY bairro ASC");
             $dados['solicitante'] = $crud->read("SELECT * FROM fisc_solicitante ORDER BY solicitante ASC");
@@ -204,7 +206,7 @@ class fisc_denunciaController extends fiscController {
                 $cadForm['denuncia']['email'] = addslashes($_POST['nEmail']);
                 $resultado = $crud->update("UPDATE fisc_protocolo SET tipo=:tipo, tramitacao=:tramitacao, data_protocolo=:data_protocolo, protocolo_id=:protocolo_id, tipo_documento_id=:tipo_documento_id, origem_id=:origem_id, numero_protocolo=:numero_protocolo, ano_protocolo=:ano_protocolo, numero_oficio=:numero_oficio, ano_oficio=:ano_oficio, numero_memorando=:numero_memorando, ano_memorando=:ano_memorando, id_solicitante=:id_solicitante, prazo=:prazo WHERE id=:id", $cadForm['protocolo']);
                 if ($resultado) {
-                    $resultado = $crud->update("UPDATE fisc_denuncia SET protocolo_id=:protocolo_id, usuario_id=:usuario_id, status=:status, tipo_denuncia_id=:tipo_denuncia_id, denunciado=:denunciado, descricao=:descricao, cidade_id=:cidade_id, bairro_id=:bairro_id, endereco=:endereco, latitude=:latitude, longitude=:longitude, denunciante=:denunciante, telefone=:telefone, email=:email where id=:id", $cadForm['denuncia']);
+                    $resultado = $crud->update("UPDATE fisc_denuncia SET protocolo_id=:protocolo_id, usuario_id=:usuario_id, status=:status, tipo_denuncia_id=:tipo_denuncia_id, infracao_id=:infracao_id, classificacao_id=:classificacao_id, denunciado=:denunciado, descricao=:descricao, cidade_id=:cidade_id, bairro_id=:bairro_id, endereco=:endereco, latitude=:latitude, longitude=:longitude, denunciante=:denunciante, telefone=:telefone, email=:email where id=:id", $cadForm['denuncia']);
                     if ($resultado) {
                         $dados['arrayCad'] = $cadForm;
                         $historico = array();

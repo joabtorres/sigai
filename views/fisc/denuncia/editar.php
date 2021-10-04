@@ -219,11 +219,65 @@
                     </header>
                     <article class="card-body">
                         <div class="form-row">
+                            <div class="col-md-3 mb-3">
+                                <label for='iTipoDenuncia'>Tipo da denúncia: * </label><br/>
+                                <select class="select-single custom-select" name="nTipoDenuncia" id="iTipoDenuncia" required onchange="selectInfracao(this.value)">
+                                    <?php
+                                    if (!isset($arrayCad['denuncia']['tipo_denuncia_id'])) {
+                                        echo '<option value="" selected = "selected" disabled="disabled">Selecione o tipo da denúncia </option>';
+                                    }
+                                    foreach ($tipo_denuncia as $indice) {
+                                        if (isset($arrayCad['denuncia']['tipo_denuncia_id']) && $indice['id'] == $arrayCad['denuncia']['tipo_denuncia_id']) {
+                                            echo '<option value = "' . $indice['id'] . '" selected = "selected">' . $indice['tipo_denuncia'] . '</option>';
+                                        } else {
+                                            echo '<option value = "' . $indice['id'] . '">' . $indice['tipo_denuncia'] . '</option>';
+                                        }
+                                    }
+                                    ?>
+                                </select>
+                                <div class="invalid-feedback">Informe o tipo da denúncia</div>
+                            </div>
+                            <div class="col-md-5 mb-3">
+                                <label for='iTipoInfracao'>Infração: * </label><br/>
+                                <select class="select-single custom-select" name="nTipoInfracao" id="iTipoInfracao" required onchange="selectClassificacao(this.value)">
+                                    <?php
+                                    if (!isset($arrayCad['denuncia']['infracao_id'])) {
+                                        echo '<option value="" selected = "selected" disabled="disabled">Selecione o tipo da infração </option>';
+                                    }
+                                    foreach ($tipo_infracao as $indice) {
+                                        if (isset($arrayCad['denuncia']['infracao_id']) && $indice['id'] == $arrayCad['denuncia']['infracao_id']) {
+                                            echo '<option value = "' . $indice['id'] . '" selected = "selected">' . $indice['infracao'] . '</option>';
+                                        } else {
+                                            echo '<option value = "' . $indice['id'] . '">' . $indice['infracao'] . '</option>';
+                                        }
+                                    }
+                                    ?>
+                                </select>
+                                <div class="invalid-feedback">Informe o tipo da infração</div>
+                            </div>
                             <div class="col-md-4 mb-3">
+                                <label for='iTipoClassificao'>Classificação: </label><br/>
+                                <select class="select-single custom-select" name="nTipoClassificacao" id="iTipoClassificao" >
+                                    <?php
+                                    if (!isset($arrayCad['denuncia']['classificacao_id'])) {
+                                        echo '<option value="" selected = "selected" disabled="disabled">Selecione o tipo da classificacao </option>';
+                                    }
+                                    foreach ($tipo_classificacao as $indice) {
+                                        if (isset($arrayCad['denuncia']['classificacao_id']) && $indice['id'] == $arrayCad['denuncia']['classificacao_id']) {
+                                            echo '<option value = "' . $indice['id'] . '" selected = "selected">' . $indice['classificacao'] . '</option>';
+                                        } else {
+                                            echo '<option value = "' . $indice['id'] . '">' . $indice['classificacao'] . '</option>';
+                                        }
+                                    }
+                                    ?>
+                                </select>
+                                <div class="invalid-feedback">Informe o tipo da classificação</div>
+                            </div>
+                            <div class="col-md-8 mb-3">
                                 <label for='iTecnico'>Técnico Responsável: * </label><br/>
                                 <select class="select-single custom-select" name="nTecnico" id="iTecnico" required>
                                     <?php
-                                    if (!isset($arrayCad['denuncia']['usuario_id'])) {
+                                     if (!isset($arrayCad['denuncia']['usuario_id'])) {
                                         echo '<option value="" selected = "selected" disabled="disabled">Selecione o técnico responsável</option>';
                                     }
                                     foreach ($tecnicos as $indice) {
@@ -237,7 +291,7 @@
                                 </select>
                                 <div class="invalid-feedback">Informe o técnico responsável</div>
                             </div>
-                            <div class="col-md-3 mb-3">
+                            <div class="col-md-4 mb-3">
                                 <label for='iStatus'>Status da Denúncia: * </label><br/>
                                 <select class="select-single custom-select" name="nStatus" id="iStatus" required>
                                     <?php
@@ -256,25 +310,8 @@
                                 </select>
                                 <div class="invalid-feedback">Informe status da denúncia</div>
                             </div>
-                            <div class="col-md-5 mb-3">
-                                <label for='iTipoDenuncia'>Tipo de Denúncia: * </label><br/>
-                                <select class="select-single custom-select" name="nTipoDenuncia" id="iTipoDenuncia" required>
-                                    <?php
-                                    if (!isset($arrayCad['denuncia']['tipo_denuncia_id'])) {
-                                        echo '<option value="" selected = "selected" disabled="disabled">Selecione o tipo da denúncia </option>';
-                                    }
-                                    foreach ($tipo_denuncia as $indice) {
-                                        if (isset($arrayCad['denuncia']['tipo_denuncia_id']) && $indice['id'] == $arrayCad['denuncia']['tipo_denuncia_id']) {
-                                            echo '<option value = "' . $indice['id'] . '" selected = "selected">' . $indice['tipo_denuncia'] . '</option>';
-                                        } else {
-                                            echo '<option value = "' . $indice['id'] . '">' . $indice['tipo_denuncia'] . '</option>';
-                                        }
-                                    }
-                                    ?>
-                                </select>
-                                <div class="invalid-feedback">Informe o tipo da denúncia</div>
-                            </div>
-                        </div>
+                            
+                        </div>                       
                         <div class="form-row">
                             <div class="col-md-12 mb-3">
                                 <label for='iDenunciado'>Denunciado: * </label><br/>

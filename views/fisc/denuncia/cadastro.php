@@ -272,7 +272,7 @@
                                 </select>
                                 <div class="invalid-feedback">Informe o tipo da classificação</div>
                             </div>
-                            <div class="col-md-4 mb-3">
+                            <div class="col-md-8 mb-3">
                                 <label for='iTecnico'>Técnico Responsável: * </label><br/>
                                 <select class="select-single custom-select" name="nTecnico" id="iTecnico" required>
                                     <?php
@@ -290,7 +290,7 @@
                                 </select>
                                 <div class="invalid-feedback">Informe o técnico responsável</div>
                             </div>
-                            <div class="col-md-3 mb-3">
+                            <div class="col-md-4 mb-3">
                                 <label for='iStatus'>Status da Denúncia: * </label><br/>
                                 <select class="select-single custom-select" name="nStatus" id="iStatus" required>
                                     <?php
