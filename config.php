@@ -20,8 +20,8 @@ if (ENVIRONMENT == 'development') {
     //senha
     $config['dbpass'] = '';
 } else {
-     //Raiz
-    define("BASE_URL", "https://192.168.1.66/sispam/");
+    //Raiz
+    define("BASE_URL", "http://192.168.1.55/sispam/");
     //nome do projeto
     define("NAME_PROJECT", "SISPAM - Sistema de Procedimentos Ambientais");
     //Nome do banco
@@ -31,6 +31,5 @@ if (ENVIRONMENT == 'development') {
     //usuario
     $config['dbuser'] = 'root';
     //senha
-    $config['dbpass'] = '';
 }
 ?>

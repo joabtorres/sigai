@@ -226,18 +226,17 @@ class protocoloController extends controller {
                 }
                 //nSelectBuscar
                 if (!empty($_GET['nSelectBuscar'])) {
-                    switch ($_GET['nSelectBuscar']) {
+                    $opcaoSelecionada = $_GET['nSelectBuscar'];
+                    $campo = $_GET['nCampo'];
+                    switch ($opcaoSelecionada) {
                         case 'protoco':
-                            $sql .= " AND p.numero_protocolo=:numero_protocolo ";
-                            $arrayForm['numero_protocolo'] = addslashes($_GET['nCampo']);
+                            $sql .= " AND p.numero_protocolo LIKE '%" . $campo . "%' ";
                             break;
                         case 'interessado':
-                            $sql .= " AND p.interessado=:interessado ";
-                            $arrayForm['interessado'] = addslashes($_GET['nCampo']);
+                            $sql .= " AND p.interessado LIKE '%" . $campo . "%' ";
                             break;
-                        case 'protoco':
-                            $sql .= " AND p.data=:data ";
-                            $arrayForm['data'] = $this->formatDateBD($_GET['nCampo']);
+                        case 'data':
+                            $sql .= " AND p.data LIKE '%" . $campo . "%' ";
                             break;
                     }
                 }

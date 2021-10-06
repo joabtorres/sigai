@@ -79,7 +79,7 @@
                             <div class="form-row">
                                 <div class="col-md-3 mb-3">
                                     <label for='iTipoDenuncia'>Tipo de Denúncia:  </label><br/>
-                                    <select class="select-single custom-select" name="nTipoDenuncia" id="iTipoDenuncia" >
+                                    <select class="select-single custom-select" name="nTipoDenuncia" id="iTipoDenuncia" onchange="selectInfracao(this.value)">
                                         <option value="" selected = "selected" >Todos </option>
                                         <?php
                                         foreach ($tipo_denuncia as $indice) {
@@ -88,6 +88,32 @@
                                         ?>
                                     </select>
                                     <div class="invalid-feedback">Informe o tipo da denúncia</div>
+                                </div>
+
+
+                                <div class="col-md-3 mb-3">
+                                    <label for='iTipoInfracao'>Infração: </label><br/>
+                                    <select class="select-single custom-select" name="nTipoInfracao" id="iTipoInfracao" onchange="selectClassificacao(this.value)">
+                                        <option value="" selected = "selected" >Todas </option>
+                                        <?php
+                                        foreach ($tipo_infracao as $indice) {
+                                            echo '<option value = "' . $indice['id'] . '">' . $indice['infracao'] . '</option>';
+                                        }
+                                        ?>
+                                    </select>
+                                    <div class="invalid-feedback">Informe o tipo da infração</div>
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <label for='iTipoClassificao'>Classificação: </label><br/>
+                                    <select class="select-single custom-select" name="nTipoClassificacao" id="iTipoClassificao" >
+                                        <option value="" selected = "selected" >Todas </option>
+                                        <?php
+                                        foreach ($tipo_classificacao as $indice) {
+                                            echo '<option value = "' . $indice['id'] . '">' . $indice['classificacao'] . '</option>';
+                                        }
+                                        ?>
+                                    </select>
+                                    <div class="invalid-feedback">Informe o tipo da classificação</div>
                                 </div>
                                 <div class="col-md-3 mb-3">
                                     <label for='iTecnico'>Técnico Responsável:  </label><br/>
@@ -101,22 +127,20 @@
                                     </select>
                                     <div class="invalid-feedback">Informe o técnico responsável</div>
                                 </div>
-                                <div class="col-md-3 mb-3">
+                                <div class="col-md-2 mb-3">
                                     <label for="iDataInicial">Data Inicial do Protocolo:  </label>
                                     <input type="text" class="form-control date_serach" name="nDataInicial" id="iDataInicial" />
                                     <div class="invalid-feedback">
                                         Informe a data inicial do protocolo
                                     </div>
                                 </div>
-                                <div class="col-md-3 mb-3">
+                                <div class="col-md-2 mb-3">
                                     <label for="iDataFinal">Data final do Protocolo:  </label>
                                     <input type="text" class="form-control date_serach" name="nDataFinal" id="iDataFinal" />
                                     <div class="invalid-feedback">
                                         Informe a data final do protocolo
                                     </div>
                                 </div>                                
-                            </div>
-                            <div class="form-row">
                                 <div class="col-md-3 mb-3">
                                     <label for='iSelectBuscar'>Por: </label><br/>
                                     <select class="custom-select" name="nSelectBuscar" id="iSelectBuscar" >
@@ -128,7 +152,7 @@
                                     </select>
                                     <div class="invalid-feedback">Informe o por</div>
                                 </div>
-                                <div class="col-md-9 mb-3">
+                                <div class="col-md-5 mb-3">
                                     <label for="iCampo">Campo:  </label>
                                     <input type="text" class="form-control" name="nCampo" id="iCampo"/>
                                     <div class="invalid-feedback">
@@ -155,7 +179,7 @@
             <div class="col mb-2 mt-2">
                 <section class="card">
                     <header class="card-header bg-dark text-while">
-                        <h1 class="card-title h6 mb-1 mt-1">Resultados encontrados</h1>
+                        <h1 class="card-title h6 mb-1 mt-1">Total de Registros Encontrados: <?php echo is_array($chamados) ? count($chamados) : '0'; ?></h1>
                     </header>
                     <div class="table-responsive">
                         <!--table-->

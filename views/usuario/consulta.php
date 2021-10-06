@@ -59,7 +59,8 @@
             <div class="col mb-2 mt-2">
                 <section class="card">
                     <header class="card-header bg-dark text-while">
-                        <h1 class="card-title h6 mb-1 mt-1">Resultados encontrados</h1>
+
+                        <h1 class="card-title h6 mb-1 mt-1">Total de Registros Encontrados: <?php echo is_array($usuarios) ? count($usuarios) : '0'; ?></h1>
                     </header>
                     <div class="table-responsive">
                         <!--table-->

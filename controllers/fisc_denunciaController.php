@@ -130,7 +130,7 @@ class fisc_denunciaController extends fiscController {
                 header($url);
             }
             $dados['arrayCad']['protocolo'] = $crud->read_specific("SELECT * FROM fisc_protocolo WHERE id=:id", array('id' => $dados['arrayCad']['denuncia']['protocolo_id']));
-            
+
             $dados['tipo_protocolo'] = $crud->read("SELECT * FROM fisc_tipo_protocolo ORDER BY tipo_protocolo ASC");
             $dados['tipo_protocolo'] = $crud->read("SELECT * FROM fisc_tipo_protocolo ORDER BY tipo_protocolo ASC");
             $dados['documento'] = $crud->read("SELECT * FROM fisc_tipo_documento ORDER BY documento ASC");
@@ -198,7 +198,7 @@ class fisc_denunciaController extends fiscController {
                 $cadForm['denuncia']['endereco'] = addslashes($_POST['nEndereco']); //endereco
                 $cadForm['denuncia']['latitude'] = addslashes($_POST['nLatitude']); // latitude
                 $cadForm['denuncia']['longitude'] = addslashes($_POST['nLongitude']); // longitude
-                /* * *********************
+                /*                 * *********************
                  * denunciante
                  * ******************** */
                 $cadForm['denuncia']['denunciante'] = addslashes($_POST['nDenunciante']);
@@ -237,6 +237,8 @@ class fisc_denunciaController extends fiscController {
             $dados['solicitante'] = $crudModel->read("SELECT * FROM fisc_solicitante ORDER BY solicitante ASC");
             $dados['tecnicos'] = $crudModel->read("SELECT * FROM usuario WHERE setor_id=4 ORDER BY nome ASC");
             $dados['tipo_denuncia'] = $crudModel->read("SELECT * FROM fisc_tipo_denuncia ORDER BY tipo_denuncia ASC");
+            $dados['tipo_infracao'] = $crudModel->read("SELECT * FROM fisc_tipo_infracao ORDER BY infracao ASC");
+            $dados['tipo_classificacao'] = $crudModel->read("SELECT * FROM fisc_tipo_classificao ORDER BY classificacao ASC");
             $dados['cidade'] = $crudModel->read("SELECT * FROM cidade");
             $dados['bairro'] = $crudModel->read("SELECT * FROM bairro WHERE cidade_id=1 ORDER BY bairro ASC");
 
@@ -268,6 +270,16 @@ class fisc_denunciaController extends fiscController {
                 if (!empty($_GET['nTipoDenuncia'])) {
                     $sql .= " AND d.tipo_denuncia_id=:tipo_denuncia_id ";
                     $arrayForm['tipo_denuncia_id'] = addslashes($_GET['nTipoDenuncia']);
+                }
+                //infracao
+                if (!empty($_GET['nTipoInfracao'])) {
+                    $sql .= " AND d.infracao_id=:infracao_id ";
+                    $arrayForm['infracao_id'] = addslashes($_GET['nTipoInfracao']);
+                }
+                //classificacao
+                if (!empty($_GET['nTipoClassificacao'])) {
+                    $sql .= " AND d.classificacao_id=:classificacao_id ";
+                    $arrayForm['classificacao_id'] = addslashes($_GET['nTipoClassificacao']);
                 }
                 //nUsuario
                 if (!empty($_GET['nUsuario'])) {
@@ -355,7 +367,7 @@ class fisc_denunciaController extends fiscController {
     public function denuncia($id) {
         if ($this->checkUser() == 10 || ($this->checkSetor() == 4 || $this->checkSetor() == 10)) {
             $crudModel = new crud_db();
-            $resultado = $crudModel->read_specific("SELECT p.tramitacao, p.data_protocolo, p.numero_protocolo, p.ano_protocolo, p.numero_oficio, p.ano_oficio, p.numero_memorando, p.ano_memorando,p.prazo, so.solicitante, tp.tipo_protocolo, td.documento, o.origem, d.*, tds.tipo_denuncia, c.cidade, b.bairro, u.nome as tecnico FROM fisc_protocolo AS p INNER JOIN fisc_solicitante as so INNER JOIN fisc_tipo_protocolo AS tp INNER JOIN fisc_tipo_documento AS td INNER JOIN fisc_origem AS o INNER JOIN fisc_denuncia AS d INNER JOIN fisc_tipo_denuncia AS tds INNER JOIN cidade AS c INNER JOIN bairro AS b INNER JOIN usuario as u WHERE p.protocolo_id = tp.id AND p.tipo_documento_id = td.id AND p.origem_id = o.id AND d.protocolo_id = p.id AND p.id_solicitante=so.id AND d.tipo_denuncia_id = tds.id AND d.cidade_id = c.id AND d.bairro_id = b.id AND d.usuario_id = u.id AND md5(d.id)=:id", array('id' => $id));
+            $resultado = $crudModel->read_specific("SELECT p.tramitacao, p.data_protocolo, p.numero_protocolo, p.ano_protocolo, p.numero_oficio, p.ano_oficio, p.numero_memorando, p.ano_memorando,p.prazo, so.solicitante, tp.tipo_protocolo, td.documento, o.origem, d.*, tds.tipo_denuncia, fti.infracao, ftc.classificacao ,c.cidade, b.bairro, u.nome as tecnico FROM fisc_protocolo AS p INNER JOIN fisc_solicitante as so INNER JOIN fisc_tipo_protocolo AS tp INNER JOIN fisc_tipo_documento AS td INNER JOIN fisc_origem AS o INNER JOIN fisc_denuncia AS d INNER JOIN fisc_tipo_denuncia AS tds INNER JOIN fisc_tipo_infracao AS fti INNER JOIN fisc_tipo_classificao AS ftc INNER JOIN cidade AS c INNER JOIN bairro AS b INNER JOIN usuario as u WHERE p.protocolo_id = tp.id AND p.tipo_documento_id = td.id AND p.origem_id = o.id AND d.protocolo_id = p.id AND p.id_solicitante=so.id AND d.tipo_denuncia_id = tds.id AND d.infracao_id= fti.id AND  d.classificacao_id=ftc.id AND d.cidade_id = c.id AND d.bairro_id = b.id AND d.usuario_id = u.id AND md5(d.id)=:id", array('id' => $id));
 
             if (!empty($resultado)) {
                 $dados = array();

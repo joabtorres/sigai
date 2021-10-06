@@ -106,7 +106,7 @@
             <div class="col mb-2 mt-2">
                 <section class="card">
                     <header class="card-header bg-dark text-while">
-                        <h1 class="card-title h6 mb-1 mt-1">Resultados encontrados</h1>
+                        <h1 class="card-title h6 mb-1 mt-1">Total de Registros Encontrados: <?php echo is_array($chamados) ? count($chamados) : '0'; ?></h1>
                     </header>
                     <div class="table-responsive">
                         <!--table-->
@@ -134,7 +134,7 @@
                                         <td><?php echo $indice['usuario'] ?></td>
                                         <td class="table-acao text-center">
                                             <a class="btn btn-success btn-sm" href="<?php echo BASE_URL . 'ti/chamado/' . md5($indice['id']); ?>" title="Visualizar"><i class="fa fa-eye"></i></a> 
-                                            <?php if ($this->checkSetor() == 10 || ($indice['status_id'] == 1 && $indice['usuario_id']==$this->getIdUser())): ?>
+                                            <?php if ($this->checkSetor() == 10 || ($indice['status_id'] == 1 && $indice['usuario_id'] == $this->getIdUser())): ?>
                                                 <a class="btn btn-primary btn-sm" href="<?php echo BASE_URL . 'ti/editar/' . md5($indice['id']); ?>" title="Editar"><i class="fa fa-pencil-alt"></i></a> 
                                                 <?php
                                             endif;

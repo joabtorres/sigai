@@ -15,6 +15,11 @@
     </div>
     <div class="row">
         <div class="col">
+            <div class="row">
+                <div class="col">
+                    <a class="btn btn-primary btn-sm pull-right" href="<?php echo BASE_URL . 'fisc_denuncia/editar/' . md5($result['id']); ?>" title="Editar"><i class="fa fa-pencil-alt"></i> Editar</a>  
+                </div>
+            </div>
             <section class="card my-3 border-success">
                 <header class="card-header bg-success">
                     <a data-toggle="collapse" data-toggle="collapse" href="#collapseExampleVinculado" role="button" aria-expanded="false">
@@ -129,19 +134,19 @@
                                 <?php echo (isset($result) && !empty($result['ano_memorando'])) ? $result['ano_memorando'] : ''; ?>                            
                                 </p>
                             </div>
-                             <div class="col-md-6">
+                            <div class="col-md-6">
                                 <p class="text-justify"><div class="text-success font-bold">Orgão Solicitante:</div> 
                                 <?php echo (isset($result) && !empty($result['solicitante'])) ? $result['solicitante'] : ''; ?>
                                 </p>
                             </div>
                             <div class="col-md-3">
                                 <p class="text-justify"><div class="text-success font-bold">Prazo em dias:</div> 
-                                <?php echo (isset($result) && !empty($result['prazo'])) ? $result['prazo'].' dia(s)' : ''; ?>                            
+                                <?php echo (isset($result) && !empty($result['prazo'])) ? $result['prazo'] . ' dia(s)' : ''; ?>                            
                                 </p>
                             </div>
                             <div class="col-md-3">
                                 <p class="text-justify"><div class="text-success font-bold">Prazo em data:</div> 
-                                <?php echo (isset($result) && !empty($result['prazo'])) ? date('d/m/Y', strtotime('+'.$result['prazo'].' days', strtotime($result['data_protocolo']))) : ''; ?>                            
+                                <?php echo (isset($result) && !empty($result['prazo'])) ? date('d/m/Y', strtotime('+' . $result['prazo'] . ' days', strtotime($result['data_protocolo']))) : ''; ?>                            
                                 </p>
                             </div>
                         </div>
@@ -158,25 +163,35 @@
                     <article class="card-body py-0">
 
                         <div class="row">
-                            <div class="col-md-5">
-                                <p class="text-justify"><div class="text-success font-bold">Técnico responsável:</div> 
-                                <?php echo (isset($result) && !empty($result['tecnico'])) ? $result['tecnico'] : ''; ?>     
+                            <div class="col-md-4">
+                                <p class="text-justify"><div class="text-success font-bold">Tipo da denúncia:</div> 
+                                <?php echo (isset($result) && !empty($result['tipo_denuncia'])) ? $result['tipo_denuncia'] : ''; ?>     
                                 </p>
                             </div>
-                            <div class="col-md-7">
-                                <p class="text-justify"><div class="text-success font-bold">Status da denúncia:</div> 
-                                <?php echo (isset($result) && !empty($result['status'])) && $result['status'] == 1 ? 'Em Andamento' : "Finalizado"; ?>     
+                            <div class="col-md-4">
+                                <p class="text-justify"><div class="text-success font-bold">Tipo da Infração:</div> 
+                                <?php echo (isset($result) && !empty($result['infracao'])) ? $result['infracao'] : ''; ?>     
+                                </p>
+                            </div>
+                            <div class="col-md-4">
+                                <p class="text-justify"><div class="text-success font-bold">Tipo da Classificação:</div> 
+                                <?php echo (isset($result) && !empty($result['classificacao'])) ? $result['classificacao'] : ''; ?>     
                                 </p>
                             </div>
                         </div>
 
                         <div class="row">
-                            <div class="col-md-5">
-                                <p class="text-justify"><div class="text-success font-bold">Tipo da denúncia:</div> 
-                                <?php echo (isset($result) && !empty($result['tipo_denuncia'])) ? $result['tipo_denuncia'] : ''; ?>     
+                            <div class="col-md-4">
+                                <p class="text-justify"><div class="text-success font-bold">Técnico responsável:</div> 
+                                <?php echo (isset($result) && !empty($result['tecnico'])) ? $result['tecnico'] : ''; ?>     
                                 </p>
                             </div>
-                            <div class="col-md-7">
+                            <div class="col-md-4">
+                                <p class="text-justify"><div class="text-success font-bold">Status da denúncia:</div> 
+                                <?php echo (isset($result) && !empty($result['status'])) && $result['status'] == 1 ? 'Em Andamento' : "Finalizado"; ?>     
+                                </p>
+                            </div>
+                            <div class="col-md-4">
                                 <p class="text-justify"><div class="text-success font-bold">Denunciado:</div> 
                                 <?php echo (isset($result) && !empty($result['denunciado'])) ? $result['denunciado'] : ''; ?>     
                                 </p>

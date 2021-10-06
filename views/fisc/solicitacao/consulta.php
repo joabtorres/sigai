@@ -155,7 +155,7 @@
             <div class="col mb-2 mt-2">
                 <section class="card">
                     <header class="card-header bg-dark text-while">
-                        <h1 class="card-title h6 mb-1 mt-1">Resultados encontrados</h1>
+                        <h1 class="card-title h6 mb-1 mt-1">Total de Registros Encontrados: <?php echo is_array($chamados) ? count($chamados) : '0'; ?></h1>
                     </header>
                     <div class="table-responsive">
                         <!--table-->
@@ -230,15 +230,15 @@ if (ceil($paginas) > 1) {
                 <nav aria-label="Page navigation example">
                     <ul class = "pagination">
                         <?php
-                        echo "<li class='page-item'><a class='page-link' href='" . BASE_URL . "fisc_denuncia/consultar/1" . $metodo_buscar . "'><span aria-hidden='true'>&laquo;</span></a></li>";
+                        echo "<li class='page-item'><a class='page-link' href='" . BASE_URL . "fisc_solicitacao/consultar/1" . $metodo_buscar . "'><span aria-hidden='true'>&laquo;</span></a></li>";
                         for ($p = 0; $p < ceil($paginas); $p++) {
                             if ($pagina_atual == ($p + 1)) {
-                                echo "<li class='page-item active'><a class='page-link' href='" . BASE_URL . "fisc_denuncia/consultar/" . ($p + 1) . $metodo_buscar . "'>" . ($p + 1) . "</a></li>";
+                                echo "<li class='page-item active'><a class='page-link' href='" . BASE_URL . "fisc_solicitacao/consultar/" . ($p + 1) . $metodo_buscar . "'>" . ($p + 1) . "</a></li>";
                             } else {
-                                echo "<li class='page-item'><a class='page-link' href='" . BASE_URL . "fisc_denuncia/consultar/" . ($p + 1) . $metodo_buscar . "'>" . ($p + 1) . "</a></li>";
+                                echo "<li class='page-item'><a class='page-link' href='" . BASE_URL . "fisc_solicitacao/consultar/" . ($p + 1) . $metodo_buscar . "'>" . ($p + 1) . "</a></li>";
                             }
                         }
-                        echo "<li class='page-item'><a class='page-link' href='" . BASE_URL . "fisc_denuncia/consultar/" . ceil($paginas) . $metodo_buscar . "'>&raquo;</a></li>";
+                        echo "<li class='page-item'><a class='page-link' href='" . BASE_URL . "fisc_solicitacao/consultar/" . ceil($paginas) . $metodo_buscar . "'>&raquo;</a></li>";
                         ?>
                     </ul>
                 </nav>

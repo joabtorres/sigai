@@ -112,6 +112,51 @@ class fiscController extends controller {
         }
     }
 
+    public function get_search_infracao() {
+        if (isset($_POST) && is_array($_POST) && !empty($_POST)) {
+            $crudModel = new crud_db();
+            $tipo_denuncia_id = addslashes($_POST['tipo_denuncia_id']);
+            if (isset($_POST['infracao_id'])) {
+                $infracao_id = addslashes($_POST['infracao_id']);
+            }
+            $resultado = $crudModel->read("SELECT * FROM fisc_tipo_infracao WHERE tipo_denuncia_id=:id ORDER BY infracao ASC", array('id' => $tipo_denuncia_id));
+
+            if (!isset($infracao_id)) {
+                echo '<option value="" selected = "selected" >Todas </option>';
+            }
+            foreach ($resultado as $indice) {
+                if (isset($infracao_id) && $indice['id'] == $infracao_id) {
+                    echo '<option value = "' . $indice['id'] . '" selected = "selected">' . $indice['infracao'] . '</option>';
+                } else {
+                    echo '<option value = "' . $indice['id'] . '">' . $indice['infracao'] . '</option>';
+                }
+            }
+        }
+    }
+
+    public function get_search_classificacao() {
+        if (isset($_POST) && is_array($_POST) && !empty($_POST)) {
+            $crudModel = new crud_db();
+            $infracao_id = addslashes($_POST['infracao_id']);
+            if (isset($_POST['classificacao_id'])) {
+                $classificacao_id = addslashes($_POST['classificacao_id']);
+            }
+            $resultado = $crudModel->read("SELECT * FROM fisc_tipo_classificao WHERE infracao_id=:id ORDER BY classificacao ASC", array('id' => $infracao_id));
+            if (!isset($classificacao_id)) {
+                echo '<option value="" selected = "selected" >Todas </option>';
+            }
+            if (!empty($resultado) && is_array($resultado)) {
+                foreach ($resultado as $indice) {
+                    if (isset($classificacao_id) && $indice['id'] == $classificacao_id) {
+                        echo '<option value = "' . $indice['id'] . '" selected = "selected">' . $indice['classificacao'] . '</option>';
+                    } else {
+                        echo '<option value = "' . $indice['id'] . '">' . $indice['classificacao'] . '</option>';
+                    }
+                }
+            }
+        }
+    }
+
     public function get_infracao() {
         if (isset($_POST) && is_array($_POST) && !empty($_POST)) {
             $crudModel = new crud_db();

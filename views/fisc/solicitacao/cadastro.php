@@ -5,7 +5,7 @@
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="<?php echo BASE_URL ?>home"><i class="fa fa-tachometer-alt"></i> Inicial</a></li>
-                    <li class="breadcrumb-item"><a href="#" ><i class="fas fa-angle-double-right"></i> COFISC</a></li>
+                    <li class="breadcrumb-item"><a href="#" ><i class="fas fa-angle-double-right"></i> Fiscalização</a></li>
                     <li class="breadcrumb-item active" aria-current="page"><a href="<?php echo BASE_URL ?>cofisc/cadastro_denuncia"><i class="fas fa-plus-square"></i> Nova Solicitação</a></li>
                 </ol>
             </nav>

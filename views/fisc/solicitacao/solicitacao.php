@@ -6,7 +6,7 @@
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="<?php echo BASE_URL ?>home"><i class="fa fa-tachometer-alt"></i> Inicial</a></li>
                     <li class="breadcrumb-item"><a href="#" ><i class="fas fa-angle-double-right"></i> Fiscalização</a></li>
-                    <li class="breadcrumb-item"><a href="<?php echo BASE_URL ?>fisc_solicitacao/consultar"><i class="fas fa-tasks"></i> Consultar Denúncias</a></li>
+                    <li class="breadcrumb-item"><a href="<?php echo BASE_URL ?>fisc_solicitacao/consultar"><i class="fas fa-tasks"></i> Consultar Solicitações</a></li>
                     <li class="breadcrumb-item" aria-current="page"><a href="<?php echo BASE_URL ?>fisc_solicitacao/solicitacao/<?php echo md5($result['id']); ?>">Solicitação: Nº <?php echo str_pad($result['id'], 5, '0', STR_PAD_LEFT) ?> </a></li>
                 </ol>
             </nav>
@@ -15,6 +15,11 @@
     </div>
     <div class="row">
         <div class="col">
+            <div class="row">
+                <div class="col">
+                    <a class="btn btn-primary btn-sm pull-right" href="<?php echo BASE_URL . 'fisc_solicitacao/editar/' . md5($result['id']); ?>" title="Editar"><i class="fa fa-pencil-alt"></i> Editar</a>  
+                </div>
+            </div>
             <section class="card my-3 border-success">
                 <header class="card-header bg-success">
                     <a data-toggle="collapse" data-toggle="collapse" href="#collapseExampleVinculado" role="button" aria-expanded="false">
