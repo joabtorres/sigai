@@ -31,5 +31,6 @@ if (ENVIRONMENT == 'development') {
     //usuario
     $config['dbuser'] = 'root';
     //senha
+    $config['dbpass'] = '';
 }
 ?>
