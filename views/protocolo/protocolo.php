@@ -7,17 +7,21 @@
                     <li class="breadcrumb-item"><a href="<?php echo BASE_URL ?>home"><i class="fa fa-tachometer-alt"></i> Inicial</a></li>
                     <li class="breadcrumb-item"><a href="#" ><i class="fas fa-angle-double-right"></i> Protocolo</a></li>
                     <li class="breadcrumb-item"><a href="<?php echo BASE_URL ?>protocolo/consultar"><i class="fas fa-tasks"></i> Consultar Protocolo</a></li>
-                    <li class="breadcrumb-item" aria-current="page"><a href="<?php echo BASE_URL ?>protocolo/protocolo/<?php echo md5($result['id']); ?>">Protocolo: Nº <?php echo (isset($result) && !empty($result['numero_protocolo'])) ? $result['numero_protocolo'] : ''; ?> </a></li>
+                    <li class="breadcrumb-item active" aria-current="page"><a href="<?php echo BASE_URL ?>protocolo/protocolo/<?php echo md5($result['id']); ?>">Protocolo: Nº <?php echo (isset($result) && !empty($result['numero_protocolo'])) ? $result['numero_protocolo'] : ''; ?> </a></li>
                 </ol>
             </nav>
         </div>
         <!--fim pagina-header;-->
     </div>
-
     <div class="row">
         <div class="col">
-            <section class="card my-3 border-success">
-                <header class="card-header bg-success">
+            <a class="btn btn-primary btn-sm pull-right" href="<?php echo BASE_URL . 'protocolo/editar/' . md5($result['id']); ?>" title="Editar"><i class="fa fa-pencil-alt"></i> Editar</a>  
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <section class="card my-3 border-secondary">
+                <header class="card-header bg-dark text-while">
                     <a data-toggle="collapse" data-toggle="collapse" href="#collapseExampleProtocolo" role="button" aria-expanded="false">
                         <h4 class="card-title h6 my-1"><i class="fas fa-info-circle"></i> Dados do Protocolo<i class="fa fa-eye pull-right"></i></h4>
                     </a>
@@ -79,8 +83,8 @@
                     </article>
                 </div>
             </section>
-            <section class="card my-3 border-success">
-                <header class="card-header bg-success">
+            <section class="card my-3 border-secondary">
+                <header class="card-header bg-dark text-while">
                     <a data-toggle="collapse" data-toggle="collapse" href="#collapseExampleEndereco" role="button" aria-expanded="false">
                         <h4 class="card-title h6 my-1"><i class="fas fa-map-marker-alt"></i> Endereço<i class="fa fa-eye pull-right"></i></h4>
                     </a>
@@ -118,8 +122,8 @@
                     </article>
                 </div>
             </section>
-            <section class="card my-3 border-success">
-                <header class="card-header bg-success">
+            <section class="card my-3 border-secondary">
+                <header class="card-header bg-dark text-while">
                     <a data-toggle="collapse" data-toggle="collapse" href="#collapseExampleVinculado" role="button" aria-expanded="false">
                         <h4 class="card-title h6 my-1"><i class="fas fa-list"></i> Protocolos vinculados<i class="fa fa-eye pull-right"></i></h4>
                     </a>
@@ -165,8 +169,8 @@
                     </div>
                 </div>
             </section>
-            <section class="card my-3 border-success">
-                <header class="card-header bg-success">
+            <section class="card my-3 border-secondary">
+                <header class="card-header bg-dark text-while">
                     <a data-toggle="collapse" data-toggle="collapse" href="#collapseExampleAnexo" role="button" aria-expanded="false">
                         <h4 class="card-title h6 my-1"><i class="fas fa-file-alt"></i> Anexos <i class="fa fa-eye pull-right"></i></h4>
                     </a>
@@ -205,8 +209,8 @@
                                                     $fileName = end($file);
                                                 }
                                                 ?>
-                                                 <a class="btn btn-outline-success btn-sm" href="<?php echo BASE_URL . $indice['anexo']; ?>" title="Download" download="<?php echo !empty($fileName) ? $fileName : '' ?>"><i class="fas fa-download"></i></a> 
-                                                     <?php
+                                                <a class="btn btn-outline-success btn-sm" href="<?php echo BASE_URL . $indice['anexo']; ?>" title="Download" download="<?php echo!empty($fileName) ? $fileName : '' ?>"><i class="fas fa-download"></i></a> 
+                                                <?php
                                                 if ($this->checkSetor() == 10):
                                                     ?>
                                                     <button type="button"  class="btn btn-outline-danger btn-sm" data-toggle="modal" data-target="#modal_anexoexcluir_<?php echo md5($indice['id']) ?>" title="Excluir"><i class="fa fa-trash"></i></button>
@@ -227,8 +231,8 @@
                 </div>
             </section>
 
-            <section class="card my-3 border-success">
-                <header class="card-header bg-success">
+            <section class="card my-3 border-secondary">
+                <header class="card-header bg-dark text-while">
                     <a data-toggle="collapse" data-toggle="collapse" href="#collapseExampleHistorico" role="button" aria-expanded="false">
                         <h4 class="card-title h6 my-1"><i class="fas fa-list"></i> Histórico<i class="fa fa-eye pull-right"></i></h4>
                     </a>
@@ -290,8 +294,8 @@
                 </div>
             </section>
 
-            <section class="card my-3 border-success">
-                <header class="card-header bg-success">
+            <section class="card my-3 border-secondary">
+                <header class="card-header bg-dark text-while">
                     <a data-toggle="collapse" data-toggle="collapse" href="#collapseExampletramitacao" role="button" aria-expanded="false">
                         <h4 class="card-title h6 my-1"><i class="fas fa-copy"></i> Tramitação<i class="fa fa-eye pull-right"></i></h4>
                     </a>
@@ -405,7 +409,7 @@
                     <div class="form-row">
                         <div class="col-12 mb-3">
                             <label for="iData">Data: </label>
-                            <input name="nData" id="iData" class="form-control date_serach" value="<?php echo $this->formatDateView(date("Y-m-d")) ?>"/>
+                            <input name="nData" id="iData" class="form-control input-data date_serach" value="<?php echo $this->formatDateView(date("Y-m-d")) ?>"/>
                         </div>
                         <div class="col-12 mb-3">
                             <label for="iDescricao">Descrição: </label>
@@ -459,7 +463,7 @@
                                 <option value="" selected = "selected" disabled="disabled">Selecione o usuário </option>
                             </select>
                             <div class="invalid-feedback">
-                                Informe o usuário solicitante
+                                Informe o usuário Remetente
                             </div>
                         </div>
                         <div class="col-md-6 mb-3">
@@ -486,16 +490,16 @@
                                 <option value="" selected = "selected" disabled="disabled">Selecione o usuário </option>
                             </select>
                             <div class="invalid-feedback">
-                                Informe o usuário solicitante
+                                Informe o usuário destinatário
                             </div>
                         </div>
                         <div class="col-12 mb-3">
-                            <label for="iData">Data: *</label>
-                            <input name="nData" id="iData" class="form-control date_serach" value="<?php echo $this->formatDateView(date("Y-m-d")) ?>" required/>
+                            <label for="iData2">Data: *</label>
+                            <input input="text" name="nData" id="iData2" class="form-control input-data date_serach" value="<?php echo $this->getDataNow() ?>" required/>
                         </div>
                         <div class="col-12 mb-3">
                             <label for="iDescricao">Descrição: *</label>
-                            <textarea id="iDescricao" class="form-control date_serach" rows="5" name="nDescricao"></textarea>
+                            <textarea id="iDescricao" class="form-control" rows="5" name="nDescricao"></textarea>
                         </div>
                     </div>
                     <div>
@@ -504,7 +508,7 @@
                     <div class="custom-file mb-3">
                         <input type="file" class="custom-file-input" name="nFile" id="iAnexo" >
                         <label class="custom-file-label" for="iAnexo">Nenhum arquivo selecionado.</label>
-                        <input type="hidden" name="nFileEnviado"  value="<?php echo isset($chamado['anexo']) ? $chamado['anexo'] : null; ?>"/>
+                        <input type="hidden" name="nFileEnviado"  value="<?php echo isset($chamado['anexo']) ? null : null; ?>"/>
                     </div>
                     <button class="btn btn-success" name="nSalvaTramitacao" onclick="valida_formTramitacao()" value="true" type="submit"><i class="fa fa-check-circle" aria-hidden="true"></i> Salvar</button>
                 </form>
@@ -617,10 +621,10 @@ if ($this->checkSetor() == 10):
                                 <li><b class="text-success">Usuário Remetente: </b> <br><?php echo isset($indice['usuario_remetente']) && !empty($indice['usuario_remetente']) ? $indice['usuario_remetente'] : '' ?>;</li>
                                 <li><b class="text-success">Setor Destinatário: </b> <br><?php echo isset($indice['setor_destinatario']) && !empty($indice['setor_destinatario']) ? $indice['setor_destinatario'] : '' ?>;</li>
                                 <li><b class="text-success">Usuário Destinatário: </b> <br><?php echo isset($indice['usuario_destinatario']) && !empty($indice['usuario_destinatario']) ? $indice['usuario_destinatario'] : '' ?>;</li>
-                                <li><b class="text-success">Descrição: </b> <br><?php echo isset($indice['descricao']) && !empty($indice['descricao']) ? $indice['descricao'] : '' ?>.</li>
+                                <li><b class="text-success">Descrição: </b> <br><?php echo isset($indice['descricao']) && !empty($indice['descricao']) ? $indice['descricao'] : '' ?></li>
 
                                 <?php
-                                if (!empty($indice['anexo'])) {
+                                if (!empty($indice['anexo']) && $indice['anexo'] != null) {
                                     $file = explode('/', $indice['anexo']);
                                     $fileName = end($file);
                                     echo '<b class="text-success">Anexo:</b> <br> <em> <i class="fas fa-paperclip text-success"></i> <a href="' . BASE_URL . $indice['anexo'] . '" download class="text-primary">' . $fileName . '</a></em>';

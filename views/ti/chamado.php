@@ -30,7 +30,7 @@
     <div class="row">
         <div class="col">
             <div class="card bg-light">
-                <div class="card-header bg-success">
+                <div class="card-header bg-dark text-while">
                     <h5 class="card-title mb-1 mt-1">Chamado: Nº  <?php echo str_pad($chamado['id'], 5, '0', STR_PAD_LEFT) . ' - ' . $chamado['assunto'] ?></h5>
                 </div>
                 <div class="card-body py-0 px-3">
@@ -121,7 +121,7 @@
                 <form method="POST" action="<?php echo BASE_URL ?>ti/chamado/<?php echo md5($chamado['id']) ?>" enctype="multipart/form-data" autocomplete="off"  name="nFormCCAChamado">
                     <input type="hidden" name="nChamado" value="<?php echo!empty($formCad['chamado_id']) ? $formCad['chamado_id'] : $chamado['id']; ?>"/>
                     <section class="card bg-light mt-3">
-                        <header class="card-header bg-success">
+                        <header class="card-header bg-dark text-while">
                             <h1 class="card-title h5 mb-1 my-1"><i class="fas fa-plus-square"></i> Novo histórico</h1>
                         </header>
                         <article class="card-body">
@@ -144,7 +144,7 @@
                                 </div>
                                 <div class="col-md-2 mb-3">
                                     <label for='iData' class="mb-2">Data: *</label><br/>
-                                    <input type="text" name="nData"  class="form-control input-data-complete" id="iData" placeholder="Exemplo: 15/08/2020 10:40:20" value="<?php echo!empty($formCad['data']) ? $this->formatDateViewComplet($formCad['data']) : date("d/m/Y H:i:s", (time() - 18000)); ?>" required>
+                                    <input type="text" name="nData"  class="form-control input-data-complete" id="iData" placeholder="Exemplo: 15/08/2020 10:40:20" value="<?php echo!empty($formCad['data']) ? $this->formatDateViewComplet($formCad['data']) : $this->getDatatimeNow() ?>" required>
                                     <div class="invalid-feedback">
                                         Informe a data e hora
                                     </div>

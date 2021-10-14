@@ -80,14 +80,6 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-2 mb-3">
-                                    <label>Gerar PDF:</label><br/>
-                                    <label><input type="radio" name="nModoPDF" value="1"/> Sim </label>
-                                    <label><input type="radio" name="nModoPDF" value="0" checked="checked" /> Não </label>
-                                </div>
-
-                            </div>
-                            <div class="row">
                                 <div class="col mt-2 mb-3">
                                     <button type="submit" name="nBuscarBT" value="BuscarBT" class="btn btn-warning"><i class="fa fa-search pull-left"></i> Buscar</button>
                                 </div>

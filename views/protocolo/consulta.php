@@ -33,9 +33,9 @@
                                         <?php
                                         foreach ($protocolo_tipo as $indice) {
                                             if (isset($chamado['setor_id']) && $indice['id'] == $chamado['setor_id']) {
-                                                echo '<option value = "' . $indice['id'] . '" selected = "selected">' . $indice['tipo'].'</option>';
+                                                echo '<option value = "' . $indice['id'] . '" selected = "selected">' . $indice['tipo'] . '</option>';
                                             } else {
-                                                echo '<option value = "' . $indice['id'] . '">' . $indice['tipo'].'</option>';
+                                                echo '<option value = "' . $indice['id'] . '">' . $indice['tipo'] . '</option>';
                                             }
                                         }
                                         ?>
@@ -79,14 +79,6 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-2 mb-3">
-                                    <label>Gerar PDF:</label><br/>
-                                    <label><input type="radio" name="nModoPDF" value="1"/> Sim </label>
-                                    <label><input type="radio" name="nModoPDF" value="0" checked="checked" /> Não </label>
-                                </div>
-
-                            </div>
-                            <div class="row">
                                 <div class="col mt-2 mb-3">
                                     <button type="submit" name="nBuscarBT" value="BuscarBT" class="btn btn-warning"><i class="fa fa-search pull-left"></i> Buscar</button>
                                 </div>
@@ -105,7 +97,7 @@
             <div class="col mb-2 mt-2">
                 <section class="card">
                     <header class="card-header bg-dark text-while">
-                       <h1 class="card-title h6 mb-1 mt-1">Total de Registros Encontrados: <?php echo is_array($protocolagens) ? count($protocolagens) : '0'; ?></h1>
+                        <h1 class="card-title h6 mb-1 mt-1">Total de Registros Encontrados: <?php echo is_array($protocolagens) ? count($protocolagens) : '0'; ?></h1>
                     </header>
                     <div class="table-responsive">
                         <!--table-->
@@ -114,10 +106,10 @@
                                 <tr>
                                     <th scope="col" >#</th>
                                     <th scope="col">Tipo do Protocolo</th>
-                                    <th scope="col">Número do Protocolo</th>
-                                    <th scope="col">Interessado</th>
-                                    <th scope="col">Data</th>
                                     <th scope="col">Objetivo do Pedido</th>
+                                    <th scope="col">Número do Protocolo</th>
+                                    <th scope="col">Data</th>
+                                    <th scope="col">Interessado</th>
                                     <th scope="col">Ação</th>
                                 </tr>
                             </thead>
@@ -129,14 +121,14 @@
                                     <tr>
                                         <td class="text-center"><?php echo $qtd ?></td>
                                         <td><?php echo!empty($indice['tipo_id']) ? $indice['tipo'] : ''; ?></td>
+                                        <td><?php echo!empty($indice['objetivo']) ? $indice['objetivo'] : ''; ?></td> 
+                                        <td><?php echo!empty($indice['data']) ? $this->formatDateView($indice['data']) : ''; ?></td> 
                                         <td><?php echo!empty($indice['numero_protocolo']) ? $indice['numero_protocolo'] : ''; ?></td>                                      
                                         <td><?php echo!empty($indice['interessado']) ? $indice['interessado'] : ''; ?></td> 
-                                        <td><?php echo!empty($indice['data']) ? $this->formatDateView($indice['data']) : ''; ?></td> 
-                                        <td><?php echo!empty($indice['objetivo']) ? $indice['objetivo'] : ''; ?></td> 
                                         <td class="table-acao text-center">
                                             <a class="btn btn-success btn-sm" href="<?php echo BASE_URL . 'protocolo/protocolo/' . md5($indice['id']); ?>" title="Visualizar"><i class="fa fa-eye"></i></a> 
-                                            <?php if ($this->checkSetor() == 10 || $this->checkSetor() == 7 ): ?>
-                                                <a class="btn btn-primary btn-sm" href="<?php echo BASE_URL . 'protocolo/editar/' . md5($indice['id']); ?>" title="Editar"><i class="fa fa-pencil-alt"></i></a> 
+                                            <a class="btn btn-primary btn-sm" href="<?php echo BASE_URL . 'protocolo/editar/' . md5($indice['id']); ?>" title="Editar"><i class="fa fa-pencil-alt"></i></a> 
+                                            <?php if ($this->checkSetor() == 10 || $this->checkSetor() == 7): ?>
                                                 <?php
                                             endif;
                                             if ($this->checkSetor() == 10):
@@ -219,7 +211,7 @@ if ($this->checkSetor() == 10):
                             <ul class="list-unstyled">
                                 <li><b>Número do Protocolo: </b> <?php echo!empty($indice['numero_protocolo']) ? $indice['numero_protocolo'] : '' ?>;</li>
                                 <li><b>Interessado: </b> <?php echo isset($indice['interessado']) && !empty($indice['interessado']) ? $indice['interessado'] : '0' ?>;</li>
-                                <li><b>Data: </b> <?php echo !empty($indice['data']) ? $this->formatDateView($indice['data']) : ''; ?>;</li>
+                                <li><b>Data: </b> <?php echo!empty($indice['data']) ? $this->formatDateView($indice['data']) : ''; ?>;</li>
                                 <li><b>Objetivo do Pedido: </b> <?php echo!empty($indice['objetivo']) ? $indice['objetivo'] : ''; ?>;</li>
                             </ul>
                             <p class="text-justify text-danger"><span class="font-bold">OBS : </span> Ao clicar em "Excluir", este registro e todos registos relacionados ao mesmo deixaram de existir no sistema.</p>

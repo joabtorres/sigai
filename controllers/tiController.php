@@ -62,7 +62,7 @@ class tiController extends controller {
             $dados = array();
             $crudModel = new crud_db();
             $dados['setores'] = $crudModel->read("SELECT * FROM setor");
-            $dados['assuntos'] = $crudModel->read("SELECT * FROM ti_chamado_assunto");
+            $dados['assuntos'] = $crudModel->read("SELECT * FROM ti_chamado_assunto ORDER BY assunto ASC");
 
             if (isset($_POST['nSalvar']) && !empty($_POST['nSalvar'])) {
                 $chamado = array();
@@ -110,7 +110,7 @@ class tiController extends controller {
             $dados['usuarios'] = $crudModel->read("SELECT * FROM usuario");
             $dados['chamado_status'] = $crudModel->read("SELECT * FROM ti_chamado_status");
 
-            $sql = "SELECT C.*, s.nome as setor, s.abreviacao, cs.nome as status, u.nome as usuario FROM ti_chamado AS c INNER JOIN setor as s INNER JOIN ti_chamado_status as cs INNER JOIN usuario as u WHERE c.setor_id=s.id AND c.status_id=cs.id  AND c.usuario_id=u.id ";
+            $sql = "SELECT c.*, s.nome as setor, s.abreviacao, cs.nome as status, u.nome as usuario FROM ti_chamado AS c INNER JOIN setor as s INNER JOIN ti_chamado_status as cs INNER JOIN usuario as u WHERE c.setor_id=s.id AND c.status_id=cs.id  AND c.usuario_id=u.id ";
             $arrayForm = array();
             if (isset($_GET['nBuscarBT'])) {
                 $parametros = "?nSetor=" . $_GET['nSetor'] . "&nUsuario=" . $_GET['nUsuario'] . "&nStatus=" . $_GET['nStatus'] . "&nModoPDF=" . $_GET['nModoPDF'] . "&nBuscarBT=BuscarBT";
@@ -201,7 +201,7 @@ class tiController extends controller {
                 }
             }
 
-            $sql = "SELECT C.*, ca.assunto, s.nome as setor, s.abreviacao, cs.nome as status, u.nome as usuario, u.portaria, u.imagem FROM ti_chamado AS c INNER JOIN ti_chamado_assunto AS ca INNER JOIN setor as s INNER JOIN ti_chamado_status as cs INNER JOIN usuario as u WHERE c.assunto_id=ca.id AND c.setor_id=s.id AND c.status_id=cs.id  AND c.usuario_id=u.id AND md5(c.id)=:id";
+            $sql = "SELECT c.*, ca.assunto, s.nome as setor, s.abreviacao, cs.nome as status, u.nome as usuario, u.portaria, u.imagem FROM ti_chamado AS c INNER JOIN ti_chamado_assunto AS ca INNER JOIN setor as s INNER JOIN ti_chamado_status as cs INNER JOIN usuario as u WHERE c.assunto_id=ca.id AND c.setor_id=s.id AND c.status_id=cs.id  AND c.usuario_id=u.id AND md5(c.id)=:id";
             $arraySql = array('id' => $id);
             $chamados = $crudModel->read_specific($sql, $arraySql);
             $dados['chamado'] = $chamados;
@@ -221,8 +221,13 @@ class tiController extends controller {
             $dados = array();
             $crudModel = new crud_db();
             $dados['setores'] = $crudModel->read("SELECT * FROM setor");
-            $dados['assuntos'] = $crudModel->read("SELECT * FROM ti_chamado_assunto");
-            $dados['chamado'] = $crudModel->read_specific("SELECT * FROM ti_chamado where md5(id)=:id", array('id' => $id));
+            $dados['assuntos'] = $crudModel->read("SELECT * FROM ti_chamado_assunto ORDER BY assunto ASC");
+            $chamado = $crudModel->read_specific("SELECT * FROM ti_chamado where md5(id)=:id", array('id' => $id));
+            if (!is_array($chamado)) {
+                $url = "location: " . BASE_URL . "home";
+                header($url);
+            }
+            $dados['chamado'] = $chamado;
             if (isset($_POST['nSalvar']) && !empty($_POST['nSalvar'])) {
                 $chamado = array();
                 //id

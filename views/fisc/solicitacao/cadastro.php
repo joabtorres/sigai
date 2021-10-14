@@ -11,7 +11,6 @@
             </nav>
         </div>
         <!--fim pagina-header;-->
-
     </div>
     <div class="row">
         <div class="col">
@@ -26,8 +25,8 @@
     <div class="row">
         <div class="col">
             <form method="POST" action="<?php echo BASE_URL ?>fisc_solicitacao/cadastro" enctype="multipart/form-data" autocomplete="off"  name="nFormCOFISCSolicitacao">
-                <section class="card bg-light border-success mb-4">
-                    <header class="card-header bg-success">
+                <section class="card bg-light border-secondary mb-4">
+                    <header class="card-header bg-dark text-while">
                         <h1 class="card-title h5 my-1"><i class="fas fa-file-alt"></i> Tramitação</h1>
                     </header>
                     <article class="card-body">
@@ -55,8 +54,8 @@
                     </article>
                 </section>
                 <input type="hidden" name="nId" value="<?php echo!empty($arrayCad['solicitacao']['id']) ? $arrayCad['solicitacao']['id'] : 0; ?>"/>
-                <section class="card bg-light border-success">
-                    <header class="card-header bg-success">
+                <section class="card bg-light border-secondary">
+                    <header class="card-header bg-dark text-while">
                         <h1 class="card-title h5 my-1"><i class="fas fa-file-alt"></i> Dados do Protocolo</h1>
                     </header>
                     <article class="card-body">
@@ -211,8 +210,8 @@
                     </article>
                     <!--<article class="card-body">-->
                 </section>
-                <section class="card bg-light mt-4 border-success">
-                    <header class="card-header bg-success">
+                <section class="card bg-light mt-4 border-secondary">
+                    <header class="card-header bg-dark text-while">
                         <h1 class="card-title h5 my-1"><i class="fas fa-file-alt"></i> Solicitação</h1>
                     </header>
                     <article class="card-body">

@@ -27,8 +27,8 @@
         <div class="col">
             <form method="POST" action="<?php echo BASE_URL ?>protocolo/cadastro" enctype="multipart/form-data" autocomplete="off"  name="nFormProtocolo">
                 <input type="hidden" name="nId" value="<?php echo!empty($arrayCad['id']) ? $arrayCad['id'] : 0; ?>"/>
-                <section class="card bg-light border-success">
-                    <header class="card-header bg-success">
+                <section class="card bg-light border-secondary">
+                    <header class="card-header bg-dark text-while">
                         <h1 class="card-title h5 my-1"><i class="fas fa-plus-square"></i> Dados do Novo Registro</h1>
                     </header>
                     <article class="card-body">
@@ -155,8 +155,8 @@
                     <!--<article class="card-body">-->
                 </section>
                 <!--<section class="card">-->
-                <section class="card bg-light border-success mt-3">
-                    <header class="card-header bg-success">
+                <section class="card bg-light border-secondary mt-3">
+                    <header class="card-header bg-dark text-while">
                         <h1 class="card-title h5 my-1"><i class="fas fa-search-location"></i> Endereço</h1>
                     </header>
                     <article class="card-body">

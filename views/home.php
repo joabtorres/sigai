@@ -86,71 +86,79 @@
     </div>
     <!--<div class="row" id="painel_de_consulta">-->
     <div class="row">
-        <div class="col-md-6 mb-3">
-            <div class="card mb border-secondary">
-                <div class="card-header bg-dark text-while">
-                    <a data-toggle="collapse" data-toggle="collapse" href="#collapseTI" role="button" aria-expanded="false">
-                        <div class="row">
-                            <div class="ml-1">
-                                <i class="fa fa-chart-pie fa-3x pull-right" ></i>
-                            </div>
-                            <div class="col">
-                                <h4 class="card-title h6 mb-1 mt-1">Suporte interno</h4>
-                                <p class="card-subtitle text-while mb-2"><em>Setor responsável: <abbr title="Assessoria em Tecnologia da Informação e Geotecnologia">ASTIGEO</abbr></em></p>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="card-body collapse " id="collapseTI">
-                    <canvas id="grafico_tipo_suporte_interno" width="100%" class="mt-2 mb-2"></canvas>
-                </div>
 
-            </div>
-        </div>
-        <div class="col-md-6 mb-3">
-            <div class="card mb border-secondary">
-                <div class="card-header bg-dark text-while">
-                    <a data-toggle="collapse" data-toggle="collapse" href="#collapseTI" role="button" aria-expanded="false">
-                        <div class="row">
-                            <div class="ml-1">
-                                <i class="fa fa-chart-pie fa-3x pull-right"></i>
+        <!--<div class="col-md-6">-->
+        <div class="col-md-5">
+            <div class="mb-3">
+                <div class="card mb border-secondary">
+                    <div class="card-header bg-dark text-while">
+                        <a data-toggle="collapse" data-toggle="collapse" href="#collapseTI" role="button" aria-expanded="false">
+                            <div class="row">
+                                <div class="ml-1">
+                                    <i class="fa fa-chart-pie fa-3x pull-right"></i>
+                                </div>
+                                <div class="col">
+                                    <h4 class="card-title h6 mb-1 mt-1"> Tramitação</h4>
+                                    <p class="card-subtitle text-while mb-2"><em>Total em documentos e processos</abbr></em></p>
+                                </div>
                             </div>
-                            <div class="col">
-                                <h4 class="card-title h6 mb-1 mt-1"> Tramitação</h4>
-                                <p class="card-subtitle text-while mb-2"><em>Total em documentos e processos</abbr></em></p>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="card-body collapse " id="collapseTI">
-                    <canvas id="grafico_tipo_protocolo" width="100%" class="mt-2 mb-2"></canvas>
+                        </a>
+                    </div>
+                    <div class="card-body collapse show" id="collapseTI">
+                        <canvas id="grafico_tipo_protocolo" width="100%" class="mt-2 mb-2"></canvas>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
-    <div class="row">
+            <div class="mb-3">
+                <div class="card mb border-secondary">
+                    <div class="card-header bg-dark text-while">
+                        <a data-toggle="collapse" data-toggle="collapse" href="#collapseTI" role="button" aria-expanded="false">
+                            <div class="row">
+                                <div class="ml-1">
+                                    <i class="fa fa-chart-pie fa-3x pull-right" ></i>
+                                </div>
+                                <div class="col">
+                                    <h4 class="card-title h6 mb-1 mt-1">Suporte interno</h4>
+                                    <p class="card-subtitle text-while mb-2"><em>Setor responsável: <abbr title="Assessoria em Tecnologia da Informação e Geotecnologia">ASTIGEO</abbr></em></p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="card-body collapse show" id="collapseTI">
+                        <canvas id="grafico_tipo_suporte_interno" width="100%" class="mt-2 mb-2"></canvas>
+                    </div>
 
-        <!--fim col-->
-        <div class="col-12 mb-3">
-            <div class="card mb border-secondary">
-                <div class="card-header bg-dark text-while">
-                    <a data-toggle="collapse" data-toggle="collapse" href="#collapseTI" role="button" aria-expanded="false">
-                        <div class="row">
-                            <div class="ml-1">
-                                <i class="fa fa-chart-bar fa-3x pull-right" ></i>
-                            </div>
-                            <div class="col">
-                                <h4 class="card-title h6 mb-1 mt-1"> Tramitação</h4>
-                                <p class="card-subtitle text-while mb-2"><em>Total em objetivo do pedido</abbr></em></p>
-                            </div>
-                        </div>
-                    </a>
                 </div>
-                <div class="card-body collapse" id="collapseTI">
-                    <canvas id="grafico_protocolo_objetivo"  height="80vh" ></canvas>
+            </div>
+
+        </div>
+        <!--FIM <div class="col-md-6">-->
+
+        <!--<div class="col-md-6">-->
+        <div class="col-md-7">
+            <div class="mb-3">
+                <div class="card mb border-secondary">
+                    <div class="card-header bg-dark text-while">
+                        <a data-toggle="collapse" data-toggle="collapse" href="#collapseTI" role="button" aria-expanded="false">
+                            <div class="row">
+                                <div class="ml-1">
+                                    <i class="fa fa-chart-bar fa-3x pull-right" ></i>
+                                </div>
+                                <div class="col">
+                                    <h4 class="card-title h6 mb-1 mt-1"> Tramitação</h4>
+                                    <p class="card-subtitle text-while mb-2"><em>Total em objetivo do pedido</abbr></em></p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="card-body collapse show" id="collapseTI">
+                        <canvas id="grafico_protocolo_objetivo" height="258vh"></canvas>
+                    </div>
                 </div>
             </div>
         </div>
+        <!--FIM <div class="col-md-6">-->
+
     </div>
 </div>
 <!-- /#section-container -->

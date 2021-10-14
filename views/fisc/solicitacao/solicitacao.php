@@ -7,7 +7,7 @@
                     <li class="breadcrumb-item"><a href="<?php echo BASE_URL ?>home"><i class="fa fa-tachometer-alt"></i> Inicial</a></li>
                     <li class="breadcrumb-item"><a href="#" ><i class="fas fa-angle-double-right"></i> Fiscalização</a></li>
                     <li class="breadcrumb-item"><a href="<?php echo BASE_URL ?>fisc_solicitacao/consultar"><i class="fas fa-tasks"></i> Consultar Solicitações</a></li>
-                    <li class="breadcrumb-item" aria-current="page"><a href="<?php echo BASE_URL ?>fisc_solicitacao/solicitacao/<?php echo md5($result['id']); ?>">Solicitação: Nº <?php echo str_pad($result['id'], 5, '0', STR_PAD_LEFT) ?> </a></li>
+                    <li class="breadcrumb-item active" aria-current="page"><a href="<?php echo BASE_URL ?>fisc_solicitacao/solicitacao/<?php echo md5($result['id']); ?>">Solicitação: Nº <?php echo str_pad($result['id'], 5, '0', STR_PAD_LEFT) ?> </a></li>
                 </ol>
             </nav>
         </div>
@@ -20,8 +20,8 @@
                     <a class="btn btn-primary btn-sm pull-right" href="<?php echo BASE_URL . 'fisc_solicitacao/editar/' . md5($result['id']); ?>" title="Editar"><i class="fa fa-pencil-alt"></i> Editar</a>  
                 </div>
             </div>
-            <section class="card my-3 border-success">
-                <header class="card-header bg-success">
+            <section class="card my-3 border-secondary">
+                <header class="card-header bg-dark text-while">
                     <a data-toggle="collapse" data-toggle="collapse" href="#collapseExampleVinculado" role="button" aria-expanded="false">
                         <h4 class="card-title h6 my-1"><i class="fas fa-list"></i> Protocolo de Tramitação<i class="fa fa-eye pull-right"></i></h4>
                     </a>
@@ -67,8 +67,8 @@
                     </div>
                 </div>
             </section>
-            <section class="card my-3 border-success">
-                <header class="card-header bg-success">
+            <section class="card my-3 border-secondary">
+                <header class="card-header bg-dark text-while">
                     <a data-toggle="collapse" data-toggle="collapse" href="#collapseExampleProtocolo" role="button" aria-expanded="false">
                         <h4 class="card-title h6 my-1"><i class="fas fa-info-circle"></i> Dados do Protocolo<i class="fa fa-eye pull-right"></i></h4>
                     </a>
@@ -153,8 +153,8 @@
                     </article>
                 </div>
             </section>
-            <section class="card my-3 border-success">
-                <header class="card-header bg-success">
+            <section class="card my-3 border-secondary">
+                <header class="card-header bg-dark text-while">
                     <a data-toggle="collapse" data-toggle="collapse" href="#collapseExampleDenuncia" role="button" aria-expanded="false">
                         <h4 class="card-title h6 my-1"><i class="fas fa-info-circle"></i>  Solicitação<i class="fa fa-eye pull-right"></i></h4>
                     </a>
@@ -207,8 +207,8 @@
                     </article>
                 </div>
             </section>
-            <section class="card my-3 border-success">
-                <header class="card-header bg-success">
+            <section class="card my-3 border-secondary">
+                <header class="card-header bg-dark text-while">
                     <a data-toggle="collapse" data-toggle="collapse" href="#collapseExampleendereco" role="button" aria-expanded="false">
                         <h4 class="card-title h6 my-1"><i class="fas fa-map-marker-alt"></i> Endereço da Solicitação<i class="fa fa-eye pull-right"></i></h4>
                     </a>
@@ -241,8 +241,8 @@
                     </article>
                 </div>
             </section>
-            <section class="card my-3 border-success">
-                <header class="card-header bg-success">
+            <section class="card my-3 border-secondary">
+                <header class="card-header bg-dark text-while">
                     <a data-toggle="collapse" data-toggle="collapse" href="#collapseExampleVistirua" role="button" aria-expanded="false">
                         <h4 class="card-title h6 my-1"><i class="fas fa-list"></i> Vistoria<i class="fa fa-eye pull-right"></i></h4>
                     </a>
@@ -299,8 +299,8 @@
                     </div>
                 </div>
             </section>
-            <section class="card my-3 border-success">
-                <header class="card-header bg-success">
+            <section class="card my-3 border-secondary">
+                <header class="card-header bg-dark text-while">
                     <a data-toggle="collapse" data-toggle="collapse" href="#collapseExampleAnexo" role="button" aria-expanded="false">
                         <h4 class="card-title h6 my-1"><i class="fas fa-file-alt"></i> Anexo(s) <i class="fa fa-eye pull-right"></i></h4>
                     </a>
@@ -361,8 +361,8 @@
                 </div>
             </section>
 
-            <section class="card my-3 border-success">
-                <header class="card-header bg-success">
+            <section class="card my-3 border-secondary">
+                <header class="card-header bg-dark text-while">
                     <a data-toggle="collapse" data-toggle="collapse" href="#collapseExampleHistorico" role="button" aria-expanded="false">
                         <h4 class="card-title h6 my-1"><i class="fas fa-list"></i> Histórico da solicitacão<i class="fa fa-eye pull-right"></i></h4>
                     </a>

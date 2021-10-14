@@ -60,9 +60,9 @@ class usuarioController extends controller {
                     }
                 }
                 //data de cadastro da conta
-                $arrayCad['data_cadastro'] = addslashes($_POST['nDataCadastro']);
+                $arrayCad['data_cadastro'] = $this->formatDateBD($_POST['nDataCadastro']);
                 //data de finalizacao de conta
-                $arrayCad['data_finalizacao'] = addslashes($_POST['nDataFinalizacao']);
+                $arrayCad['data_finalizacao'] = $this->formatDateBD($_POST['nDataFinalizacao']);
                 //observacao
                 $arrayCad['observacao'] = addslashes($_POST['nObservacao']);
                 //imagem
@@ -150,11 +150,10 @@ class usuarioController extends controller {
                             $arrayErro['senha']['class'] = 'is-invalid';
                         }
                     }
-
                     //data de cadastro da conta
-                    $arrayCad['data_cadastro'] = addslashes($_POST['nDataCadastro']);
+                    $arrayCad['data_cadastro'] = $this->formatDateBD($_POST['nDataCadastro']);
                     //data de finalizacao de conta
-                    $arrayCad['data_finalizacao'] = addslashes($_POST['nDataFinalizacao']);
+                    $arrayCad['data_finalizacao'] = $this->formatDateBD($_POST['nDataFinalizacao']);
                     //observacao
                     $arrayCad['observacao'] = addslashes($_POST['nObservacao']);
 

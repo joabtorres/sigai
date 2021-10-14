@@ -147,7 +147,7 @@ class protocoloController extends controller {
     }
 
     public function editar($id) {
-        if ($this->checkUser() && $this->checkSetor() == 10) {
+        if ($this->checkUser()) {
             $viewName = "protocolo/editar";
             $dados = array();
             $crudModel = new crud_db();
@@ -276,7 +276,7 @@ class protocoloController extends controller {
     }
 
     public function excluirprotocolo($id) {
-        if ($this->checkUser()) {
+        if ($this->checkUser() && $this->checkSetor() == 10) {
             $crudModel = new crud_db();
             if ($crudModel->remove("DELETE FROM protocolo WHERE md5(id)=:cod", array('cod' => addslashes($id)))) {
                 $url = "location: " . BASE_URL . 'protocolo/consultar/1';
@@ -333,13 +333,12 @@ class protocoloController extends controller {
                     $cadForm['usuario_destinatario_id'] = addslashes($_POST['nUsuarioDestinatario']);
                     $cadForm['data'] = $this->formatDateBD($_POST['nData']);
                     $cadForm['descricao'] = addslashes($_POST['nDescricao']);
-                    if (isset($_FILES['nFile']) && $_FILES['nFile']['error'] == 0) {
+                    if (isset($_FILES['nFile'])) {
                         $cadForm['anexo'] = $this->upload_file($_FILES['nFile'], $cadForm['protocolo_id']);
                         if (!empty($_POST['nFileEnviado'])) {
                             $crudModel->delete_file($_POST['nFileEnviado']);
                         }
                     } else {
-                        echo $_FILES['nFile']['error'];
                         $cadForm['anexo'] = addslashes($_POST['nFileEnviado']);
                     }
                     if ($crudModel->create("INSERT INTO tramitacao (protocolo_id, setor_remetente_id, usuario_remetente_id, setor_destinatario_id, usuario_destinatario_id, data, descricao, anexo) VALUES (:protocolo_id, :setor_remetente_id, :usuario_remetente_id, :setor_destinatario_id, :usuario_destinatario_id, :data, :descricao, :anexo)", $cadForm)) {

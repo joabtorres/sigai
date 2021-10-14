@@ -25,8 +25,8 @@
     <!--fim row-->
     <div class="row" id="container-usuario-form">
         <div class="col">
-            <section class="card bg-light">
-                <header class="card-header">
+            <section class="card bg-light border-secondary">
+                <header class="card-header bg-dark text-white">
                     <h1 class="card-title h5 mb-1"><i class="fas fa-user-plus"></i> Novo Usuário</h1>
                 </header>
                 <article class="card-body">

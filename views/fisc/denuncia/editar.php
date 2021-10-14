@@ -4,10 +4,11 @@
             <h5>Editar Denúncia</h5>
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="<?php echo BASE_URL ?>home"><i class="fa fa-tachometer-alt"></i> Inicial</a></li>
+                      <li class="breadcrumb-item"><a href="<?php echo BASE_URL ?>home"><i class="fa fa-tachometer-alt"></i> Inicial</a></li>
                     <li class="breadcrumb-item"><a href="#" ><i class="fas fa-angle-double-right"></i> Fiscalização</a></li>
-                    <li class="breadcrumb-item"><a href="<?php echo BASE_URL ?>fisc_denuncia/consultar/1"><i class="fas fa-tasks"></i> Consultar Denúncias</a></li>
-                    <li class="breadcrumb-item active" aria-current="page"><a href="<?php echo BASE_URL ?>fisc_denuncia/editar/<?php echo isset($arrayCad['denuncia']['id']) && !empty($arrayCad['denuncia']['id']) ? md5($arrayCad['denuncia']['id']) : 0; ?>"><i class="fas fa-edit"></i>  Editar Denúncia</a></li>
+                    <li class="breadcrumb-item"><a href="<?php echo BASE_URL ?>fisc_denuncia/consultar"><i class="fas fa-tasks"></i> Consultar Denúncias</a></li>
+                    <li class="breadcrumb-item" aria-current="page"><a href="<?php echo BASE_URL ?>fisc_denuncia/denuncia/<?php echo md5($arrayCad['denuncia']['id']); ?>">Denúncia: Nº <?php echo str_pad($arrayCad['denuncia']['id'], 5, '0', STR_PAD_LEFT) ?> </a></li>
+                 <li class="breadcrumb-item active" aria-current="page"><a href="<?php echo BASE_URL ?>fisc_denuncia/editar/<?php echo isset($arrayCad['denuncia']['id']) && !empty($arrayCad['denuncia']['id']) ? md5($arrayCad['denuncia']['id']) : 0; ?>"><i class="fas fa-edit"></i>  Editar Denúncia</a></li>
                 </ol>
             </nav>
         </div>
@@ -28,8 +29,8 @@
         <div class="col">
             <form method="POST" action="<?php echo BASE_URL ?>fisc_denuncia/editar/<?php echo isset($arrayCad['denuncia']['id']) && !empty($arrayCad['denuncia']['id']) ? md5($arrayCad['denuncia']['id']) : 0; ?>" enctype="multipart/form-data" autocomplete="off"  name="nFormCOFISCDenuncia">
                 <input type="hidden" name="nId" value="<?php echo!empty($arrayCad['protocolo']['id']) ? $arrayCad['protocolo']['id'] : 0; ?>"/>
-                <section class="card bg-light border-success mb-4">
-                    <header class="card-header bg-success">
+                <section class="card bg-light border-secondary mb-4">
+                    <header class="card-header bg-dark text-while">
                         <h1 class="card-title h5 my-1"><i class="fas fa-file-alt"></i> Tramitação</h1>
                     </header>
                     <article class="card-body">
@@ -57,8 +58,8 @@
                     </article>
                 </section>
 
-                <section class="card bg-light border-success">
-                    <header class="card-header bg-success">
+                <section class="card bg-light border-secondary">
+                    <header class="card-header bg-dark text-while">
                         <h1 class="card-title h5 my-1"><i class="fas fa-file-alt"></i> Dados do Protocolo</h1>
                     </header>
                     <article class="card-body">
@@ -213,8 +214,8 @@
                     </article>
                     <!--<article class="card-body">-->
                 </section>
-                <section class="card bg-light mt-4 border-success">
-                    <header class="card-header bg-success">
+                <section class="card bg-light mt-4 border-secondary">
+                    <header class="card-header bg-dark text-while">
                         <h1 class="card-title h5 my-1"><i class="fas fa-file-alt"></i> Denúncia</h1>
                     </header>
                     <article class="card-body">
@@ -410,8 +411,8 @@
                 </section>
                 <div class="row ">
                     <div class="col">
-                        <section class="card bg-light mt-3 border-success">
-                            <header class="card-header bg-success">
+                        <section class="card bg-light mt-3 border-secondary">
+                            <header class="card-header bg-dark text-while">
                                 <h1 class="card-title h5 my-1"><i class="fas fa-street-view"></i> Denunciante</h1>
                             </header>
                             <article class="card-body">

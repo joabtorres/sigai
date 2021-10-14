@@ -25,8 +25,8 @@
     <!--fim row-->
     <div class="row">
         <div class="col">
-            <section class="card bg-light border-success">
-                <header class="card-header bg-success">
+            <section class="card bg-light border-dark">
+                <header class="card-header bg-dark text-white">
                     <h1 class="card-title h5 mb-1"><i class="fas fa-cogs"></i> Dados da Secretaria</h1>
                 </header>
                 <article class="card-body">

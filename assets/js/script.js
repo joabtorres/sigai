@@ -151,9 +151,10 @@ if (document.nFormTramitacao) {
     function valida_formTramitacao() {
         form = document.nFormTramitacao;
         if (null_or_empty("iSetorRemetente")
+                || null_or_empty("iSetorRemetente")
                 || null_or_empty("iUsuarioRemetente")
                 || null_or_empty("iSetorDestinatario")
-                || null_or_empty("iUsuarioDestinatario")
+                || null_or_empty("nUsuarioDestinatario")
                 || null_or_empty("iData"))
         {
             $(form).addClass('was-validated');
@@ -406,6 +407,7 @@ if (document.nFormCOFISCDenuncia) {
                 || null_or_empty("iOrigem")
                 || null_or_empty("iNumeroProtocolo")
                 || null_or_empty("iAnoProtocolo")
+                || null_or_empty("iOrgaoSolicitante")
                 || null_or_empty("iTecnico")
                 || null_or_empty("iStatus")
                 || null_or_empty("iTipoDenuncia")

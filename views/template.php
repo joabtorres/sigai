@@ -61,9 +61,6 @@
                             </li>
                         </ul>
                     </li>
-                    <li>
-                        <a href="<?php echo BASE_URL ?>tramitacao/consultar"><i class="fas fa-copy"></i> Tramitação</a>
-                    </li>
                     <?php if (($this->checkSetor() == 4 || $this->checkSetor() == 10)) { ?>
                         <li>
                             <a href="#fiscSubmenu" data-toggle="collapse" aria-expanded="false"><i class="fas fa-angle-double-right"></i> Fiscalização</a>
@@ -98,14 +95,12 @@
                         <li>                        
                             <a href="#userSubmenu" data-toggle="collapse" aria-expanded="false"> <i class="fas fa-angle-double-right"></i>  Usuários</a>
                             <ul class="collapse list-unstyled" id="userSubmenu">
-                                <?php if ($this->checkUser() == 10) : ?>
                                     <li>
                                         <a href="<?php echo BASE_URL . 'usuario/cadastro' ?>"><i class="fas fa-user-plus"></i> Novo Usuário</a>
                                     </li>
                                     <li>
                                         <a href="<?php echo BASE_URL . 'usuario/consultar' ?>"><i class="fa fa-users"></i> Consultar Usuários</a>
                                     </li>
-                                <?php endif; ?>
                                 <li>
                                     <a href="<?php echo BASE_URL . 'usuario/editar/' . md5($_SESSION['usuario']['id']) ?>"><i class="fas fa-user-edit"></i> Editar Usuário</a>
                                 </li>
@@ -122,6 +117,9 @@
                             </ul>
                         </li>
                     <?php endif; ?>
+                    <li>
+                        <a href="<?php echo BASE_URL . 'semma' ?>"><i class="fas fa-cogs"></i> Manual em vídeo</a>
+                    </li>
                     <li>
                         <a href="<?php echo BASE_URL ?>usuario/sair"><i class="fa fa-sign-out-alt"></i> Sair</a>
                     </li>

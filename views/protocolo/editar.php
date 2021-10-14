@@ -6,6 +6,8 @@
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="<?php echo BASE_URL ?>home"><i class="fa fa-tachometer-alt"></i> Inicial</a></li>
                     <li class="breadcrumb-item"><a href="#" ><i class="fas fa-angle-double-right"></i> Protocolo</a></li>
+                    <li class="breadcrumb-item"><a href="<?php echo BASE_URL ?>protocolo/consultar"><i class="fas fa-tasks"></i> Consultar Protocolo</a></li>
+                    <li class="breadcrumb-item" aria-current="page"><a href="<?php echo BASE_URL ?>protocolo/protocolo/<?php echo md5($arrayCad['id']); ?>">Protocolo: Nº <?php echo (isset($arrayCad) && !empty($arrayCad['numero_protocolo'])) ? $arrayCad['numero_protocolo'] : ''; ?> </a></li>
                     <li class="breadcrumb-item active" aria-current="page"><a href="<?php echo BASE_URL ?>protocolo/editar/<?php echo!empty($arrayCad['id']) ? md5($arrayCad['id']) : 0; ?>"><i class="fas fa-edit"></i> Editar Protocolo</a></li>
                 </ol>
             </nav>
@@ -27,8 +29,8 @@
         <div class="col">
             <form method="POST" action="<?php echo BASE_URL ?>protocolo/editar/<?php echo!empty($arrayCad['id']) ? md5($arrayCad['id']) : 0; ?>" enctype="multipart/form-data" autocomplete="off"  name="nFormProtocolo">
                 <input type="hidden" name="nId" value="<?php echo!empty($arrayCad['id']) ? $arrayCad['id'] : 0; ?>"/>
-                <section class="card bg-light border-success">
-                    <header class="card-header bg-success">
+                <section class="card bg-light border-secondary">
+                    <header class="card-header bg-dark text-while">
                         <h1 class="card-title h5 my-1"><i class="fas fa-edit"></i>Dados do Registro</h1>
                     </header>
                     <article class="card-body">
@@ -156,8 +158,8 @@
                     <!--<article class="card-body">-->
                 </section>
                 <!--<section class="card">-->
-                <section class="card bg-light border-success mt-3">
-                    <header class="card-header bg-success">
+                <section class="card bg-light border-secondary mt-3">
+                    <header class="card-header bg-dark text-while">
                         <h1 class="card-title h5 my-1"><i class="fas fa-search-location"></i> Endereço</h1>
                     </header>
                     <article class="card-body">

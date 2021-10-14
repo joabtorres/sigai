@@ -27,8 +27,8 @@
         <div class="col">
             <form method="POST" action="<?php echo BASE_URL ?>ti/cadastro" enctype="multipart/form-data" autocomplete="off"  name="nFormCCA">
                 <input type="hidden" name="nId" value="<?php echo!empty($chamado['id']) ? $chamado['id'] : 0; ?>"/>
-                <section class="card bg-light border-success">
-                    <header class="card-header bg-success">
+                <section class="card bg-light border-secondary">
+                    <header class="card-header bg-dark text-while">
                         <h1 class="card-title h5 my-1"><i class="fas fa-plus-square"></i> Novo Chamado</h1>
                     </header>
                     <article class="card-body">

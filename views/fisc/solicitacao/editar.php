@@ -6,6 +6,8 @@
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="<?php echo BASE_URL ?>home"><i class="fa fa-tachometer-alt"></i> Inicial</a></li>
                     <li class="breadcrumb-item"><a href="#" ><i class="fas fa-angle-double-right"></i> Fiscalização</a></li>
+                    <li class="breadcrumb-item"><a href="<?php echo BASE_URL ?>fisc_solicitacao/consultar"><i class="fas fa-tasks"></i> Consultar Solicitações</a></li>
+                    <li class="breadcrumb-item" ><a href="<?php echo BASE_URL ?>fisc_solicitacao/solicitacao/<?php echo md5($arrayCad['solicitacao']['id']); ?>">Solicitação: Nº <?php echo str_pad($arrayCad['solicitacao']['id'], 5, '0', STR_PAD_LEFT) ?> </a></li>
                     <li class="breadcrumb-item active" aria-current="page"><a href="<?php echo BASE_URL ?>fisc_solicitacao/editar/<?php echo isset($arrayCad['solicitacao']['id']) && !empty($arrayCad['solicitacao']['id']) ? md5($arrayCad['solicitacao']['id']) : 0; ?>"><i class="fas fa-edit"></i>  Editar Solicitação</a></li>
                 </ol>
             </nav>
@@ -27,8 +29,8 @@
         <div class="col">
             <form method="POST" action="<?php echo BASE_URL ?>fisc_solicitacao/editar/<?php echo isset($arrayCad['solicitacao']['id']) && !empty($arrayCad['solicitacao']['id']) ? md5($arrayCad['solicitacao']['id']) : 0; ?>" enctype="multipart/form-data" autocomplete="off"  name="nFormCOFISCSolicitacao">
                 <input type="hidden" name="nId" value="<?php echo!empty($arrayCad['protocolo']['id']) ? $arrayCad['protocolo']['id'] : 0; ?>"/>
-                <section class="card bg-light border-success mb-4">
-                    <header class="card-header bg-success">
+                <section class="card bg-light border-secondary mb-4">
+                    <header class="card-header bg-dark text-while">
                         <h1 class="card-title h5 my-1"><i class="fas fa-file-alt"></i> Tramitação</h1>
                     </header>
                     <article class="card-body">
@@ -55,8 +57,8 @@
                         </div>
                     </article>
                 </section>
-                <section class="card bg-light border-success">
-                    <header class="card-header bg-success">
+                <section class="card bg-light border-secondary">
+                    <header class="card-header bg-dark text-while">
                         <h1 class="card-title h5 my-1"><i class="fas fa-file-alt"></i> Dados do Protocolo</h1>
                     </header>
                     <article class="card-body">
@@ -211,8 +213,8 @@
                     </article>
                     <!--<article class="card-body">-->
                 </section>
-                <section class="card bg-light mt-4 border-success">
-                    <header class="card-header bg-success">
+                <section class="card bg-light mt-4 border-secondary">
+                    <header class="card-header bg-dark text-while">
                         <h1 class="card-title h5 my-1"><i class="fas fa-file-alt"></i> Solicitação</h1>
                     </header>
                     <article class="card-body">

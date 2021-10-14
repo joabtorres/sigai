@@ -6,6 +6,7 @@
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="<?php echo BASE_URL ?>home"><i class="fa fa-tachometer-alt"></i> Inicial</a></li>
                     <li class="breadcrumb-item"><a href="#" ><i class="fas fa-angle-double-right"></i> Usuários</a></li>
+                    <li class="breadcrumb-item"><a href="<?php echo BASE_URL ?>usuario/consultar"><i class="fa fa-users"></i> Consultar Usuários</a></li>
                     <li class="breadcrumb-item active" aria-current="page"><a href="<?php echo BASE_URL ?>usuario/editar/<?php echo md5($_SESSION['usuario']['id']) ?>"><i class="fas fa-user-edit"></i> Editar Usuário</a></li>
                 </ol>
             </nav>
@@ -25,8 +26,8 @@
     <!--fim row-->
     <div class="row" id="container-usuario-form">
         <div class="col">
-            <section class="card bg-light">
-                <header class="card-header">
+               <section class="card bg-light border-secondary">
+                <header class="card-header bg-dark text-white">
                     <h1 class="card-title h5 mb-1"><i class="fas fa-user-edit"></i> Editar Usuário</h1>
                 </header>
                 <article class="card-body">

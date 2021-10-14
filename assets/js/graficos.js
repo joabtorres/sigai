@@ -49,47 +49,18 @@ function graficoObjetivo() {
 function geraGraficoPizza(array, id_grafico) {
     var titulo = [];
     var valores = [];
+    var cores = [];
+
     for (var i = 0; i < array.length; i++) {
         titulo[i] = (array[i]['label']);
         valores[i] = array[i]['data'];
+        cores[i] = gera_cor();
     }
     var data = {
         datasets: [{
                 data: valores,
-                backgroundColor: [
-                    '#00a950',
-                    '#58595b',
-                    '#dd4b39',
-                    '#537bc4',
-                    '#f67019',
-                    '#acc236',
-                    '#8549ba',
-                    '#56d798',
-                    '#f53794',
-                    '#4dc9f6',
-                    '#dd4b39',
-                    '#f38b4a',
-                    '#56d798',
-                    '#f67019',
-                    '#166a8f'
-                ],
-                hoverBackgroundColor: [
-                    '#00a950',
-                    '#58595b',
-                    '#dd4b39',
-                    '#537bc4',
-                    '#f67019',
-                    '#acc236',
-                    '#8549ba',
-                    '#56d798',
-                    '#f53794',
-                    '#4dc9f6',
-                    '#dd4b39',
-                    '#f38b4a',
-                    '#56d798',
-                    '#f67019',
-                    '#166a8f'
-                ]
+                backgroundColor: cores,
+                hoverBackgroundColor: cores
             }],
         labels: titulo
     };
@@ -142,7 +113,6 @@ function geraGraficoBarraVertical(array, id_grafico) {
         datasets: dataset
     };
     var option = {
-
         elements: {
             rectangle: {
                 borderWidth: 1
@@ -151,16 +121,16 @@ function geraGraficoBarraVertical(array, id_grafico) {
         responsive: true,
         legend: {
             display: true,
-            position: 'right'
+            position: 'bottom'
         },
         title: {
             display: false,
-            text: 'Servidores afastado por unidades'
+            text: 'Objetos de tramitação'
         }
     };
     var ctx = document.getElementById(id_grafico).getContext('2d');
     window.myHorizontalBar = new Chart(ctx, {
-        type: 'bar',
+        type: 'horizontalBar',
         data: horizontalBarChartData,
         options: option
     });
